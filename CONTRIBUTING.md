@@ -26,7 +26,7 @@ This is a documentation designed to teach you:
     2. Click the "Fork" button in the top-right corner
     3. GitHub will create a copy under your account: https://github.com/YOUR-USERNAME/thought-diary-app
 
-### 2. Clone the repository:
+### 2. Clone the repository from YOUR fork (not the original):
     ```bash
     # Clone YOUR fork (not the original)
     git clone https://github.com/YOUR-USERNAME/thought-diary-app
