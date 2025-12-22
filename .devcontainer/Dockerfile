@@ -4,16 +4,6 @@ FROM mcr.microsoft.com/devcontainers/python:3.13
 RUN apt-get update && apt-get install -y \
     curl \
     build-essential \
-    # Cypress dependencies
-    libgtk-3-0 \
-    libgbm-dev \
-    libnotify-dev \
-    libnss3 \
-    libxss1 \
-    libasound2 \
-    libxtst6 \
-    xauth \
-    xvfb \
     # Python related
     && rm -rf /var/lib/apt/lists/*
 

@@ -10,7 +10,7 @@
       "version": "25"
     }
   },
-  "forwardPorts": [5000, 3000, 6006],
+  "forwardPorts": [5000, 3000],
   "portsAttributes": {
     "5000": {
       "label": "Flask Backend",
@@ -18,10 +18,6 @@
     },
     "3000": {
       "label": "Vue Frontend Dev",
-      "onAutoForward": "notify"
-    },
-    "6006": {
-      "label": "Cypress Dashboard",
       "onAutoForward": "notify"
     }
   },
