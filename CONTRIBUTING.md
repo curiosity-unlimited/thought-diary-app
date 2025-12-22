@@ -24,12 +24,12 @@ This is a documentation designed to teach you:
 ### 1. Fork the Repository on GitHub
     1. Go to the repository: https://github.com/curiosity-unlimited/thought-diary-app
     2. Click the "Fork" button in the top-right corner
-    3. GitHub will create a copy under your account: https://github.com/<YOUR-USERNAME>/thought-diary-app
+    3. GitHub will create a copy under your account: https://github.com/YOUR-USERNAME/thought-diary-app
 
 ### 2. Clone the repository:
     ```bash
     # Clone YOUR fork (not the original)
-    git clone https://github.com/<YOUR-USERNAME>/thought-diary-app
+    git clone https://github.com/YOUR-USERNAME/thought-diary-app
     cd thought-diary-app
     ```
 
@@ -65,12 +65,12 @@ This project has a special branch structure to help you learn:
 - Contains the clean, initial project structure
 - README.md has setup instructions only
 
-### `develop` Branch
+### `demo` Branch
 - **The instructor's reference implementation**
 - Shows how the features should be implemented
 - Study this code to understand the approach
 
-### `practice` Branch
+### `develop` Branch
 - **Your practice branches** where you do your work
 
 ## Your First Contribution
@@ -79,7 +79,7 @@ This project has a special branch structure to help you learn:
 
 ```bash
 # Check out the develop branch to see the instructor's code
-git checkout develop
+git checkout demo
 
 # View the commit history to see how features were built
 git log --oneline -10
@@ -93,11 +93,11 @@ git log --oneline -10
 # Always start from main for a clean slate
 git checkout main
 
-# Create your own practice branch
-git checkout -b practice
+# Create a branch for your own work
+git checkout -b develop
 
-# Create feature branches
-git checkout -b feature/<your-feature-name>
+# Create feature branches from that branch
+git checkout -b feature/your-feature-name
 ```
 
 **Naming tips:**
@@ -129,31 +129,31 @@ One of the best ways to learn is to compare your implementation with the instruc
 
 ```bash
 # See all differences between your work and the reference
-git diff develop..<your-branch-name>
+git diff demo..your-branch-name
 ```
 
 ### View Only Changed Files
 
 ```bash
 # See which files you modified
-git diff --name-only develop..<your-branch-name>
+git diff --name-only demo..your-branch-name
 ```
 
 ### View Statistics
 
 ```bash
 # See how many lines you added/removed
-git diff --stat develop..<your-branch-name>
+git diff --stat demo..your-branch-name
 ```
 
 ### Compare Specific Directories
 
 ```bash
 # Compare only the backend changes
-git diff develop..<your-branch-name> -- backend/
+git diff demo..your-branch-name -- backend/
 
 # Compare only the frontend changes
-git diff develop..<your-branch-name> -- frontend/
+git diff demo..your-branch-name -- frontend/
 ```
 
 ### Compare with Milestones
@@ -165,7 +165,7 @@ The instructor may tag important points in development:
 git tag -l
 
 # Compare with a specific milestone
-git diff <tag-name>..<your-branch-name>
+git diff tag-name..your-branch-name
 ```
 
 ## Commit Message Format
@@ -233,11 +233,11 @@ git branch -v
 # Switch to main
 git checkout main
 
-# Switch to develop (to view reference)
-git checkout develop
+# Switch to demo (to view reference)
+git checkout demo
 
 # Switch to your feature
-git checkout feature/<your-feature-name>
+git checkout feature/your-feature-name
 ```
 
 ### View Commit History
@@ -250,7 +250,7 @@ git log --oneline -5
 git log
 
 # See commits on a specific branch
-git log develop --oneline -10
+git log demo --oneline -10
 ```
 
 ### Check Your Status
@@ -283,12 +283,12 @@ git reset --hard HEAD~1
 
 1. **Git issues?** Run `git help <command>`
 2. **Commit format?** See [Commit Message Format](#commit-message-format)
-3. **Stuck?** Check the instructor's `develop` branch for reference
+3. **Stuck?** Check the instructor's `demo` branch for reference
 
 ## Summary
 
 1. ✅ Fork, clone and fetch all branches
-2. ✅ View reference on `develop` branch
+2. ✅ View reference on `demo` branch
 3. ✅ Create your branch from `main`
 4. ✅ Implement your version
 5. ✅ Commit with clear messages
