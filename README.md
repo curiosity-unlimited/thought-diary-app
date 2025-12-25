@@ -5,11 +5,12 @@
 1. Fork the Repository on GitHub
     1. Go to the repository: https://github.com/curiosity-unlimited/thought-diary-app
     2. Click the "Fork" button in the top-right corner
-    3. GitHub will create a copy under your account: https://github.com/YOUR-USERNAME/thought-diary-app
+    3. **IMPORTANT: Please uncheck the "Copy the DEFAULT branch only" option when forking in order to copy all branches into the new fork.**
+    4. GitHub will create a copy under your account: https://github.com/YOUR-USERNAME/thought-diary-app
 
 2. Clone the repository from YOUR fork (not the original):
     ```bash
-    # Clone YOUR fork (not the original)
+    # Replace YOUR-USERNAME with your GitHub Account
     git clone https://github.com/YOUR-USERNAME/thought-diary-app
     cd thought-diary-app
     ```
