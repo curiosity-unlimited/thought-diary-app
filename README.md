@@ -1,6 +1,118 @@
 # Thought Diary App
 - An AI-powered, full-stack web application that allows users to write [Thought Diaries](https://positivepsychology.com/thought-diary/), which help identify & challenge negative thinking patterns, promoting healthier mental habits.
 
+## Prerequisites
+- [Git](https://git-scm.com/downloads) for version control
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) for Python project management
+- [Node.js](https://github.com/nodejs/node?tab=readme-ov-file) a JavaScript runtime
+- [SQLite](https://sqlite.org/) for development database
+- [PostgreSQL](https://www.postgresql.org/) optional, for production database
+- [Redis](https://redis.io/) optional, for production rate limiting persistence
+
+## Project Architecture
+A modern, comprehensive full-stack web application with a robust Flask API backend and a modern Vue 3 frontend as well as clear separation between frontend and backend.
+
+### Backend Technologies (`./backend`)
+- **Runtime**: Python 3.13+ with Flask framework
+- **Database**: SQLAlchemy ORM with SQLite (development) / PostgreSQL (production)
+- **API**: RESTful API with JSON serialization using Flask-Marshmallow
+- **Authentication**: JWT-based authentication with refresh token support
+- **AI Integration**: Sentiment analysis of thought diary entries using GitHub Models API
+- **Testing**: Pytest with 80%+ coverage requirement
+- **Documentation**: Type hints (PEP 484), comprehensive docstrings and API documentation
+
+### Frontend Technologies (`./frontend/`)
+- **Framework**: Vue 3 with Composition API and TypeScript
+- **Build Tool**: Vite with optimized production builds and hot reload
+- **State**: Pinia store with persistent storage and real-time sync
+- **UI**: Tailwind CSS with Headless UI components and accessibility
+- **Testing**: Vitest (unit) with Vue Test Utils, 80%+ coverage requirement
+- **PWA**: Service worker, offline support, installable app
+
+## Features
+
+### Authentication
+- Users can register, log in, and log out securely.
+
+### Thought Diary Management
+- After logging in, users can:
+    - view the dashboard page showing:
+        - statistics for diary entries like:
+            - Total Entries
+            - Positive Entries
+            - Negative Entries
+            - Neutral Entries
+        - recent diary entries
+        - ability to add a diary entry
+    - navigate to Dashboard, Diaries, Profile and About pages from Navbar
+- Thought diaries are added as plain text only.
+- All thought diaries are listed in descending date order with pagination.
+- Users can edit and delete thought diaries from the list.
+
+### AI-Powered Sentiment Analysis
+- The app leverages [model inference from GitHub Models](https://docs.github.com/en/rest/models/inference?apiVersion=2022-11-28#run-an-inference-request) to analyze thought diaries.
+- Words and phrases are marked for positive/negative thinking and feelings with green/red background colors.
+    - For example, when a user adds or edits a thought diary:
+        ```text
+        I felt both excitement and anxious after I got elected to join a team for international math competition.
+        ```
+    - The backend sends the text to GitHub for model inference and receives HTML-labeled text:
+        ```html
+        I felt both <span class="positive">excitement</span> and <span class="negative">anxious</span> after I got elected to join a team for international math competition.
+        ```
+    - The backend saves the labeled text in the database.
+    - The frontend retrieves and displays the text using CSS:
+        ```css
+        span.positive {
+            background-color: green;
+            color: white; /* Optional: Change text color for better contrast */
+        }
+        span.negative {
+            background-color: red;
+            color: white; /* Optional: Change text color for better contrast */
+        }
+        ```
+
+### User Experience
+- **Progressive Web App**: Installable with native app-like experience
+- **Real-time Updates**: Live data synchronization with optimistic UI updates
+- **Responsive Design**: Mobile-first with CSS Grid and Flexbox
+- **Accessibility**: WCAG 2.1 AA compliant interface
+
+### Authentication & Security
+- **JWT Authentication**: Secure token-based authentication with refresh mechanism
+- **Enterprise Security**: Redis rate limiting, HTTPS enforcement, security headers, custom middleware
+- **Password Security**: Bcrypt hashing with salt and comprehensive validation
+- **Input Validation**: Client and server-side validation with sanitization
+- **Protected Routes**: Frontend route guards with backend JWT verification
+- **CORS Configuration**: Controlled cross-origin resource sharing for secure API access
+- **HTTPS Enforcement**: Automatic HTTPS redirect in production
+- **Security Headers**: XSS protection, CSRF prevention, content security policy
+
+### Environment-Specific Deployment
+
+**Development:**
+- Backend: Flask development server with debug mode
+- Frontend: Vite dev server with hot reload
+- Database: SQLite for simplicity
+- Security: Relaxed for development ease
+
+**Production:**
+- Backend: Gunicorn with multiple workers, PostgreSQL, Redis
+- Frontend: Static hosting with CDN, optimized builds
+- Database: PostgreSQL with connection pooling
+- Security: Enforce all security features like Redis rate limiting, HTTPS enforcement, security headers, CORS, etc.
+
+### Environment-Specific Settings
+
+- **Development**: Debug enabled, auto-generated keys, CORS relaxed
+- **Testing**: Rate limiting disabled, optimized for testing, mock data
+- **Production**: HTTPS enforced, security headers, Redis required
+
+## Documentation
+
+Comprehensive documentation is available in the `docs/` directory
+
 ## Getting Started
 1. Fork the Repository on GitHub
     1. Go to the repository: https://github.com/curiosity-unlimited/thought-diary-app
