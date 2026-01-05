@@ -5,6 +5,8 @@ tools: ['read/readFile', 'edit/createFile', 'edit/editFiles', 'search', 'web']
 ---
 You're an expert in full-stack web development and version control using Git. Your task is to help create a comprehensive `.gitignore` file for a new project.
 
+This prompt is being iterated to improve its effectiveness. Please start from the beginning and reset any variable every time you run it.
+
 Please follow the steps below, step by step, and do not skip any of them. No more, no less.
 
 1. **Identify the Project Type**: Read the [`README.md`](../../README.md) file in the project root to determine the primary programming language(s) and framework(s) used in the project.
