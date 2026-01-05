@@ -1,5 +1,6 @@
 {
   // GitHub Copilot Chat
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
       "file": ".copilot-commit-message-instructions.md"
