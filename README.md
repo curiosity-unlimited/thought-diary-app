@@ -29,6 +29,14 @@ A modern, comprehensive full-stack web application with a robust Flask API backe
 - **Testing**: Vitest (unit) with Vue Test Utils, 80%+ coverage requirement
 - **PWA**: Service worker, offline support, installable app
 
+### Data Models
+- **User**: Authentication model with secure password handling using bcrypt
+  - Fields: email, password_hash, created_at, updated_at
+  - Features: Email validation, password strength validation, secure hashing
+- **ThoughtDiary**: Model for storing and analyzing user thought diary entries
+  - Fields: user_id, content, analyzed_content, positive_count, negative_count, created_at, updated_at
+  - Features: Relationship with User model, pagination support, sentiment analysis storage and statistics
+
 ## Features
 
 ### Authentication
@@ -108,6 +116,28 @@ A modern, comprehensive full-stack web application with a robust Flask API backe
 - **Development**: Debug enabled, auto-generated keys, CORS relaxed
 - **Testing**: Rate limiting disabled, optimized for testing, mock data
 - **Production**: HTTPS enforced, security headers, Redis required
+
+### API Endpoints
+
+#### Authentication Endpoints
+- `POST /auth/register` - Register new user (rate limited: 3/hour)
+- `POST /auth/login` - User login, returns JWT token (rate limited: 5/15min)
+- `POST /auth/refresh` - Refresh JWT token
+- `POST /auth/logout` - Invalidate current token
+- `GET /auth/me` - Get current user profile information
+
+#### Thought Diaries Endpoints
+- `GET /diaries` - List all thought diaries with pagination (protected)
+- `POST /diaries` - Create a new thought diary (protected)
+- `GET /diaries/{id}` - Get a specific thought diary (protected)
+- `PUT /diaries/{id}` - Update a specific thought diary (protected)
+- `DELETE /diaries/{id}` - Delete a specific thought diary (protected)
+- `GET /diaries/stats` - Get statistics about user's thought diaries (protected)
+
+#### System Endpoints
+- `GET /health` - Health check endpoint
+- `GET /version` - API version information
+- `GET /docs` - API documentation
 
 ## Documentation
 
