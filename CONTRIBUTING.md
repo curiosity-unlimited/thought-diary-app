@@ -135,41 +135,41 @@ The instructor may tag important points in development:
 
 ```bash
 # View available milestones
-git tag -l
+git tag -n
 
 # Compare with a specific milestone
-git diff tag-name..your-branch-name
+git diff your-branch-name..tag-name
 ```
 
 #### Compare Your Entire Feature
 
 ```bash
 # See all differences between your work and the reference
-git diff demo..your-branch-name
+git diff your-branch-name..demo
 ```
 
 #### View Only Changed Files
 
 ```bash
 # See which files you modified
-git diff --name-only demo..your-branch-name
+git diff --name-only your-branch-name..demo
 ```
 
 #### View Statistics
 
 ```bash
 # See how many lines you added/removed
-git diff --stat demo..your-branch-name
+git diff --stat your-branch-name..demo
 ```
 
 #### Compare Specific Directories
 
 ```bash
 # Compare only the backend changes
-git diff demo..your-branch-name -- backend/
+git diff your-branch-name..demo -- backend/
 
 # Compare only the frontend changes
-git diff demo..your-branch-name -- frontend/
+git diff your-branch-name..demo -- frontend/
 ```
 
 ### Getting Help
@@ -274,7 +274,7 @@ Clearly explain what each milestone represents in the `CONTRIBUTING.md` file or 
 Include specific commands in the documentation to help students compare their work with the milestones. For example:
 ```markdown
 # Compare your branch with milestone v1.2.0
-git diff v1.2.0..your-branch-name
+git diff your-branch-name..v1.2.0
 ```
 
 ### Important Rules

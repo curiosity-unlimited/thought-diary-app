@@ -49,10 +49,12 @@
 
 9. To compare your progress with the instructor's:
     ```bash
+    # List all milesones
+    git tag -n
     # Compare with a specific milestone
-    git diff tag-name..your-branch-name
+    git diff your-branch-name..tag-name
     # See all differences between your work and the reference
-    git diff demo..your-branch-name
+    git diff your-branch-name..demo
     ```
 
 10. For a more comprehensive guide, please follow instructions in [`CONTRIBUTING.md`](./CONTRIBUTING.md)
