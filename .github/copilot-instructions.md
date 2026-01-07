@@ -143,6 +143,7 @@
 - Apply the application factory pattern to enable testing and multiple deployment configurations.
 - Implement Flask-Limiter for rate limiting on public endpoints to prevent abuse of APIs.
 - Use Flask-JWT-Extended for authentication with proper session timeout and refresh mechanisms.
+- Configure CORS using Flask-CORS to allow frontend integration from Vite development server.
 
 ### PYTEST (UNIT TESTING)
 - Use Pytest for unit testing framework.
