@@ -10,14 +10,14 @@
       "version": "25"
     }
   },
-  "forwardPorts": [5000, 3000],
+  "forwardPorts": [5000, 5173],
   "portsAttributes": {
     "5000": {
       "label": "Flask Backend",
       "onAutoForward": "notify"
     },
-    "3000": {
-      "label": "Vue Frontend Dev",
+    "5173": {
+      "label": "Vue Frontend",
       "onAutoForward": "notify"
     }
   },
@@ -29,12 +29,16 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
         "GitHub.copilot",
         "GitHub.copilot-chat",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "qwtel.sqlite-viewer",
+        "vue.volar",
+        "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "charliermarsh.ruff"
+        "bradlc.vscode-tailwindcss"
       ],
       "settings": {
         "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
