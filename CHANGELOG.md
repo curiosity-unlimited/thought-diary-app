@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.0] - 2026-01-07
+## [0.1.0] - 2026-01-12
 
 ### Backend [0.1.0]
 #### Added
@@ -21,3 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Type hints (PEP 484) and comprehensive docstrings (PEP 257) throughout codebase
 - Development dependencies: pytest, pytest-cov, pytest-flask
 - Production dependencies: flask, flask-sqlalchemy, flask-migrate, flask-marshmallow, marshmallow-sqlalchemy, flask-jwt-extended, flask-limiter, bcrypt, flask-cors, requests, gunicorn, redis, python-dotenv
+- User model with email validation, bcrypt password hashing, and verification methods
+- ThoughtDiary model with content validation, sentiment analysis support, and user relationship
+- Database models registered with SQLAlchemy for proper ORM functionality
+- Flask-Migrate integration with initial migration for User and ThoughtDiary tables
+- One-to-many relationship between User and ThoughtDiary with cascade delete
+- Model helper methods: User.validate_email(), User.set_password(), User.check_password()
+- Model helper methods: ThoughtDiary.validate_content(), ThoughtDiary.get_sentiment(), ThoughtDiary.to_dict()
+- Database indexes on User.email, ThoughtDiary.user_id, and ThoughtDiary.created_at for query optimization

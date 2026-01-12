@@ -10,6 +10,8 @@ from werkzeug.exceptions import HTTPException
 
 from config import get_config
 from app.extensions import db, migrate, ma, jwt, limiter, cors
+# Import models to register them with SQLAlchemy
+from app.models import User, ThoughtDiary
 
 
 def create_app(config_name: Optional[str] = None) -> Flask:
