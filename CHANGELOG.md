@@ -42,3 +42,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - JWT callbacks for token validation and error handling (expired, invalid, missing, revoked tokens)
 - Consistent error responses across all auth endpoints with error codes
 - Integration between auth system and User model with secure password handling
+- AI sentiment analysis service using GitHub Models API (gpt-4o)
+- analyze_sentiment() function to identify positive and negative sentiment words
+- HTML-based sentiment markers with <span class="positive"> and <span class="negative"> tags
+- Automatic counting of positive and negative sentiment markers
+- Comprehensive error handling for API timeouts, connection errors, and HTTP errors
+- Graceful fallback to original content when sentiment analysis fails
+- get_sentiment_summary() helper function for overall sentiment classification
+- Environment variable configuration for GITHUB_TOKEN and GITHUB_MODEL_NAME
+- Request timeout set to 30 seconds for AI API calls
+- Detailed logging of sentiment analysis results and errors
