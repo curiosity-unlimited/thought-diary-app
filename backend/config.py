@@ -35,6 +35,11 @@ class Config:
     JWT_SECRET_KEY: str = os.environ.get('JWT_SECRET_KEY', 'dev-jwt-secret-key-change-in-production')
     JWT_ACCESS_TOKEN_EXPIRES: timedelta = timedelta(minutes=15)
     JWT_REFRESH_TOKEN_EXPIRES: timedelta = timedelta(days=7)
+    JWT_TOKEN_LOCATION: list = ['headers']
+    JWT_HEADER_NAME: str = 'Authorization'
+    JWT_HEADER_TYPE: str = 'Bearer'
+    # CSRF protection is only needed for cookie-based JWT storage
+    # Since we use header-based bearer tokens, CSRF is not required
     
     # CORS settings
     CORS_ORIGINS: str = os.environ.get('CORS_ORIGINS', 'http://localhost:5173')

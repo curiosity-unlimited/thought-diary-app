@@ -14,6 +14,11 @@ from app.extensions import db, migrate, ma, jwt, limiter, cors
 from app.models import User, ThoughtDiary
 
 
+# Token blacklist for logout functionality
+# In production, use Redis for distributed systems
+token_blacklist = set()
+
+
 def create_app(config_name: Optional[str] = None) -> Flask:
     """Create and configure a Flask application instance.
     
@@ -53,19 +58,102 @@ def create_app(config_name: Optional[str] = None) -> Flask:
     if app.config.get('RATELIMIT_STORAGE_URL'):
         app.config['RATELIMIT_STORAGE_URI'] = app.config['RATELIMIT_STORAGE_URL']
     
+    # Configure JWT callbacks
+    configure_jwt_callbacks(app)
+    
     # Register blueprints
-    # TODO: Register blueprints once they are created
-    # from app.blueprints.auth.routes import auth_bp
-    # from app.blueprints.diaries.routes import diaries_bp
-    # from app.blueprints.system.routes import system_bp
-    # app.register_blueprint(auth_bp, url_prefix='/auth')
-    # app.register_blueprint(diaries_bp, url_prefix='/diaries')
-    # app.register_blueprint(system_bp)
+    from app.blueprints.auth.routes import auth_bp
+    app.register_blueprint(auth_bp)
     
     # Register error handlers
     register_error_handlers(app)
     
     return app
+
+
+def configure_jwt_callbacks(app: Flask) -> None:
+    """Configure JWT-Extended callbacks for token validation.
+    
+    Args:
+        app: Flask application instance.
+    """
+    
+    @jwt.token_in_blocklist_loader
+    def check_if_token_revoked(jwt_header, jwt_payload: dict) -> bool:
+        """Check if a token has been revoked (is in blacklist).
+        
+        Args:
+            jwt_header: JWT header data.
+            jwt_payload: JWT payload containing token data.
+        
+        Returns:
+            True if token is revoked, False otherwise.
+        """
+        jti = jwt_payload["jti"]
+        return jti in token_blacklist
+    
+    @jwt.expired_token_loader
+    def expired_token_callback(jwt_header, jwt_payload: dict) -> tuple:
+        """Handle expired token errors.
+        
+        Args:
+            jwt_header: JWT header data.
+            jwt_payload: JWT payload containing token data.
+        
+        Returns:
+            JSON response with error details and 401 status code.
+        """
+        return jsonify({
+            'error': 'Token has expired',
+            'code': 'TOKEN_EXPIRED'
+        }), 401
+    
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error: str) -> tuple:
+        """Handle invalid token errors.
+        
+        Args:
+            error: Error message.
+        
+        Returns:
+            JSON response with error details and 401 status code.
+        """
+        app.logger.error(f"Invalid token error: {error}")
+        return jsonify({
+            'error': f'Invalid token: {error}',
+            'code': 'INVALID_TOKEN'
+        }), 401
+    
+    @jwt.unauthorized_loader
+    def missing_token_callback(error: str) -> tuple:
+        """Handle missing token errors.
+        
+        Args:
+            error: Error message.
+        
+        Returns:
+            JSON response with error details and 401 status code.
+        """
+        return jsonify({
+            'error': 'Authorization token is missing',
+            'code': 'MISSING_TOKEN'
+        }), 401
+    
+    @jwt.revoked_token_loader
+    def revoked_token_callback(jwt_header, jwt_payload: dict) -> tuple:
+        """Handle revoked token errors.
+        
+        Args:
+            jwt_header: JWT header data.
+            jwt_payload: JWT payload containing token data.
+        
+        Returns:
+            JSON response with error details and 401 status code.
+        """
+        return jsonify({
+            'error': 'Token has been revoked',
+            'code': 'TOKEN_REVOKED'
+        }), 401
 
 
 def register_error_handlers(app: Flask) -> None:

@@ -28,4 +28,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - One-to-many relationship between User and ThoughtDiary with cascade delete
 - Model helper methods: User.validate_email(), User.set_password(), User.check_password()
 - Model helper methods: ThoughtDiary.validate_content(), ThoughtDiary.get_sentiment(), ThoughtDiary.to_dict()
-- Database indexes on User.email, ThoughtDiary.user_id, and ThoughtDiary.created_at for query optimization
+- Database indexes on User.email, ThoughtDiary.user_id, and ThoughtDiary.created_at for query optimization- Password utility functions with strict validation requirements (8+ chars, uppercase, lowercase, number, special character)
+- Bcrypt-based password hashing and verification functions
+- Email format validation and input sanitization utilities
+- Marshmallow schemas for authentication (RegisterSchema, LoginSchema, UserSchema, TokenSchema)
+- Authentication blueprint with complete user auth endpoints
+- POST /auth/register endpoint with rate limiting (3 requests/hour)
+- POST /auth/login endpoint with JWT token generation and rate limiting (5 requests/15min)
+- POST /auth/refresh endpoint for access token renewal
+- POST /auth/logout endpoint with token blacklist support
+- GET /auth/me endpoint for current user profile retrieval
+- JWT token blacklist functionality for secure logout
+- JWT callbacks for token validation and error handling (expired, invalid, missing, revoked tokens)
+- Consistent error responses across all auth endpoints with error codes
+- Integration between auth system and User model with secure password handling
