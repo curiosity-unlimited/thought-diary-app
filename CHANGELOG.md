@@ -52,3 +52,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Environment variable configuration for GITHUB_TOKEN and GITHUB_MODEL_NAME
 - Request timeout set to 30 seconds for AI API calls
 - Detailed logging of sentiment analysis results and errors
+- Thought Diary endpoints blueprint (app/blueprints/diaries/)
+- Marshmallow schemas for diary operations (DiaryCreateSchema, DiaryUpdateSchema, DiarySchema, DiaryListSchema, DiaryStatsSchema)
+- GET /diaries endpoint - List user's diaries with pagination (10 per page, descending by created_at)
+- POST /diaries endpoint - Create new diary with automatic AI sentiment analysis
+- GET /diaries/<id> endpoint - Get specific diary entry
+- PUT /diaries/<id> endpoint - Update diary with automatic AI sentiment re-analysis
+- DELETE /diaries/<id> endpoint - Delete diary entry
+- GET /diaries/stats endpoint - Get user statistics (total, positive, negative, neutral entries)
+- Authorization checks ensuring users can only access their own diaries (403 on unauthorized access)
+- AI sentiment analysis integration on diary create and update operations
+- Pagination support with configurable page size (default 10, max 100 items)
+- JWT authentication required for all diary endpoints (@jwt_required decorator)
+- Comprehensive error handling with consistent error format for all diary operations
