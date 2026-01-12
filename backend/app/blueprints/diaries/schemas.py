@@ -24,7 +24,7 @@ class DiaryCreateSchema(Schema):
     )
     
     @validates('content')
-    def validate_content(self, value: str) -> None:
+    def validate_content(self, value: str, **kwargs) -> None:
         """Validate that content is not empty or only whitespace.
         
         Args:
@@ -54,7 +54,7 @@ class DiaryUpdateSchema(Schema):
     )
     
     @validates('content')
-    def validate_content(self, value: str) -> None:
+    def validate_content(self, value: str, **kwargs) -> None:
         """Validate that content is not empty or only whitespace.
         
         Args:

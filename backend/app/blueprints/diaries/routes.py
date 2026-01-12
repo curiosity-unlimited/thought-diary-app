@@ -60,7 +60,7 @@ def list_diaries() -> Tuple[Dict[str, Any], int]:
         401: Unauthorized (missing or invalid token)
     """
     # Get current user ID from JWT
-    current_user_id = get_jwt_identity()
+    current_user_id = int(get_jwt_identity())
     
     # Get pagination parameters
     page = request.args.get('page', 1, type=int)
@@ -116,7 +116,7 @@ def create_diary() -> Tuple[Dict[str, Any], int]:
         401: Unauthorized (missing or invalid token)
     """
     # Get current user ID from JWT
-    current_user_id = get_jwt_identity()
+    current_user_id = int(get_jwt_identity())
     
     try:
         # Validate request data
@@ -177,7 +177,7 @@ def get_diary(diary_id: int) -> Tuple[Dict[str, Any], int]:
         404: Not found (diary does not exist)
     """
     # Get current user ID from JWT
-    current_user_id = get_jwt_identity()
+    current_user_id = int(get_jwt_identity())
     
     # Query diary by ID
     diary = ThoughtDiary.query.get(diary_id)
@@ -234,7 +234,7 @@ def update_diary(diary_id: int) -> Tuple[Dict[str, Any], int]:
         404: Not found (diary does not exist)
     """
     # Get current user ID from JWT
-    current_user_id = get_jwt_identity()
+    current_user_id = int(get_jwt_identity())
     
     # Query diary by ID
     diary = ThoughtDiary.query.get(diary_id)
@@ -301,7 +301,7 @@ def delete_diary(diary_id: int) -> Tuple[Dict[str, str], int]:
         404: Not found (diary does not exist)
     """
     # Get current user ID from JWT
-    current_user_id = get_jwt_identity()
+    current_user_id = int(get_jwt_identity())
     
     # Query diary by ID
     diary = ThoughtDiary.query.get(diary_id)
@@ -349,7 +349,7 @@ def get_stats() -> Tuple[Dict[str, int], int]:
         401: Unauthorized (missing or invalid token)
     """
     # Get current user ID from JWT
-    current_user_id = get_jwt_identity()
+    current_user_id = int(get_jwt_identity())
     
     # Query all diaries for current user
     diaries = ThoughtDiary.query.filter_by(user_id=current_user_id).all()

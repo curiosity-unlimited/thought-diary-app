@@ -17,6 +17,7 @@ def validate_email(email: str) -> bool:
     - @ symbol
     - Domain: alphanumeric, dots, hyphens
     - TLD: 2+ characters
+    - No consecutive dots, no leading/trailing dots in local or domain part
 
     Args:
         email: The email address to validate.
@@ -37,8 +38,22 @@ def validate_email(email: str) -> bool:
 
     # Email regex pattern
     pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-
-    return bool(re.match(pattern, email))
+    
+    if not re.match(pattern, email):
+        return False
+    
+    # Additional validation: no consecutive dots
+    if '..' in email:
+        return False
+    
+    # Additional validation: no leading/trailing dots in local or domain part
+    local, domain = email.split('@', 1)
+    if local.startswith('.') or local.endswith('.'):
+        return False
+    if domain.startswith('.') or domain.endswith('.'):
+        return False
+    
+    return True
 
 
 def sanitize_string(text: str, max_length: Optional[int] = None) -> str:
