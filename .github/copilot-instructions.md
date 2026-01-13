@@ -144,6 +144,7 @@
 - Implement Flask-Limiter for rate limiting on public endpoints to prevent abuse of APIs.
 - Use Flask-JWT-Extended for authentication with proper session timeout and refresh mechanisms.
 - Configure CORS using Flask-CORS to allow frontend integration from Vite development server.
+- Use flasgger to auto-generate OpenAPI documentation for all API endpoints.
 
 ### PYTEST (UNIT TESTING)
 - Use Pytest for unit testing framework.
