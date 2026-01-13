@@ -10,6 +10,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from marshmallow import ValidationError
 from sqlalchemy import desc
+from flasgger import swag_from
 
 from app.extensions import db
 from app.models import ThoughtDiary
@@ -37,6 +38,69 @@ diary_stats_schema = DiaryStatsSchema()
 
 @diaries_bp.route('', methods=['GET'])
 @jwt_required()
+@swag_from({
+    'tags': ['Thought Diaries'],
+    'summary': 'List user\'s thought diaries',
+    'description': 'Retrieve a paginated list of thought diary entries for the authenticated user, sorted by creation date (newest first)',
+    'parameters': [
+        {
+            'name': 'page',
+            'in': 'query',
+            'type': 'integer',
+            'required': False,
+            'default': 1,
+            'description': 'Page number (starts at 1)'
+        },
+        {
+            'name': 'per_page',
+            'in': 'query',
+            'type': 'integer',
+            'required': False,
+            'default': 10,
+            'description': 'Number of items per page (max 100)'
+        }
+    ],
+    'responses': {
+        200: {
+            'description': 'List of thought diaries',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'items': {
+                        'type': 'array',
+                        'items': {
+                            'type': 'object',
+                            'properties': {
+                                'id': {'type': 'integer'},
+                                'content': {'type': 'string'},
+                                'analyzed_content': {'type': 'string'},
+                                'positive_count': {'type': 'integer'},
+                                'negative_count': {'type': 'integer'},
+                                'created_at': {'type': 'string', 'format': 'date-time'},
+                                'updated_at': {'type': 'string', 'format': 'date-time'}
+                            }
+                        }
+                    },
+                    'page': {'type': 'integer', 'example': 1},
+                    'per_page': {'type': 'integer', 'example': 10},
+                    'total': {'type': 'integer', 'example': 50},
+                    'pages': {'type': 'integer', 'example': 5}
+                }
+            }
+        },
+        401: {
+            'description': 'Unauthorized',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'MISSING_TOKEN'}
+                }
+            }
+        }
+    },
+    'security': [{'Bearer': []}]
+})
 def list_diaries() -> Tuple[Dict[str, Any], int]:
     """List all thought diaries for the current user with pagination.
     
@@ -88,6 +152,70 @@ def list_diaries() -> Tuple[Dict[str, Any], int]:
 
 @diaries_bp.route('', methods=['POST'])
 @jwt_required()
+@swag_from({
+    'tags': ['Thought Diaries'],
+    'summary': 'Create a new thought diary',
+    'description': 'Create a new thought diary entry with AI-powered sentiment analysis. The content will be analyzed to identify positive and negative sentiment words.',
+    'parameters': [
+        {
+            'name': 'body',
+            'in': 'body',
+            'required': True,
+            'schema': {
+                'type': 'object',
+                'required': ['content'],
+                'properties': {
+                    'content': {
+                        'type': 'string',
+                        'example': 'I felt both excitement and anxious after I got elected to join a team for international math competition.',
+                        'description': 'The thought diary entry text (max 5000 characters)'
+                    }
+                }
+            }
+        }
+    ],
+    'responses': {
+        201: {
+            'description': 'Diary created successfully with AI analysis',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'id': {'type': 'integer', 'example': 1},
+                    'content': {'type': 'string'},
+                    'analyzed_content': {
+                        'type': 'string',
+                        'example': 'I felt both <span class="positive">excitement</span> and <span class="negative">anxious</span> after...'
+                    },
+                    'positive_count': {'type': 'integer', 'example': 1},
+                    'negative_count': {'type': 'integer', 'example': 1},
+                    'created_at': {'type': 'string', 'format': 'date-time'},
+                    'updated_at': {'type': 'string', 'format': 'date-time'}
+                }
+            }
+        },
+        400: {
+            'description': 'Validation error',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'VALIDATION_ERROR'}
+                }
+            }
+        },
+        401: {
+            'description': 'Unauthorized',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'MISSING_TOKEN'}
+                }
+            }
+        }
+    },
+    'security': [{'Bearer': []}]
+})
 def create_diary() -> Tuple[Dict[str, Any], int]:
     """Create a new thought diary entry with AI sentiment analysis.
     
@@ -150,6 +278,68 @@ def create_diary() -> Tuple[Dict[str, Any], int]:
 
 @diaries_bp.route('/<int:diary_id>', methods=['GET'])
 @jwt_required()
+@swag_from({
+    'tags': ['Thought Diaries'],
+    'summary': 'Get a specific thought diary',
+    'description': 'Retrieve a specific thought diary entry by ID. Users can only access their own diaries.',
+    'parameters': [
+        {
+            'name': 'diary_id',
+            'in': 'path',
+            'type': 'integer',
+            'required': True,
+            'description': 'The ID of the diary entry to retrieve'
+        }
+    ],
+    'responses': {
+        200: {
+            'description': 'Diary retrieved successfully',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'id': {'type': 'integer'},
+                    'content': {'type': 'string'},
+                    'analyzed_content': {'type': 'string'},
+                    'positive_count': {'type': 'integer'},
+                    'negative_count': {'type': 'integer'},
+                    'created_at': {'type': 'string', 'format': 'date-time'},
+                    'updated_at': {'type': 'string', 'format': 'date-time'}
+                }
+            }
+        },
+        401: {
+            'description': 'Unauthorized',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'MISSING_TOKEN'}
+                }
+            }
+        },
+        403: {
+            'description': 'Forbidden - diary belongs to another user',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string', 'example': 'You do not have permission to access this diary'},
+                    'code': {'type': 'string', 'example': 'FORBIDDEN'}
+                }
+            }
+        },
+        404: {
+            'description': 'Diary not found',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string', 'example': 'Diary not found'},
+                    'code': {'type': 'string', 'example': 'NOT_FOUND'}
+                }
+            }
+        }
+    },
+    'security': [{'Bearer': []}]
+})
 def get_diary(diary_id: int) -> Tuple[Dict[str, Any], int]:
     """Get a specific thought diary entry by ID.
     
@@ -201,6 +391,94 @@ def get_diary(diary_id: int) -> Tuple[Dict[str, Any], int]:
 
 @diaries_bp.route('/<int:diary_id>', methods=['PUT'])
 @jwt_required()
+@swag_from({
+    'tags': ['Thought Diaries'],
+    'summary': 'Update a thought diary',
+    'description': 'Update an existing thought diary entry. The content will be re-analyzed for sentiment.',
+    'parameters': [
+        {
+            'name': 'diary_id',
+            'in': 'path',
+            'type': 'integer',
+            'required': True,
+            'description': 'The ID of the diary entry to update'
+        },
+        {
+            'name': 'body',
+            'in': 'body',
+            'required': True,
+            'schema': {
+                'type': 'object',
+                'required': ['content'],
+                'properties': {
+                    'content': {
+                        'type': 'string',
+                        'example': 'Updated diary entry text...',
+                        'description': 'The updated thought diary entry text (max 5000 characters)'
+                    }
+                }
+            }
+        }
+    ],
+    'responses': {
+        200: {
+            'description': 'Diary updated successfully',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'id': {'type': 'integer'},
+                    'content': {'type': 'string'},
+                    'analyzed_content': {'type': 'string'},
+                    'positive_count': {'type': 'integer'},
+                    'negative_count': {'type': 'integer'},
+                    'created_at': {'type': 'string', 'format': 'date-time'},
+                    'updated_at': {'type': 'string', 'format': 'date-time'}
+                }
+            }
+        },
+        400: {
+            'description': 'Validation error',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'VALIDATION_ERROR'}
+                }
+            }
+        },
+        401: {
+            'description': 'Unauthorized',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'MISSING_TOKEN'}
+                }
+            }
+        },
+        403: {
+            'description': 'Forbidden',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'FORBIDDEN'}
+                }
+            }
+        },
+        404: {
+            'description': 'Diary not found',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'NOT_FOUND'}
+                }
+            }
+        }
+    },
+    'security': [{'Bearer': []}]
+})
 def update_diary(diary_id: int) -> Tuple[Dict[str, Any], int]:
     """Update a specific thought diary entry with AI sentiment re-analysis.
     
@@ -281,6 +559,65 @@ def update_diary(diary_id: int) -> Tuple[Dict[str, Any], int]:
 
 @diaries_bp.route('/<int:diary_id>', methods=['DELETE'])
 @jwt_required()
+@swag_from({
+    'tags': ['Thought Diaries'],
+    'summary': 'Delete a thought diary',
+    'description': 'Delete a specific thought diary entry. Users can only delete their own diaries.',
+    'parameters': [
+        {
+            'name': 'diary_id',
+            'in': 'path',
+            'type': 'integer',
+            'required': True,
+            'description': 'The ID of the diary entry to delete'
+        }
+    ],
+    'responses': {
+        200: {
+            'description': 'Diary deleted successfully',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'message': {
+                        'type': 'string',
+                        'example': 'Diary entry deleted successfully'
+                    }
+                }
+            }
+        },
+        401: {
+            'description': 'Unauthorized',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'MISSING_TOKEN'}
+                }
+            }
+        },
+        403: {
+            'description': 'Forbidden',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'FORBIDDEN'}
+                }
+            }
+        },
+        404: {
+            'description': 'Diary not found',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'NOT_FOUND'}
+                }
+            }
+        }
+    },
+    'security': [{'Bearer': []}]
+})
 def delete_diary(diary_id: int) -> Tuple[Dict[str, str], int]:
     """Delete a specific thought diary entry.
     
@@ -331,6 +668,52 @@ def delete_diary(diary_id: int) -> Tuple[Dict[str, str], int]:
 
 @diaries_bp.route('/stats', methods=['GET'])
 @jwt_required()
+@swag_from({
+    'tags': ['Thought Diaries'],
+    'summary': 'Get diary statistics',
+    'description': 'Retrieve statistics about the user\'s thought diary entries, including total, positive, negative, and neutral counts',
+    'responses': {
+        200: {
+            'description': 'Statistics retrieved successfully',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'total_entries': {
+                        'type': 'integer',
+                        'example': 50,
+                        'description': 'Total number of diary entries'
+                    },
+                    'positive_entries': {
+                        'type': 'integer',
+                        'example': 20,
+                        'description': 'Number of entries with more positive than negative sentiment'
+                    },
+                    'negative_entries': {
+                        'type': 'integer',
+                        'example': 15,
+                        'description': 'Number of entries with more negative than positive sentiment'
+                    },
+                    'neutral_entries': {
+                        'type': 'integer',
+                        'example': 15,
+                        'description': 'Number of entries with equal positive and negative sentiment'
+                    }
+                }
+            }
+        },
+        401: {
+            'description': 'Unauthorized',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'MISSING_TOKEN'}
+                }
+            }
+        }
+    },
+    'security': [{'Bearer': []}]
+})
 def get_stats() -> Tuple[Dict[str, int], int]:
     """Get statistics about the current user's thought diaries.
     

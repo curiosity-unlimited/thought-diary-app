@@ -7,6 +7,7 @@ Flask application instances with different configurations.
 from typing import Optional
 from flask import Flask, jsonify
 from werkzeug.exceptions import HTTPException
+from flasgger import Swagger
 
 from config import get_config
 from app.extensions import db, migrate, ma, jwt, limiter, cors
@@ -61,11 +62,65 @@ def create_app(config_name: Optional[str] = None) -> Flask:
     # Configure JWT callbacks
     configure_jwt_callbacks(app)
     
+    # Configure Swagger/OpenAPI documentation
+    swagger_config = {
+        "headers": [],
+        "specs": [
+            {
+                "endpoint": 'apispec',
+                "route": '/apispec.json',
+                "rule_filter": lambda rule: True,
+                "model_filter": lambda tag: True,
+            }
+        ],
+        "static_url_path": "/flasgger_static",
+        "swagger_ui": True,
+        "specs_route": "/docs"
+    }
+    
+    swagger_template = {
+        "swagger": "2.0",
+        "info": {
+            "title": "Thought Diary API",
+            "description": "AI-powered REST API for managing thought diary entries with sentiment analysis",
+            "version": "0.1.0",
+            "contact": {
+                "name": "API Support"
+            }
+        },
+        "securityDefinitions": {
+            "Bearer": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header",
+                "description": "JWT Authorization header using the Bearer scheme. Example: 'Authorization: Bearer {token}'"
+            }
+        },
+        "tags": [
+            {
+                "name": "System",
+                "description": "System endpoints for health checks and API information"
+            },
+            {
+                "name": "Authentication",
+                "description": "User authentication and authorization endpoints"
+            },
+            {
+                "name": "Thought Diaries",
+                "description": "Endpoints for managing thought diary entries with AI sentiment analysis"
+            }
+        ]
+    }
+    
+    Swagger(app, config=swagger_config, template=swagger_template)
+    
     # Register blueprints
     from app.blueprints.auth.routes import auth_bp
     from app.blueprints.diaries.routes import diaries_bp
+    from app.blueprints.system.routes import system_bp
     app.register_blueprint(auth_bp)
     app.register_blueprint(diaries_bp)
+    app.register_blueprint(system_bp)
     
     # Register error handlers
     register_error_handlers(app)

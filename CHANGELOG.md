@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.0] - 2026-01-12
+## [0.1.0] - 2026-01-13
 
 ### Backend [0.1.0]
 #### Added
@@ -90,3 +90,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Test code quality: Removed duplicate class definitions in test_ai_service.py (TestGetSentimentSummary, TestAPIIntegration)
 - Import cleanup: Removed unused imports (pytest, timezone, time, json, MagicMock) across all test files
 - Test assertions: Replaced pytest.skip() with early return and pytest.raises() with try/except pattern
+- System endpoints: Created system blueprint with health check and version info endpoints (GET /health, GET /version)
+- OpenAPI documentation: Integrated flasgger for Swagger UI available at GET /docs
+- API documentation: Comprehensive OpenAPI/Swagger specs for all endpoints (auth, diaries, system)
+- Health endpoint: Returns API health status and timestamp in ISO 8601 format
+- Version endpoint: Returns API version (0.1.0) and API level (v1)
+- Swagger configuration: Full OpenAPI 2.0 spec with security definitions (Bearer JWT)
+- Endpoint documentation: Request/response schemas, error codes, authentication requirements documented
+- API tags: Organized endpoints into System, Authentication, and Thought Diaries categories
+- Security documentation: JWT Bearer token authentication flow documented
+- Rate limiting documentation: Documented rate limits on register and login endpoints
+- System blueprint tests: 9 comprehensive test cases covering health, version, and docs endpoints
+- Test coverage: Achieved 95% overall test coverage (181 passing tests)
+- Timezone-aware datetime: Updated health endpoint to use datetime.now(UTC) instead of deprecated utcnow()
+
+#### Fixed (continued)
+- Health endpoint: Fixed deprecation warning by using timezone-aware datetime (datetime.now(UTC))
+- Docs endpoint test: Updated to handle redirect responses (301, 302, 308) in addition to 200

@@ -18,6 +18,7 @@ from flask_jwt_extended import (
 )
 from marshmallow import ValidationError
 from sqlalchemy.exc import IntegrityError
+from flasgger import swag_from
 
 from app.extensions import db, limiter
 from app.models.user import User
@@ -44,6 +45,68 @@ message_schema = MessageSchema()
 
 @auth_bp.route("/register", methods=["POST"])
 @limiter.limit("3 per hour")
+@swag_from({
+    'tags': ['Authentication'],
+    'summary': 'Register a new user',
+    'description': 'Create a new user account with email and password. Rate limited to 3 requests per hour.',
+    'parameters': [{
+        'name': 'body',
+        'in': 'body',
+        'required': True,
+        'schema': {
+            'type': 'object',
+            'required': ['email', 'password'],
+            'properties': {
+                'email': {
+                    'type': 'string',
+                    'format': 'email',
+                    'example': 'user@example.com',
+                    'description': 'Valid email address'
+                },
+                'password': {
+                    'type': 'string',
+                    'format': 'password',
+                    'example': 'SecurePass123!',
+                    'description': 'Password (min 8 chars, must include uppercase, lowercase, number, and special character)'
+                }
+            }
+        }
+    }],
+    'responses': {
+        201: {
+            'description': 'User created successfully',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'id': {'type': 'integer', 'example': 1},
+                    'email': {'type': 'string', 'example': 'user@example.com'},
+                    'created_at': {'type': 'string', 'format': 'date-time'},
+                    'updated_at': {'type': 'string', 'format': 'date-time'}
+                }
+            }
+        },
+        400: {
+            'description': 'Validation error or email already exists',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string', 'example': 'Email already registered'},
+                    'code': {'type': 'string', 'example': 'EMAIL_EXISTS'}
+                }
+            }
+        },
+        429: {
+            'description': 'Rate limit exceeded',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string', 'example': 'Rate limit exceeded'},
+                    'code': {'type': 'string', 'example': 'RATE_LIMIT_EXCEEDED'}
+                }
+            }
+        }
+    }
+})
 def register():
     """Register a new user.
 
@@ -95,6 +158,86 @@ def register():
 
 @auth_bp.route("/login", methods=["POST"])
 @limiter.limit("5 per 15 minutes")
+@swag_from({
+    'tags': ['Authentication'],
+    'summary': 'Login user',
+    'description': 'Authenticate user and return JWT access and refresh tokens. Rate limited to 5 requests per 15 minutes.',
+    'parameters': [{
+        'name': 'body',
+        'in': 'body',
+        'required': True,
+        'schema': {
+            'type': 'object',
+            'required': ['email', 'password'],
+            'properties': {
+                'email': {
+                    'type': 'string',
+                    'format': 'email',
+                    'example': 'user@example.com'
+                },
+                'password': {
+                    'type': 'string',
+                    'format': 'password',
+                    'example': 'SecurePass123!'
+                }
+            }
+        }
+    }],
+    'responses': {
+        200: {
+            'description': 'Login successful',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'access_token': {
+                        'type': 'string',
+                        'example': 'eyJ0eXAiOiJKV1QiLCJhbGc...',
+                        'description': 'JWT access token (expires in 15 minutes)'
+                    },
+                    'refresh_token': {
+                        'type': 'string',
+                        'example': 'eyJ0eXAiOiJKV1QiLCJhbGc...',
+                        'description': 'JWT refresh token (expires in 7 days)'
+                    },
+                    'token_type': {
+                        'type': 'string',
+                        'example': 'Bearer'
+                    }
+                }
+            }
+        },
+        400: {
+            'description': 'Validation error',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'VALIDATION_ERROR'}
+                }
+            }
+        },
+        401: {
+            'description': 'Invalid credentials',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string', 'example': 'Invalid email or password'},
+                    'code': {'type': 'string', 'example': 'INVALID_CREDENTIALS'}
+                }
+            }
+        },
+        429: {
+            'description': 'Rate limit exceeded',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'RATE_LIMIT_EXCEEDED'}
+                }
+            }
+        }
+    }
+})
 def login():
     """Authenticate user and return JWT tokens.
 
@@ -144,6 +287,40 @@ def login():
 
 @auth_bp.route("/refresh", methods=["POST"])
 @jwt_required(refresh=True)
+@swag_from({
+    'tags': ['Authentication'],
+    'summary': 'Refresh access token',
+    'description': 'Generate a new access token using a valid refresh token',
+    'responses': {
+        200: {
+            'description': 'New access token generated',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'access_token': {
+                        'type': 'string',
+                        'example': 'eyJ0eXAiOiJKV1QiLCJhbGc...'
+                    },
+                    'token_type': {
+                        'type': 'string',
+                        'example': 'Bearer'
+                    }
+                }
+            }
+        },
+        401: {
+            'description': 'Invalid or expired refresh token',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'TOKEN_EXPIRED'}
+                }
+            }
+        }
+    },
+    'security': [{'Bearer': []}]
+})
 def refresh():
     """Refresh access token using refresh token.
 
@@ -164,6 +341,36 @@ def refresh():
 
 @auth_bp.route("/logout", methods=["POST"])
 @jwt_required()
+@swag_from({
+    'tags': ['Authentication'],
+    'summary': 'Logout user',
+    'description': 'Invalidate the current access token by adding it to the blacklist',
+    'responses': {
+        200: {
+            'description': 'Logout successful',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'message': {
+                        'type': 'string',
+                        'example': 'Successfully logged out'
+                    }
+                }
+            }
+        },
+        401: {
+            'description': 'Invalid or missing token',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'MISSING_TOKEN'}
+                }
+            }
+        }
+    },
+    'security': [{'Bearer': []}]
+})
 def logout():
     """Logout user by invalidating the current token.
 
@@ -182,6 +389,46 @@ def logout():
 
 @auth_bp.route("/me", methods=["GET"])
 @jwt_required()
+@swag_from({
+    'tags': ['Authentication'],
+    'summary': 'Get current user profile',
+    'description': 'Retrieve the profile information of the currently authenticated user',
+    'responses': {
+        200: {
+            'description': 'User profile retrieved successfully',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'id': {'type': 'integer', 'example': 1},
+                    'email': {'type': 'string', 'example': 'user@example.com'},
+                    'created_at': {'type': 'string', 'format': 'date-time'},
+                    'updated_at': {'type': 'string', 'format': 'date-time'}
+                }
+            }
+        },
+        401: {
+            'description': 'Invalid or missing token',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string'},
+                    'code': {'type': 'string', 'example': 'MISSING_TOKEN'}
+                }
+            }
+        },
+        404: {
+            'description': 'User not found',
+            'schema': {
+                'type': 'object',
+                'properties': {
+                    'error': {'type': 'string', 'example': 'User not found'},
+                    'code': {'type': 'string', 'example': 'USER_NOT_FOUND'}
+                }
+            }
+        }
+    },
+    'security': [{'Bearer': []}]
+})
 def get_current_user():
     """Get current authenticated user profile.
 
