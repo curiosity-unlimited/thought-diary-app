@@ -103,6 +103,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - System blueprint tests: 9 comprehensive test cases covering health, version, and docs endpoints
 - Test coverage: Achieved 95% overall test coverage (181 passing tests)
 - Timezone-aware datetime: Updated health endpoint to use datetime.now(UTC) instead of deprecated utcnow()
+- Development seed data script (app/utils/seed.py) for populating database with sample data
+- Flask CLI command `flask seed` to run seeding operations
+- Sample users: alice@example.com and bob@example.com with secure passwords (Dev only)
+- Sample diary entries: 10 realistic diary entries per user with pre-analyzed sentiment
+- Mixed sentiment entries: positive, negative, and neutral diary examples
+- Idempotent seeding: Safe to run multiple times without creating duplicates
+- Clear option: `flask seed --clear` to remove existing data before seeding
+- Backdated entries: Diary entries created with timestamps 1-10 days ago for realistic data
+- FLASK_APP environment variable added to .env.example for Flask CLI commands
 
 #### Fixed (continued)
 - Health endpoint: Fixed deprecation warning by using timezone-aware datetime (datetime.now(UTC))
