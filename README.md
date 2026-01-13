@@ -19,7 +19,7 @@ A modern, comprehensive full-stack web application with a robust Flask API backe
 - **Authentication**: JWT-based authentication with refresh token support
 - **AI Integration**: Sentiment analysis of thought diary entries using GitHub Models API
 - **Testing**: Pytest with 80%+ coverage requirement
-- **Documentation**: Type hints (PEP 484), comprehensive docstrings and API documentation
+- **Documentation**: Type hints (PEP 484), comprehensive docstrings and API documentation with OpenAPI
 
 ### Frontend Technologies (`./frontend/`)
 - **Framework**: Vue 3 with Composition API and TypeScript
