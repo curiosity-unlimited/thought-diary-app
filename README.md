@@ -141,7 +141,44 @@ A modern, comprehensive full-stack web application with a robust Flask API backe
 
 ## Documentation
 
-Comprehensive documentation is available in the `docs/` directory
+Comprehensive backend documentation is available in the `docs/` directory:
+
+### Backend Documentation
+
+- **[API Documentation](docs/backend-api.md)** - Complete REST API reference
+  - Authentication endpoints (register, login, refresh, logout)
+  - Thought diary CRUD operations
+  - System endpoints (health, version, docs)
+  - Request/response formats and error codes
+  - Rate limiting and security details
+
+- **[Database Documentation](docs/backend-database.md)** - Data models and schema
+  - Entity relationship diagrams
+  - User and ThoughtDiary models
+  - Database migrations with Flask-Migrate
+  - Query optimization and indexes
+  - Backup and restore procedures
+
+- **[Development Guide](docs/backend-development.md)** - Setup and workflow
+  - Prerequisites and initial setup
+  - Project structure overview
+  - Running tests with pytest (95% coverage)
+  - Database management and migrations
+  - Debugging tools and best practices
+
+- **[Architecture Documentation](docs/backend-architecture.md)** - System design
+  - Application factory pattern
+  - Blueprint organization
+  - Security architecture (JWT, rate limiting, CORS)
+  - Design patterns and data flow
+  - Scalability and performance considerations
+
+- **[Deployment Guide](docs/backend-deployment.md)** - Production deployment
+  - VPS deployment with Nginx + Gunicorn
+  - Docker and Docker Compose setup
+  - Cloud platform deployment (Heroku, AWS, GCP, Azure)
+  - Database and Redis configuration
+  - Monitoring, logging, and troubleshooting
 
 ## Getting Started
 1. Fork the Repository on GitHub

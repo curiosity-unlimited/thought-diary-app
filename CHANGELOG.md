@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.0] - 2026-01-13
+## [0.2.0] - 2026-01-13
 
 ### Backend [0.1.0]
 #### Added
@@ -116,3 +116,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### Fixed (continued)
 - Health endpoint: Fixed deprecation warning by using timezone-aware datetime (datetime.now(UTC))
 - Docs endpoint test: Updated to handle redirect responses (301, 302, 308) in addition to 200
+
+#### Documentation
+- Comprehensive backend documentation suite in docs/ directory:
+  - docs/backend-api.md: Complete REST API reference with authentication, endpoints, error handling, and examples
+  - docs/backend-database.md: Database schema, models, migrations, query optimization, and backup strategies
+  - docs/backend-development.md: Development setup, testing, debugging, and common tasks guide
+  - docs/backend-architecture.md: System design, design patterns, security architecture, and data flow
+  - docs/backend-deployment.md: Production deployment options (VPS, Docker, Heroku, Cloud), monitoring, and scaling
+- Updated README.md with organized documentation links and descriptions
+- Documentation follows "one purpose per document" principle with cross-references to avoid duplication
+- All documentation includes practical examples, code snippets, and troubleshooting sections
