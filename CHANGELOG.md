@@ -117,6 +117,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TypeScript errors fixed: POSITION enum imported for toast configuration
 - ESLint validation passed with no errors
 - Prettier formatting applied to all view components and router configuration
+- Layout components implementation (Step 6 complete)
+- MainLayout component in src/layouts/MainLayout.vue with Navbar and router-view
+- MainLayout uses responsive container with Tailwind classes
+- MainLayout includes optional footer with copyright
+- MainLayout uses <script setup> syntax with TypeScript
+- AuthLayout component in src/layouts/AuthLayout.vue for login/register pages
+- AuthLayout has centered card design with gradient background
+- AuthLayout displays logo and app name at top
+- AuthLayout uses <slot> for page content
+- AuthLayout is responsive for mobile/tablet/desktop
+- AuthLayout styled with Tailwind CSS
+- Navbar component in src/components/Navbar.vue with full navigation
+- Navbar displays logo/app name on left (book icon)
+- Navbar has navigation links: Dashboard, Diaries, Profile, About
+- Navbar shows user email from auth store in dropdown menu
+- Navbar has logout button that calls auth store logout action
+- Navbar implements mobile hamburger menu for small screens
+- Navbar uses Headless UI Menu component for user dropdown
+- Navbar highlights active route with different background color
+- Navbar includes proper ARIA labels for accessibility
+- Mobile menu toggles open/closed on hamburger button click
+- Mobile menu displays navigation links and user info
+- Desktop navigation uses horizontal layout with proper spacing
+- All layouts follow mobile-first responsive design
+- Layouts tested on different screen sizes
+- All components pass ESLint validation with no errors
+- All components formatted with Prettier
 
 #### Fixed
 - Tailwind CSS 4.x PostCSS configuration: installed @tailwindcss/postcss and updated postcss.config.js
