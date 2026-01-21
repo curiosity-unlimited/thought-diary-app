@@ -118,6 +118,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ESLint validation passed with no errors
 - Prettier formatting applied to all view components and router configuration
 
+#### Fixed
+- Tailwind CSS 4.x PostCSS configuration: installed @tailwindcss/postcss and updated postcss.config.js
+
 
 ## [0.2.0] - 2026-01-13
 

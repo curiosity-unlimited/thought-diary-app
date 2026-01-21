@@ -22,6 +22,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@headlessui/vue": "^1.7.23",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.53.1",
     "@typescript-eslint/parser": "^8.53.1",
