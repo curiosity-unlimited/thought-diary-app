@@ -89,6 +89,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Form validation errors excluded from global toast (handled in components)
 - Retry mechanism for failed network requests triggered from toast button
 - TypeScript types for all toast functions with TSDoc comments
+- Vue Router configuration with createWebHistory mode (Step 5 complete)
+- Router file created in src/router/index.ts with all route definitions
+- Lazy loading configured for all route components using dynamic imports
+- Routes defined: Home (/), Login (/login), Register (/register), Dashboard (/dashboard), Diaries (/diaries), DiaryDetail (/diaries/:id), Profile (/profile), About (/about), NotFound (404 catch-all)
+- Route meta fields configured: requiresAuth, guestOnly, title for all routes
+- Authentication guard implemented in router.beforeEach navigation guard
+- Unauthenticated users redirected to /login when accessing protected routes
+- Intended route saved in query parameter for redirect after successful login
+- Guest-only guard redirects authenticated users from /login and /register to /dashboard
+- Page title updates automatically on navigation using route meta.title
+- Document.title format: "{Page Title} - {App Name}"
+- 404 Not Found route configured for undefined paths
+- Scroll behavior set to scroll to top on navigation, restore position on back/forward
+- Router registered in src/main.ts between Pinia and Toast plugins
+- App.vue updated to use <RouterView /> component
+- Placeholder view components created for all routes with Tailwind styling
+- Home view with landing page design, CTA buttons, and navigation links
+- Login view placeholder with link to register (full implementation in Step 7)
+- Register view placeholder with link to login (full implementation in Step 7)
+- Dashboard view placeholder with link to diaries (full implementation in Step 9)
+- Diaries view placeholder with navigation (full implementation in Step 9)
+- DiaryDetail view placeholder using route params (full implementation in Step 9)
+- Profile view placeholder with navigation
+- About view with app information, features list, and navigation
+- NotFound view with 404 error page design and navigation to home
+- TypeScript errors fixed: POSITION enum imported for toast configuration
+- ESLint validation passed with no errors
+- Prettier formatting applied to all view components and router configuration
 
 
 ## [0.2.0] - 2026-01-13

@@ -5,7 +5,13 @@
 
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { login as apiLogin, register as apiRegister, logout as apiLogout, refreshToken as apiRefreshToken, getCurrentUser } from '@/services/api';
+import {
+  login as apiLogin,
+  register as apiRegister,
+  logout as apiLogout,
+  refreshToken as apiRefreshToken,
+  getCurrentUser,
+} from '@/services/api';
 import type { User, LoginRequest, RegisterRequest } from '@/types';
 
 // localStorage keys
@@ -19,7 +25,9 @@ export const useAuthStore = defineStore('auth', () => {
   const refreshToken = ref<string | null>(null);
 
   // Computed
-  const isAuthenticated = computed(() => !!accessToken.value && !!refreshToken.value);
+  const isAuthenticated = computed(
+    () => !!accessToken.value && !!refreshToken.value
+  );
 
   /**
    * Initialize store from localStorage
@@ -66,7 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
   const register = async (email: string, password: string): Promise<void> => {
     const data: RegisterRequest = { email, password };
     const response = await apiRegister(data);
-    
+
     // Set user data (no tokens on registration)
     user.value = response.user;
   };

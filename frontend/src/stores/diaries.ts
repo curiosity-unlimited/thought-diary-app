@@ -39,7 +39,10 @@ export const useDiariesStore = defineStore('diaries', () => {
    * @param perPage - Items per page (default: 10)
    * @throws {ApiError} - If fetching diaries fails
    */
-  const fetchDiaries = async (page: number = 1, perPage: number = 10): Promise<void> => {
+  const fetchDiaries = async (
+    page: number = 1,
+    perPage: number = 10
+  ): Promise<void> => {
     loading.value = true;
     try {
       const response = await getDiaries(page, perPage);
@@ -101,7 +104,10 @@ export const useDiariesStore = defineStore('diaries', () => {
    * @returns Updated diary entry
    * @throws {ApiError} - If updating diary fails
    */
-  const updateDiary = async (id: number, content: string): Promise<DiaryEntry> => {
+  const updateDiary = async (
+    id: number,
+    content: string
+  ): Promise<DiaryEntry> => {
     loading.value = true;
     try {
       const diary = await apiUpdateDiary(id, { content });
