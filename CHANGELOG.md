@@ -169,6 +169,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Forms fully responsive on mobile, tablet, and desktop
 - No ESLint errors or warnings
 - No TypeScript compilation errors
+- Core diary components for diary management and UI feedback (Step 8 complete)
+- DiaryCard component (src/components/DiaryCard.vue) for displaying diary entries
+- Sentiment highlighting with v-html rendering analyzed_content from backend
+- CSS styling for .positive (green background) and .negative (red background) spans
+- Absolute date formatting with readable display (Month Day, Year at Time)
+- Positive/negative sentiment count display with icons
+- Edit and delete action buttons with icon buttons
+- Responsive card design with hover effects
+- Truncation of long content with "Read more" expand functionality
+- DiaryForm component (src/components/DiaryForm.vue) for creating/editing entries
+- Textarea input with VeeValidate integration (validation without VeeValidate lib)
+- Content validation: min 10 characters, max 5000 characters, required
+- Real-time character counter display (current / 5000)
+- Validation error messages displayed below textarea
+- Submit and cancel buttons with proper states
+- Loading state with animated spinner in submit button
+- Auto-resize textarea based on content (5-20 rows)
+- Mobile-friendly textarea with responsive design
+- StatsCard component (src/components/StatsCard.vue) for dashboard statistics
+- Four stat cards: Total, Positive, Negative, Neutral entries
+- Grid layout: 2x2 on mobile, 4x1 on desktop (responsive)
+- Color-coded gradient cards: blue (total), green (positive), red (negative), gray (neutral)
+- Icons for each stat type with opacity effects
+- Large number display with labels
+- Hover effects with shadow transitions
+- Pagination component (src/components/Pagination.vue) for diary list navigation
+- Previous/Next buttons with disabled states
+- Page number display with ellipsis for skipped pages
+- Current page highlighting with indigo background
+- Mobile view showing "current / total" pages
+- Desktop view with visible page numbers
+- Page change event emission for parent handling
+- Proper ARIA labels for accessibility
+- LoadingSpinner component (src/components/LoadingSpinner.vue) for loading states
+- Three size options: sm, md, lg with corresponding spinner sizes
+- Optional loading message below spinner
+- Animated spinning SVG with indigo color
+- Centered layout option with proper padding
+- Accessible with aria-label attribute
+- EmptyState component (src/components/EmptyState.vue) for no-data scenarios
+- Icon display (document/file icon)
+- Title and message text with proper styling
+- Optional action button with RouterLink integration
+- Centered layout with min-height for proper display
+- Clean, minimalist design with gray color scheme
+- DeleteConfirmationModal component using Headless UI Dialog
+- Modal overlay with backdrop blur and opacity transition
+- Diary preview showing first 100 characters with line-clamp
+- Warning icon in red circle
+- Confirmation dialog with title and description
+- Cancel and Delete buttons with proper styling
+- Focus trap for keyboard navigation
+- Smooth enter/exit transitions
+- Accessible ARIA labels and roles
+- Event emission for confirm/cancel actions
 
 #### Fixed
 - Tailwind CSS 4.x PostCSS configuration: installed @tailwindcss/postcss and updated postcss.config.js
