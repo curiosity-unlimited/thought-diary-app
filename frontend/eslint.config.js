@@ -4,6 +4,7 @@ import * as parserVue from 'vue-eslint-parser';
 import * as parserTypeScript from '@typescript-eslint/parser';
 import pluginTypeScript from '@typescript-eslint/eslint-plugin';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import globals from 'globals';
 
 export default [
   js.configs.recommended,
@@ -21,9 +22,9 @@ export default [
         sourceType: 'module',
       },
       globals: {
-        browser: true,
-        node: true,
-        es2021: true,
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
       },
     },
     plugins: {
@@ -33,6 +34,14 @@ export default [
       'vue/multi-word-component-names': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
     },
   },
   {

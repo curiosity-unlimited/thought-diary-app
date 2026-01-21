@@ -25,6 +25,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Package.json scripts: lint, format commands
 - Vite configuration with path aliases (@/ for src/) and port 5173
 - Dev server successfully running with hot reload
+- TypeScript interfaces in src/types/index.ts matching backend API responses
+- User, DiaryEntry, DiaryStats interfaces for data models
+- AuthState interface for Pinia store state management
+- Request/Response interfaces for all API endpoints (LoginRequest, RegisterRequest, DiaryCreateRequest, etc.)
+- ApiError interface for consistent error handling
+- TokenResponse and AuthResponse interfaces for authentication
+- PaginationInfo and DiaryListResponse interfaces for paginated data
+- Axios API service in src/services/api.ts with 30-second timeout
+- Request interceptor to automatically add JWT Bearer token to protected endpoints
+- Response interceptor handling 401 Unauthorized with automatic token refresh
+- Token refresh queue mechanism to prevent multiple simultaneous refresh calls
+- Token rotation logic updating localStorage with new access tokens on refresh
+- Automatic logout and redirect on refresh token expiry
+- Network error handling with structured ApiError responses
+- Helper functions for token management (getAccessToken, getRefreshToken, setTokens, clearTokens)
+- Auth API methods: register(), login(), logout(), refreshToken(), getCurrentUser()
+- Diary API methods: getDiaries(), getDiary(), createDiary(), updateDiary(), deleteDiary(), getDiaryStats()
+- Comprehensive TSDoc comments for all functions and interfaces
+- TypeScript strict mode enabled with proper type safety throughout
+- ESLint configuration updated with browser globals support
+- Path aliases configured in tsconfig.app.json (@/ for src/)
+- All code formatted with Prettier and passes ESLint validation
 
 ## [0.2.0] - 2026-01-13
 
