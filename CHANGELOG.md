@@ -47,6 +47,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ESLint configuration updated with browser globals support
 - Path aliases configured in tsconfig.app.json (@/ for src/)
 - All code formatted with Prettier and passes ESLint validation
+- Pinia store implementation for state management (Step 3 complete)
+- Auth store (src/stores/auth.ts) managing user authentication state
+- Auth state: user, accessToken, refreshToken, isAuthenticated computed property
+- Auth actions: register(), login(), logout(), refreshAccessToken(), fetchProfile()
+- Token persistence in localStorage with automatic restore on app initialization
+- Clear tokens on logout with proper cleanup
+- Register action (note: backend requires separate login after registration)
+- Login action with automatic token storage
+- Token refresh handling with proper token rotation
+- Diaries store (src/stores/diaries.ts) managing diary entries and statistics
+- Diary state: entries array, currentDiary, stats, pagination, loading flag
+- Diary actions: fetchDiaries(), fetchDiary(), createDiary(), updateDiary(), deleteDiary(), fetchStats()
+- Pagination support with configurable page and per_page parameters
+- Loading states for all async operations
+- Optimistic UI updates for create/update/delete operations
+- Store clearing on logout (clearStore() method)
+- UI store (src/stores/ui.ts) for global UI state management
+- Global loading state with isLoading and loadingMessage
+- setLoading() and clearLoading() actions for loading overlay control
+- hasLoadingMessage computed property
+- Pinia configured in src/main.ts with proper Vue app registration
+- All stores use Vue 3 Composition API with `<script setup>` pattern
+- Stores follow best practices with proper TypeScript typing
+- Error handling allows components to handle API errors appropriately
+- All store code passes ESLint validation and TypeScript strict mode checks
+
 
 ## [0.2.0] - 2026-01-13
 
