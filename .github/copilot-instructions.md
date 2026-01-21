@@ -184,6 +184,7 @@
 - Follow accessibility best practices (WCAG 2.1 AA compliance).
 - Use `<style scoped>` for component-level styles or CSS Modules.
 - Implement responsive design with Tailwind CSS.
+- Use Toast notifications for user feedback on actions.
 
 ### VITEST (UNIT TESTING)
 - Use Vitest for unit testing framework.
