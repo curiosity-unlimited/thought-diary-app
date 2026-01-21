@@ -144,6 +144,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Layouts tested on different screen sizes
 - All components pass ESLint validation with no errors
 - All components formatted with Prettier
+- Authentication views with VeeValidate and Yup validation (Step 7 complete)
+- Validation schemas in src/utils/validationSchemas.ts with reusable email and password rules
+- Email validation: RFC 5322 format, max 120 characters, required
+- Password validation for registration: min 8 chars, uppercase, lowercase, digit, special character
+- Login view (src/views/Login.vue) with AuthLayout wrapper
+- Login form with email and password fields using VeeValidate
+- Real-time validation on input with inline error messages below fields
+- Submit button disabled during loading with animated spinner
+- Auth store login() action called on submit
+- Redirect to dashboard on success, or to intended route from query params
+- Toast notification for API errors with proper error message
+- Link to register page from login view
+- Register view (src/views/Register.vue) with AuthLayout wrapper
+- Register form with email and password fields using VeeValidate
+- Password requirements displayed: 8+ chars, uppercase, lowercase, digit, special character
+- Auth store register() action called on submit
+- Success toast and redirect to login page after registration (backend requires separate login)
+- Link to login page from register view
+- TypeScript strict mode with proper error type checking (no any types)
+- All authentication forms styled with Tailwind CSS
+- Input focus states with indigo ring, error states with red border
+- Button states: normal, hover, disabled, loading with proper styling
+- Forms fully responsive on mobile, tablet, and desktop
+- No ESLint errors or warnings
+- No TypeScript compilation errors
 
 #### Fixed
 - Tailwind CSS 4.x PostCSS configuration: installed @tailwindcss/postcss and updated postcss.config.js
