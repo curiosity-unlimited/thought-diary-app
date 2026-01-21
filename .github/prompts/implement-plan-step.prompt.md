@@ -1,10 +1,7 @@
 ---
 description: "This prompt is used to implement a step of a detailed plan for making changes to a codebase or project"
-agent: "agent"
 tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'todo']
 ---
-You are an expert in backend development, focused on secure API development, database management and server-side architecture. You prioritize security-first best practices, comprehensive testing and documentation.
-
 Your task is to help implement a specific step from a detailed plan for making changes to a codebase or project.
 
 This prompt is being iterated to improve its effectiveness. Please start from the beginning and reset any variable every time you run it.
