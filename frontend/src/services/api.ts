@@ -23,6 +23,7 @@ import type {
   DiaryStats,
   ApiError,
 } from '@/types';
+import { useToast } from '@/composables/useToast';
 
 // Token storage keys
 const ACCESS_TOKEN_KEY = 'access_token';
@@ -132,6 +133,7 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config as InternalAxiosRequestConfig & {
       _retry?: boolean;
     };
+    const { showError, showErrorWithRetry } = useToast();
 
     // Handle 401 Unauthorized - Token expired
     if (
@@ -139,7 +141,7 @@ apiClient.interceptors.response.use(
       originalRequest &&
       !originalRequest._retry
     ) {
-      // Skip refresh for login/register failures
+      // Skip refresh for login/register failures (these are form validation errors)
       if (
         originalRequest.url?.includes('/auth/login') ||
         originalRequest.url?.includes('/auth/register')
@@ -174,6 +176,7 @@ apiClient.interceptors.response.use(
         clearTokens();
         isRefreshing = false;
         processQueue(new Error('No refresh token available'), null);
+        showError('Your session has expired. Please log in again.');
         window.location.href = '/login';
         return Promise.reject(error);
       }
@@ -211,6 +214,7 @@ apiClient.interceptors.response.use(
         processQueue(refreshError as Error, null);
         isRefreshing = false;
         clearTokens();
+        showError('Your session has expired. Please log in again.');
         window.location.href = '/login';
         return Promise.reject(refreshError);
       }
@@ -225,6 +229,15 @@ apiClient.interceptors.response.use(
             ? 'Unable to connect to server. Please check your internet connection.'
             : error.message || 'A network error occurred. Please try again.',
       };
+
+      // Show retry toast for network errors
+      showErrorWithRetry(networkError.message, () => {
+        // Retry the original request
+        if (originalRequest) {
+          apiClient(originalRequest);
+        }
+      });
+
       return Promise.reject(networkError);
     }
 
@@ -275,8 +288,10 @@ export const login = async (data: LoginRequest): Promise<AuthResponse> => {
  * Logout current user
  */
 export const logout = async (): Promise<void> => {
+  const { showSuccess } = useToast();
   try {
     await apiClient.post('/auth/logout');
+    showSuccess('Successfully logged out');
   } finally {
     // Always clear tokens, even if API call fails
     clearTokens();
