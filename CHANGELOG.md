@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Frontend [0.1.0]
+#### Added
+- Project foundation setup with Vue 3 + TypeScript + Vite
+- Core dependencies: vue-router@4, pinia, axios, vue-toastification@next (Vue 3 compatible)
+- UI framework: Tailwind CSS 4.x, PostCSS, Autoprefixer, @headlessui/vue
+- Form validation: vee-validate, yup
+- Linting and formatting: ESLint 9 (flat config), Prettier, TypeScript ESLint plugins
+- Tailwind CSS configuration (tailwind.config.js) with content paths for Vue files
+- PostCSS configuration (postcss.config.js) for Tailwind and Autoprefixer
+- Custom CSS for sentiment highlighting: .positive (green) and .negative (red) spans
+- Environment configuration: .env and .env.example files
+- Environment variables: VITE_API_BASE_URL=http://localhost:5000, VITE_APP_NAME, VITE_APP_VERSION
+- ESLint flat config (eslint.config.js) with Vue 3 and TypeScript support
+- Prettier configuration (.prettierrc.json) with consistent formatting rules
+- Prettier ignore file (.prettierignore) for build outputs
+- Package.json scripts: lint, format commands
+- Vite configuration with path aliases (@/ for src/) and port 5173
+- Dev server successfully running with hot reload
+
 ## [0.2.0] - 2026-01-13
 
 ### Backend [0.1.0]
