@@ -20,10 +20,12 @@ Please follow the steps below, step by step, and do not skip any of them. No mor
 
 6. **Implement the Specific Step**: Based on your understanding of the project requirements, guidelines, technologies, and the detailed plan, implement **ONLY** the specific step, ${input.stepNumber}, in the codebase or project. Ensure that your implementation adheres to best practices and the project's coding standards.
 
-7. **Test the Implementation**: If there's no existing tests in the codebase, skip. Otherwise, develop and run tests to verify that the specific step, ${input.stepNumber}, has been implemented correctly and follow the testing guidelines outlined in the [`copilot-instructions.md`](../copilot-instructions.md) file. Make sure that all tests pass successfully.
+7. **Lint and Format the Code**: If there are no existing linters or formatters in the codebase, skip. Otherwise, run the appropriate linters and formatters as specified in the [`copilot-instructions.md`](../copilot-instructions.md) file to ensure that the code adheres to the project's coding standards.
 
-8. **Validate the Implementation**: Review and finish the checklist for the specific step you implemented to ensure that it meets the requirements outlined in the detailed plan.
+8. **Test the Implementation**: If there's no existing tests in the codebase, skip. Otherwise, develop and run tests to verify that the specific step, ${input.stepNumber}, has been implemented correctly and follow the testing guidelines outlined in the [`copilot-instructions.md`](../copilot-instructions.md) file. Make sure that all tests pass successfully.
 
-9. **Document the Changes**: If applicable, update any relevant documentation based on the guidelines provided in the [`copilot-instructions.md`](../copilot-instructions.md) file to reflect the changes made during the implementation of the specific step.
+9. **Validate the Implementation**: Review and finish the checklist for the specific step you implemented to ensure that it meets the requirements outlined in the detailed plan.
 
-10. **Communicate Completion**: Notify the user that you have completed the implementation of the specific step and provide a summary of the changes made.
+10. **Document the Changes**: If applicable, update any relevant documentation based on the guidelines provided in the [`copilot-instructions.md`](../copilot-instructions.md) file to reflect the changes made during the implementation of the specific step.
+
+11. **Communicate Completion**: Notify the user that you have completed the implementation of the specific step and provide a summary of the changes made.
