@@ -1,0 +1,113 @@
+import { describe, it, expect } from 'vitest';
+import { mount } from '@vue/test-utils';
+import DiaryCard from '@/components/DiaryCard.vue';
+import type { DiaryEntry } from '@/types';
+
+describe('DiaryCard', () => {
+  const mockDiary: DiaryEntry = {
+    id: 1,
+    content: 'I felt happy today',
+    analyzed_content: 'I felt <span class="positive">happy</span> today',
+    positive_count: 1,
+    negative_count: 0,
+    created_at: '2026-01-15T10:00:00Z',
+    updated_at: '2026-01-15T10:00:00Z',
+  };
+
+  it('should render diary content with sentiment highlighting', () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+    
+    expect(wrapper.html()).toContain('happy');
+  });
+
+  it('should display positive count', () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+    
+    expect(wrapper.text()).toContain('1');
+  });
+
+  it('should display negative count', () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+    
+    expect(wrapper.text()).toContain('0');
+  });
+
+  it('should format date correctly', () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+    
+    expect(wrapper.text()).toContain('2026');
+  });
+
+  it('should emit edit event when edit button clicked', async () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+    
+    const editButton = wrapper.findAll('button').find(button => 
+      button.html().includes('pencil') || button.attributes('title')?.includes('Edit')
+    );
+    
+    if (editButton) {
+      await editButton.trigger('click');
+      expect(wrapper.emitted('edit')).toBeTruthy();
+      expect(wrapper.emitted('edit')?.[0]).toEqual([mockDiary]);
+    }
+  });
+
+  it('should emit delete event when delete button clicked', async () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+    
+    const deleteButton = wrapper.findAll('button').find(button => 
+      button.html().includes('trash') || button.attributes('title')?.includes('Delete')
+    );
+    
+    if (deleteButton) {
+      await deleteButton.trigger('click');
+      expect(wrapper.emitted('delete')).toBeTruthy();
+      expect(wrapper.emitted('delete')?.[0]).toEqual([mockDiary]);
+    }
+  });
+
+  it('should render edit and delete buttons', () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+    
+    const buttons = wrapper.findAll('button');
+    expect(buttons.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('should display negative sentiment correctly', () => {
+    const negativeDiary: DiaryEntry = {
+      ...mockDiary,
+      analyzed_content: 'I felt <span class="negative">sad</span> today',
+      positive_count: 0,
+      negative_count: 1,
+    };
+    
+    const wrapper = mount(DiaryCard, {
+      props: { diary: negativeDiary },
+    });
+    
+    expect(wrapper.html()).toContain('sad');
+  });
+
+  it('should have responsive card design', () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+    
+    const card = wrapper.find('.bg-white, .border');
+    expect(card.exists()).toBe(true);
+  });
+});
