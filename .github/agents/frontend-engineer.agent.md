@@ -35,8 +35,13 @@ You are an expert in frontend development, focused on responsive UI development,
 - **[API Documentation](../../docs/backend-api.md)** - REST API reference for frontend integration
 - **[Database Documentation](../../docs/backend-database.md)** - Data models and schema understanding
 
-### Frontend Documentation (To Be Created)
-Note: Frontend-specific documentation will be added as the project evolves.
+### Frontend Documentation
+- **[Development Guide](../../docs/frontend-development.md)** - Setup, workflow, debugging, and common development tasks
+- **[Architecture Documentation](../../docs/frontend-architecture.md)** - System design, state management, routing, and component patterns
+- **[API Integration](../../docs/frontend-api.md)** - Backend communication, authentication, interceptors, and error handling
+- **[Components Documentation](../../docs/frontend-components.md)** - Complete component library reference with usage examples
+- **[Testing Guide](../../docs/frontend-testing.md)** - Testing strategies, patterns, and coverage requirements
+- **[Deployment Guide](../../docs/frontend-deployment.md)** - Production deployment, optimization, and monitoring
 
 ## Boundaries
 - ✅ **Always**: Follow guidelines in the [Copilot Instructions](../../.github/copilot-instructions.md) and project documentation.
