@@ -119,13 +119,15 @@ export const useAuthStore = defineStore('auth', () => {
    * @throws {ApiError} - If token refresh fails
    */
   const refreshAccessToken = async (): Promise<void> => {
+    if (!refreshToken.value) {
+      throw new Error('No refresh token available');
+    }
+
     try {
       const newAccessToken = await apiRefreshToken();
 
       // Update only access token (refresh token stays the same)
-      if (refreshToken.value) {
-        setTokens(newAccessToken, refreshToken.value);
-      }
+      setTokens(newAccessToken, refreshToken.value);
     } catch (error) {
       // Clear tokens on refresh failure
       clearTokens();

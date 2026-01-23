@@ -1,5 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-import axios from 'axios';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import MockAdapter from 'axios-mock-adapter';
 import apiClient, {
   login,
@@ -71,7 +70,7 @@ describe('API Service', () => {
       const axios = await import('axios');
       const axiosMock = require('axios-mock-adapter');
       const mock2 = new axiosMock(axios.default);
-      mock2.onPost('/auth/refresh').reply(200, mockResponse);
+      mock2.onPost('http://localhost:5000/auth/refresh').reply(200, mockResponse);
 
       const result = await refreshToken();
 
@@ -240,6 +239,126 @@ describe('API Service', () => {
       mock.onGet('/diaries').timeout();
 
       await expect(getDiaries()).rejects.toThrow();
+    });
+
+    it('should handle 500 server errors', async () => {
+      mock.onPost('/diaries').reply(500, { error: 'Internal server error' });
+
+      await expect(createDiary({ content: 'Test' })).rejects.toThrow();
+    });
+
+    it('should handle malformed error responses', async () => {
+      mock.onGet('/diaries').reply(400, 'Bad request string');
+
+      await expect(getDiaries()).rejects.toThrow();
+    });
+
+    it('should handle errors without response data', async () => {
+      mock.onDelete('/diaries/1').reply(500);
+
+      await expect(deleteDiary(1)).rejects.toThrow();
+    });
+  });
+
+  describe('Token Refresh Queue', () => {
+    it('should queue requests during token refresh', async () => {
+      // Set expired token
+      localStorage.setItem('access_token', 'expired-token');
+      localStorage.setItem('refresh_token', 'valid-refresh-token');
+
+      // First request triggers 401
+      mock.onGet('/auth/me').replyOnce(401);
+      
+      // Refresh succeeds
+      const axios = await import('axios');
+      const axiosMock = require('axios-mock-adapter');
+      const mock2 = new axiosMock(axios.default);
+      mock2.onPost('http://localhost:5000/auth/refresh').reply(200, { access_token: 'new-token' });
+
+      // Retry succeeds
+      mock.onGet('/auth/me').reply(200, { id: 1, email: 'test@example.com' });
+
+      const result = await getCurrentUser();
+      expect(result.email).toBe('test@example.com');
+    });
+
+    it('should handle network error with Network Error message', async () => {
+      mock.onGet('/diaries').networkError();
+
+      await expect(getDiaries()).rejects.toMatchObject({
+        error: 'network_error',
+        message: expect.stringContaining('internet connection'),
+      });
+    });
+
+    it('should handle network error with timeout message', async () => {
+      mock.onGet('/diaries').timeout();
+
+      await expect(getDiaries()).rejects.toMatchObject({
+        error: 'network_error',
+      });
+    });
+
+    it('should handle error responses with null data', async () => {
+      mock.onPost('/diaries').reply(400, null);
+
+      await expect(createDiary({ content: 'Test' })).rejects.toMatchObject({
+        error: 'unknown_error',
+      });
+    });
+
+    it('should handle error responses with missing error field', async () => {
+      mock.onPost('/diaries').reply(400, { message: 'Bad request' });
+
+      await expect(createDiary({ content: 'Test' })).rejects.toMatchObject({
+        error: 'unknown_error',
+        message: 'Bad request',
+      });
+    });
+
+    it('should handle error responses with missing message field', async () => {
+      mock.onPost('/diaries').reply(400, { error: 'validation_error' });
+
+      await expect(createDiary({ content: 'Test' })).rejects.toMatchObject({
+        error: 'validation_error',
+      });
+    });
+
+    it('should handle successful response with missing data', async () => {
+      mock.onGet('/diaries/stats').reply(200, null);
+
+      const result = await getDiaryStats();
+      expect(result).toBeNull();
+    });
+
+    it('should store refresh token when provided', async () => {
+      const { setTokens } = await import('@/services/api');
+      
+      setTokens('new-access-token', 'new-refresh-token');
+      
+      expect(localStorage.getItem('access_token')).toBe('new-access-token');
+      expect(localStorage.getItem('refresh_token')).toBe('new-refresh-token');
+    });
+
+    it('should not overwrite refresh token when not provided', async () => {
+      const { setTokens } = await import('@/services/api');
+      
+      localStorage.setItem('refresh_token', 'existing-refresh');
+      setTokens('new-access-token');
+      
+      expect(localStorage.getItem('access_token')).toBe('new-access-token');
+      expect(localStorage.getItem('refresh_token')).toBe('existing-refresh');
+    });
+
+    it('should use error.message when response has no message field', async () => {
+      const customError = new Error('Custom axios error message');
+      mock.onGet('/diaries').reply(() => {
+        throw customError;
+      });
+
+      await expect(getDiaries()).rejects.toMatchObject({
+        message: expect.stringContaining('Custom'),
+      });
     });
   });
 });

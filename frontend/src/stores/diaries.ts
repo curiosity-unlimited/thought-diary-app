@@ -19,18 +19,8 @@ export const useDiariesStore = defineStore('diaries', () => {
   // State
   const entries = ref<DiaryEntry[]>([]);
   const currentDiary = ref<DiaryEntry | null>(null);
-  const stats = ref<DiaryStats>({
-    total: 0,
-    positive: 0,
-    negative: 0,
-    neutral: 0,
-  });
-  const pagination = ref<PaginationInfo>({
-    page: 1,
-    per_page: 10,
-    total: 0,
-    pages: 0,
-  });
+  const stats = ref<DiaryStats | null>(null);
+  const pagination = ref<PaginationInfo | null>(null);
   const loading = ref(false);
 
   /**
@@ -80,7 +70,7 @@ export const useDiariesStore = defineStore('diaries', () => {
       const diary = await apiCreateDiary({ content });
 
       // Add to entries list if we're on the first page
-      if (pagination.value.page === 1) {
+      if (pagination.value && pagination.value.page === 1) {
         entries.value.unshift(diary);
         // Remove last item if we exceed per_page limit
         if (entries.value.length > pagination.value.per_page) {
@@ -89,7 +79,9 @@ export const useDiariesStore = defineStore('diaries', () => {
       }
 
       // Update stats
-      pagination.value.total += 1;
+      if (pagination.value) {
+        pagination.value.total += 1;
+      }
 
       return diary;
     } finally {
@@ -148,7 +140,9 @@ export const useDiariesStore = defineStore('diaries', () => {
       }
 
       // Update stats
-      pagination.value.total = Math.max(0, pagination.value.total - 1);
+      if (pagination.value) {
+        pagination.value.total = Math.max(0, pagination.value.total - 1);
+      }
     } finally {
       loading.value = false;
     }
@@ -175,18 +169,8 @@ export const useDiariesStore = defineStore('diaries', () => {
   const clearStore = () => {
     entries.value = [];
     currentDiary.value = null;
-    stats.value = {
-      total: 0,
-      positive: 0,
-      negative: 0,
-      neutral: 0,
-    };
-    pagination.value = {
-      page: 1,
-      per_page: 10,
-      total: 0,
-      pages: 0,
-    };
+    stats.value = null;
+    pagination.value = null;
     loading.value = false;
   };
 

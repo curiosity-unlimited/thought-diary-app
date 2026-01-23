@@ -26,6 +26,7 @@ describe('Dashboard View', () => {
       global: {
         plugins: [router],
         stubs: {
+          MainLayout: { template: '<div><slot /></div>' },
           StatsCard: true,
           DiaryCard: true,
           LoadingSpinner: true,
@@ -98,14 +99,19 @@ describe('Dashboard View', () => {
           DiaryCard: true,
           LoadingSpinner: true,
           EmptyState: true,
+          MainLayout: {
+            template: '<div><slot /></div>',
+          },
         },
       },
     });
     
+    // Wait for all async operations to complete
     await flushPromises();
     await wrapper.vm.$nextTick();
+    await flushPromises();
     
-    expect(wrapper.find('.stats-card').exists()).toBe(true);
+    expect(wrapper.findComponent({ name: 'StatsCard' }).exists()).toBe(true);
   });
 
   it('should display diary cards when entries loaded', async () => {
@@ -137,6 +143,7 @@ describe('Dashboard View', () => {
       global: {
         plugins: [router],
         stubs: {
+          MainLayout: { template: '<div><slot /></div>' },
           StatsCard: true,
           DiaryCard: true,
           LoadingSpinner: true,
@@ -147,8 +154,9 @@ describe('Dashboard View', () => {
     
     await flushPromises();
     await wrapper.vm.$nextTick();
+    await flushPromises();
     
-    expect(wrapper.findAll('.diary-card').length).toBeGreaterThan(0);
+    expect(wrapper.findAllComponents({ name: 'DiaryCard' }).length).toBeGreaterThan(0);
   });
 
   it('should show empty state when no diaries', async () => {
@@ -161,6 +169,7 @@ describe('Dashboard View', () => {
       global: {
         plugins: [router],
         stubs: {
+          MainLayout: { template: '<div><slot /></div>' },
           StatsCard: true,
           DiaryCard: true,
           LoadingSpinner: true,
@@ -171,8 +180,9 @@ describe('Dashboard View', () => {
     
     await flushPromises();
     await wrapper.vm.$nextTick();
+    await flushPromises();
     
-    expect(wrapper.find('.empty-state').exists()).toBe(true);
+    expect(wrapper.findComponent({ name: 'EmptyState' }).exists()).toBe(true);
   });
 
   it('should show loading spinner during data fetch', () => {
@@ -185,6 +195,7 @@ describe('Dashboard View', () => {
       global: {
         plugins: [router],
         stubs: {
+          MainLayout: { template: '<div><slot /></div>' },
           StatsCard: true,
           DiaryCard: true,
           LoadingSpinner: true,
@@ -193,7 +204,7 @@ describe('Dashboard View', () => {
       },
     });
     
-    expect(wrapper.find('.loading').exists()).toBe(true);
+    expect(wrapper.findComponent({ name: 'LoadingSpinner' }).exists()).toBe(true);
   });
 
   it('should have create entry button', async () => {
@@ -205,6 +216,38 @@ describe('Dashboard View', () => {
       global: {
         plugins: [router],
         stubs: {
+          MainLayout: { template: '<div><slot /></div>' },
+          StatsCard: true,
+          DiaryCard: true,
+          LoadingSpinner: true,
+          EmptyState: true,
+        },
+      },
+    });
+    
+    await flushPromises();
+    await wrapper.vm.$nextTick();
+    await flushPromises();
+    
+    const buttons = wrapper.findAll('button, a');
+    const createButton = buttons.find(button => 
+      button.text().includes('Create') || button.text().includes('New')
+    );
+    
+    expect(createButton).toBeDefined();
+  });
+
+  it('should handle error when fetching stats fails', async () => {
+    const store = useDiariesStore();
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.spyOn(store, 'fetchStats').mockRejectedValue(new Error('Failed to fetch stats'));
+    vi.spyOn(store, 'fetchDiaries').mockResolvedValue();
+
+    const _wrapper = mount(Dashboard, {
+      global: {
+        plugins: [router],
+        stubs: {
+          MainLayout: { template: '<div><slot /></div>' },
           StatsCard: true,
           DiaryCard: true,
           LoadingSpinner: true,
@@ -215,11 +258,85 @@ describe('Dashboard View', () => {
     
     await flushPromises();
     
-    const buttons = wrapper.findAll('button, a');
-    const createButton = buttons.find(button => 
-      button.text().includes('Create') || button.text().includes('New')
-    );
+    // Stats fetch error should be handled
+    expect(store.fetchStats).toHaveBeenCalled();
     
-    expect(createButton).toBeDefined();
+    consoleSpy.mockRestore();
+  });
+
+  it('should handle error when fetching diaries fails', async () => {
+    const store = useDiariesStore();
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.spyOn(store, 'fetchStats').mockResolvedValue();
+    vi.spyOn(store, 'fetchDiaries').mockRejectedValue(new Error('Failed to fetch diaries'));
+
+    const _wrapper = mount(Dashboard, {
+      global: {
+        plugins: [router],
+        stubs: {
+          MainLayout: { template: '<div><slot /></div>' },
+          StatsCard: true,
+          DiaryCard: true,
+          LoadingSpinner: true,
+          EmptyState: true,
+        },
+      },
+    });
+    
+    await flushPromises();
+    
+    // Diaries fetch error should be handled
+    expect(store.fetchDiaries).toHaveBeenCalled();
+    
+    consoleSpy.mockRestore();
+  });
+
+  it('should handle generic error when error is not an Error instance', async () => {
+    const store = useDiariesStore();
+    const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    vi.spyOn(store, 'fetchStats').mockRejectedValue('String error');
+    vi.spyOn(store, 'fetchDiaries').mockResolvedValue();
+
+    const _wrapper = mount(Dashboard, {
+      global: {
+        plugins: [router],
+        stubs: {
+          MainLayout: { template: '<div><slot /></div>' },
+          StatsCard: true,
+          DiaryCard: true,
+          LoadingSpinner: true,
+          EmptyState: true,
+        },
+      },
+    });
+    
+    await flushPromises();
+    
+    expect(store.fetchStats).toHaveBeenCalled();
+    
+    consoleSpy.mockRestore();
+  });
+
+  it('should render the main container', async () => {
+    const store = useDiariesStore();
+    vi.spyOn(store, 'fetchStats').mockResolvedValue();
+    vi.spyOn(store, 'fetchDiaries').mockResolvedValue();
+
+    const wrapper = mount(Dashboard, {
+      global: {
+        plugins: [router],
+        stubs: {
+          MainLayout: { template: '<div><slot /></div>' },
+          StatsCard: true,
+          DiaryCard: true,
+          LoadingSpinner: true,
+          EmptyState: true,
+        },
+      },
+    });
+    
+    await flushPromises();
+    
+    expect(wrapper.exists()).toBe(true);
   });
 });

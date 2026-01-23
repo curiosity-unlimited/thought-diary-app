@@ -36,8 +36,8 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
             patterns, promoting healthier mental habits.
           </p>
           <p class="text-gray-700 mb-4">
-            By analyzing your diary entries with advanced sentiment analysis, you
-            can gain insights into your emotional patterns and work towards
+            By analyzing your diary entries with advanced sentiment analysis,
+            you can gain insights into your emotional patterns and work towards
             improved well-being.
           </p>
         </div>
@@ -133,7 +133,8 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
                 Statistics Dashboard
               </h3>
               <p class="mt-1 text-gray-600">
-                View insights and trends about your emotional patterns over time.
+                View insights and trends about your emotional patterns over
+                time.
               </p>
             </div>
           </div>

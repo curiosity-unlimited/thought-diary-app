@@ -141,20 +141,18 @@ describe('Auth Store', () => {
 
   describe('refreshAccessToken()', () => {
     it('should refresh access token successfully', async () => {
-      const mockResponse = {
-        access_token: 'new-access-token',
-      };
-      vi.mocked(api.refreshToken).mockResolvedValue(mockResponse);
+      const mockNewToken = 'new-access-token';
+      vi.mocked(api.refreshToken).mockResolvedValue(mockNewToken);
 
       const store = useAuthStore();
       store.refreshToken = 'test-refresh-token';
+      store.accessToken = 'old-access-token';
 
       await store.refreshAccessToken();
 
       expect(api.refreshToken).toHaveBeenCalled();
-      // The mock returns the whole response object, not just the token string
-      expect(store.accessToken).toEqual({ access_token: 'new-access-token' });
-      expect(localStorage.getItem('access_token')).toEqual(JSON.stringify({ access_token: 'new-access-token' }));
+      expect(store.accessToken).toEqual(mockNewToken);
+      expect(localStorage.getItem('access_token')).toEqual(mockNewToken);
     });
 
     it('should throw error if no refresh token available', async () => {

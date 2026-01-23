@@ -27,7 +27,8 @@ const loadDiaries = async (page: number = 1) => {
   try {
     await diariesStore.fetchDiaries(page);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to load diary entries';
+    const message =
+      error instanceof Error ? error.message : 'Failed to load diary entries';
     showError(message);
   } finally {
     isLoading.value = false;
@@ -54,7 +55,8 @@ const handleCreateSubmit = async (content: string) => {
     await loadDiaries(1);
     router.push({ query: {} }); // Clear query params
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to create diary entry';
+    const message =
+      error instanceof Error ? error.message : 'Failed to create diary entry';
     showError(message);
   } finally {
     isSubmitting.value = false;
@@ -66,7 +68,7 @@ const handleCreateSubmit = async (content: string) => {
  */
 const handleCreateCancel = () => {
   showCreateForm.value = false;
-   
+
   const { create: _create, ...queryWithoutCreate } = route.query;
   router.push({ query: queryWithoutCreate });
 };
@@ -89,7 +91,8 @@ const handleDelete = async (diaryId: number) => {
     const currentPage = parseInt(route.query.page as string) || 1;
     await loadDiaries(currentPage);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to delete diary entry';
+    const message =
+      error instanceof Error ? error.message : 'Failed to delete diary entry';
     showError(message);
   }
 };

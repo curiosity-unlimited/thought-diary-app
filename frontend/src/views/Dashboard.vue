@@ -31,7 +31,8 @@ const loadDashboardData = async () => {
       diariesStore.fetchDiaries(1, 5), // First page, 5 items
     ]);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to load dashboard data';
+    const message =
+      error instanceof Error ? error.message : 'Failed to load dashboard data';
     showError(message);
   } finally {
     isLoading.value = false;
@@ -61,7 +62,8 @@ const handleDelete = async (diaryId: number) => {
     // Reload dashboard data after deletion
     await loadDashboardData();
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to delete diary entry';
+    const message =
+      error instanceof Error ? error.message : 'Failed to delete diary entry';
     showError(message);
   }
 };
@@ -100,9 +102,7 @@ onMounted(() => {
         <!-- Recent Entries Section -->
         <div class="mb-8">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-2xl font-semibold text-gray-900">
-              Recent Entries
-            </h2>
+            <h2 class="text-2xl font-semibold text-gray-900">Recent Entries</h2>
             <button
               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               @click="createEntry"

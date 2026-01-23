@@ -42,10 +42,14 @@ const loadDiary = async () => {
   try {
     await diariesStore.fetchDiary(diaryId.value);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to load diary entry';
+    const message =
+      error instanceof Error ? error.message : 'Failed to load diary entry';
     showError(message);
     // Redirect to diaries list if not found
-    if (message.includes('404') || message.toLowerCase().includes('not found')) {
+    if (
+      message.includes('404') ||
+      message.toLowerCase().includes('not found')
+    ) {
       router.push('/diaries');
     }
   } finally {
@@ -72,7 +76,8 @@ const handleEditSubmit = async (content: string) => {
     // Reload diary to get updated content
     await loadDiary();
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to update diary entry';
+    const message =
+      error instanceof Error ? error.message : 'Failed to update diary entry';
     showError(message);
   } finally {
     isSubmitting.value = false;
@@ -103,7 +108,8 @@ const handleDeleteConfirm = async () => {
     showDeleteModal.value = false;
     router.push('/diaries');
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Failed to delete diary entry';
+    const message =
+      error instanceof Error ? error.message : 'Failed to delete diary entry';
     showError(message);
   }
 };
@@ -165,7 +171,10 @@ onMounted(() => {
         </div>
 
         <!-- View Mode -->
-        <div v-if="!isEditing" class="bg-white shadow rounded-lg overflow-hidden">
+        <div
+          v-if="!isEditing"
+          class="bg-white shadow rounded-lg overflow-hidden"
+        >
           <!-- Header -->
           <div class="px-6 py-4 border-b border-gray-200">
             <div class="flex items-start justify-between">

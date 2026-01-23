@@ -289,6 +289,109 @@ describe('Diaries Store', () => {
     });
   });
 
+  describe('Edge Cases', () => {
+    it('should handle fetchDiaries with no results', async () => {
+      const mockResponse = {
+        diaries: [],
+        pagination: { page: 1, per_page: 10, total: 0, pages: 0 },
+      };
+      vi.mocked(api.getDiaries).mockResolvedValue(mockResponse);
+
+      const store = useDiariesStore();
+      await store.fetchDiaries();
+
+      expect(store.entries).toEqual([]);
+      expect(store.pagination?.total).toBe(0);
+    });
+
+    it('should handle updateDiary when currentDiary is null', async () => {
+      const mockDiary = {
+        id: 1,
+        content: 'Updated',
+        analyzed_content: 'Updated',
+        positive_count: 1,
+        negative_count: 0,
+        created_at: '2026-01-01T00:00:00Z',
+        updated_at: '2026-01-02T00:00:00Z',
+      };
+      vi.mocked(api.updateDiary).mockResolvedValue(mockDiary);
+
+      const store = useDiariesStore();
+      store.currentDiary = null;
+
+      await store.updateDiary(1, { content: 'Updated' });
+
+      expect(api.updateDiary).toHaveBeenCalled();
+    });
+
+    it('should handle deleteDiary when diary not in entries', async () => {
+      vi.mocked(api.deleteDiary).mockResolvedValue();
+
+      const store = useDiariesStore();
+      store.entries = [
+        {
+          id: 2,
+          content: 'Test',
+          analyzed_content: 'Test',
+          positive_count: 0,
+          negative_count: 0,
+          created_at: '2026-01-01T00:00:00Z',
+          updated_at: '2026-01-01T00:00:00Z',
+        },
+      ];
+
+      await store.deleteDiary(999);
+
+      expect(api.deleteDiary).toHaveBeenCalledWith(999);
+      expect(store.entries).toHaveLength(1);
+    });
+
+    it('should not add to entries when creating diary on page 2', async () => {
+      const mockDiary = {
+        id: 3,
+        content: 'New diary',
+        analyzed_content: 'New diary',
+        positive_count: 0,
+        negative_count: 0,
+        created_at: '2026-01-03T00:00:00Z',
+        updated_at: '2026-01-03T00:00:00Z',
+      };
+      vi.mocked(api.createDiary).mockResolvedValue(mockDiary);
+
+      const store = useDiariesStore();
+      store.pagination = { page: 2, per_page: 10, total: 15, pages: 2 };
+      store.entries = [];
+
+      await store.createDiary({ content: 'New diary' });
+
+      // Should not add to entries when not on page 1
+      expect(store.entries).toHaveLength(0);
+      // Should still increment total
+      expect(store.pagination?.total).toBe(16);
+    });
+
+    it('should not update stats when pagination is null during create', async () => {
+      const mockDiary = {
+        id: 3,
+        content: 'New diary',
+        analyzed_content: 'New diary',
+        positive_count: 0,
+        negative_count: 0,
+        created_at: '2026-01-03T00:00:00Z',
+        updated_at: '2026-01-03T00:00:00Z',
+      };
+      vi.mocked(api.createDiary).mockResolvedValue(mockDiary);
+
+      const store = useDiariesStore();
+      store.pagination = null;
+
+      await store.createDiary({ content: 'New diary' });
+
+      // Pagination should still be null
+      expect(store.pagination).toBeNull();
+    });
+  });
+
   describe('clearStore()', () => {
     it('should clear all store data', () => {
       const store = useDiariesStore();

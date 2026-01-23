@@ -79,15 +79,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - @vue/test-utils for Vue component testing
 - axios-mock-adapter for API mocking
 - vitest.config.ts with comprehensive configuration (80%+ coverage thresholds)
+- Test directory structure: tests/unit/ for unit tests (*.test.ts), tests/integration/ for integration tests (*.spec.ts)
 - Test setup file (tests/unit/setup.ts) with localStorage, toast, and matchMedia mocks
+- Comprehensive unit test coverage for Components, Views, Stores, and Composables
+- Comprehensive integration test coverage for API service HTTP integration and View component integration
 - Store tests: auth.test.ts and diaries.test.ts covering authentication and diary management
 - Component tests: LoadingSpinner, EmptyState, StatsCard, Pagination, DiaryCard, DiaryForm, Navbar
-- View tests: Login, Register, Dashboard, Diaries
-- Service tests: api.test.ts with comprehensive endpoint and interceptor testing
+- View unit tests: Login, Register, Dashboard, Diaries, DiaryDetail (with stubbed child components)
+- View integration tests: Login.spec.ts, Register.spec.ts, Diaries.spec.ts, Dashboard.spec.ts (testing component integration without stubs)
+- API integration tests: api.spec.ts with comprehensive HTTP integration testing (endpoints, interceptors, error handling, token refresh queue, edge cases)
 - Composable tests: useToast.test.ts for toast notification wrapper
-- Test scripts added to package.json: test, test:ui, test:coverage
+- Test scripts added to package.json: test, test:ui, test:unit, test:integration, test:coverage
 - Vue Test Utils configured with proper stubbing and mocking strategies
-- Comprehensive test coverage for critical application paths
+- All tests passing with comprehensive coverage across all metrics
+- Test coverage exceeds requirements across statements, lines, branches, and functions
+- Comprehensive test coverage for critical application paths including edge cases
 - Toast notification system with vue-toastification (Step 4 complete)
 - Toast plugin configured in src/main.ts with top-right position and 3-second timeout
 - Toast CSS imported with default styling
@@ -299,13 +305,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Fixed
 - Tailwind CSS 4.x PostCSS configuration: installed @tailwindcss/postcss and updated postcss.config.js
-- Test suite improvements through systematic debugging:
+- Test suite comprehensive improvements through systematic development:
   - Navbar tests: Added router plugin and proper Vue Router configuration
   - Pagination tests: Fixed event emission handling for camelCase/kebab-case compatibility
   - API service tests: Corrected return types for void functions (logout, deleteDiary)
   - Store tests: Fixed token restoration, refresh token mocking, and initial state assertions
   - View tests: Improved validation error detection, form submission handling, and component stubbing
   - Testing infrastructure fully functional with proper mocking and coverage capabilities
+- Test organization and structure improvements:
+  - Moved API service tests to integration tests (api.spec.ts) as they test HTTP integration with axios
+  - Reorganized test directory structure: tests/unit/ for isolated tests, tests/integration/ for integration tests
+  - Fixed package.json test scripts: removed duplicate --run flags from test:unit and test:integration
+  - Test naming convention enforced: *.test.ts for unit tests, *.spec.ts for integration tests
+  - Proper test categorization: unit tests use stubs/mocks for isolation, integration tests verify component/service integration
+- Test coverage improvements to exceed requirements:
+  - Added comprehensive edge case tests for stores (auth, diaries) covering pagination, null values, error conditions
+  - Added extensive API integration tests covering token refresh queue, error responses, network errors
+  - Added component tests for null/undefined handling in DiaryCard
+  - Added view tests for error handling in Dashboard, Diaries, DiaryDetail
+  - Added integration tests for view components (Login, Register, Diaries, Dashboard)
+  - Achieved comprehensive coverage across statements, lines, branches, and functions
+- Store enhancements for robustness:
+  - Auth store: Added null check in refreshAccessToken() before attempting token refresh
+  - Diaries store: Changed stats and pagination initialization from empty objects to null for clearer state management
+  - Diaries store: Added null checks for pagination in createDiary and deleteDiary operations
+- Component code quality improvements:
+  - Fixed unused variable ESLint errors in Dashboard, Diaries, DiaryDetail test files
+  - Fixed TypeScript any types in DiaryCard tests with proper type assertions
+  - Applied consistent code formatting with Prettier across all test files
+- Copilot instructions updated to reflect testing best practices:
+  - Updated VITEST section title to include both unit and integration testing
+  - Clarified test file naming convention: *.test.ts for unit tests, *.spec.ts for integration tests
+  - Added examples for unit test and integration test file locations
+  - Documented test directory structure mirroring source code structure
 
 
 ## [0.2.0] - 2026-01-13
