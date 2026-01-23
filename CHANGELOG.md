@@ -304,6 +304,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Production build completed successfully
 
 #### Fixed
+- Tailwind CSS 4.x syntax: Updated src/style.css from @tailwind directives to @import 'tailwindcss' for Tailwind CSS 4.x compatibility
 - Tailwind CSS 4.x PostCSS configuration: installed @tailwindcss/postcss and updated postcss.config.js
 - Test suite comprehensive improvements through systematic development:
   - Navbar tests: Added router plugin and proper Vue Router configuration
