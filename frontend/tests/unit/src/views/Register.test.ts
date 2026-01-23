@@ -32,7 +32,7 @@ describe('Register View', () => {
         },
       },
     });
-    
+
     expect(wrapper.find('form').exists()).toBe(true);
     expect(wrapper.find('input[type="email"]').exists()).toBe(true);
     expect(wrapper.find('input[type="password"]').exists()).toBe(true);
@@ -49,7 +49,7 @@ describe('Register View', () => {
         },
       },
     });
-    
+
     const inputs = wrapper.findAll('input');
     expect(inputs.length).toBeGreaterThanOrEqual(2);
   });
@@ -65,10 +65,15 @@ describe('Register View', () => {
         },
       },
     });
-    
-    const submitButton = wrapper.findAll('button').find(button => 
-      button.attributes('type') === 'submit' || button.text().includes('Register') || button.text().includes('Sign up')
-    );
+
+    const submitButton = wrapper
+      .findAll('button')
+      .find(
+        (button) =>
+          button.attributes('type') === 'submit' ||
+          button.text().includes('Register') ||
+          button.text().includes('Sign up')
+      );
     expect(submitButton).toBeDefined();
   });
 
@@ -83,16 +88,20 @@ describe('Register View', () => {
         },
       },
     });
-    
+
     const emailInput = wrapper.find('input[type="email"]');
     await emailInput.setValue('invalid-email');
     await emailInput.trigger('blur');
     await flushPromises();
-    
+
     // Check if error message or styling is present
     const hasErrorClass = emailInput.classes().includes('border-red-500');
-    const hasErrorText = wrapper.text().toLowerCase().includes('email') || wrapper.text().toLowerCase().includes('valid');
-    expect(hasErrorClass || hasErrorText || wrapper.html().includes('error')).toBe(true);
+    const hasErrorText =
+      wrapper.text().toLowerCase().includes('email') ||
+      wrapper.text().toLowerCase().includes('valid');
+    expect(
+      hasErrorClass || hasErrorText || wrapper.html().includes('error')
+    ).toBe(true);
   });
 
   it('should show password requirements', () => {
@@ -106,8 +115,10 @@ describe('Register View', () => {
         },
       },
     });
-    
-    expect(wrapper.text()).toContain('8') || expect(wrapper.text()).toContain('uppercase') || expect(wrapper.text()).toContain('character');
+
+    expect(wrapper.text()).toContain('8') ||
+      expect(wrapper.text()).toContain('uppercase') ||
+      expect(wrapper.text()).toContain('character');
   });
 
   it('should have link to login page', () => {
@@ -121,8 +132,12 @@ describe('Register View', () => {
         },
       },
     });
-    
+
     const text = wrapper.text().toLowerCase();
-    expect(text.includes('sign in') || text.includes('login') || text.includes('already have')).toBe(true);
+    expect(
+      text.includes('sign in') ||
+        text.includes('login') ||
+        text.includes('already have')
+    ).toBe(true);
   });
 });

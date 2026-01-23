@@ -34,7 +34,7 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     expect(wrapper.exists()).toBe(true);
   });
 
@@ -53,9 +53,9 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     expect(fetchStatsSpy).toHaveBeenCalled();
   });
 
@@ -74,9 +74,9 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     expect(fetchDiariesSpy).toHaveBeenCalledWith(1, 5);
   });
 
@@ -105,12 +105,12 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     // Wait for all async operations to complete
     await flushPromises();
     await wrapper.vm.$nextTick();
     await flushPromises();
-    
+
     expect(wrapper.findComponent({ name: 'StatsCard' }).exists()).toBe(true);
   });
 
@@ -151,12 +151,14 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     await flushPromises();
     await wrapper.vm.$nextTick();
     await flushPromises();
-    
-    expect(wrapper.findAllComponents({ name: 'DiaryCard' }).length).toBeGreaterThan(0);
+
+    expect(
+      wrapper.findAllComponents({ name: 'DiaryCard' }).length
+    ).toBeGreaterThan(0);
   });
 
   it('should show empty state when no diaries', async () => {
@@ -177,19 +179,23 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     await flushPromises();
     await wrapper.vm.$nextTick();
     await flushPromises();
-    
+
     expect(wrapper.findComponent({ name: 'EmptyState' }).exists()).toBe(true);
   });
 
   it('should show loading spinner during data fetch', () => {
     const store = useDiariesStore();
     store.loading = true;
-    vi.spyOn(store, 'fetchStats').mockImplementation(() => new Promise(() => {}));
-    vi.spyOn(store, 'fetchDiaries').mockImplementation(() => new Promise(() => {}));
+    vi.spyOn(store, 'fetchStats').mockImplementation(
+      () => new Promise(() => {})
+    );
+    vi.spyOn(store, 'fetchDiaries').mockImplementation(
+      () => new Promise(() => {})
+    );
 
     const wrapper = mount(Dashboard, {
       global: {
@@ -203,8 +209,10 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
-    expect(wrapper.findComponent({ name: 'LoadingSpinner' }).exists()).toBe(true);
+
+    expect(wrapper.findComponent({ name: 'LoadingSpinner' }).exists()).toBe(
+      true
+    );
   });
 
   it('should have create entry button', async () => {
@@ -224,23 +232,26 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     await flushPromises();
     await wrapper.vm.$nextTick();
     await flushPromises();
-    
+
     const buttons = wrapper.findAll('button, a');
-    const createButton = buttons.find(button => 
-      button.text().includes('Create') || button.text().includes('New')
+    const createButton = buttons.find(
+      (button) =>
+        button.text().includes('Create') || button.text().includes('New')
     );
-    
+
     expect(createButton).toBeDefined();
   });
 
   it('should handle error when fetching stats fails', async () => {
     const store = useDiariesStore();
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    vi.spyOn(store, 'fetchStats').mockRejectedValue(new Error('Failed to fetch stats'));
+    vi.spyOn(store, 'fetchStats').mockRejectedValue(
+      new Error('Failed to fetch stats')
+    );
     vi.spyOn(store, 'fetchDiaries').mockResolvedValue();
 
     const _wrapper = mount(Dashboard, {
@@ -255,12 +266,12 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     // Stats fetch error should be handled
     expect(store.fetchStats).toHaveBeenCalled();
-    
+
     consoleSpy.mockRestore();
   });
 
@@ -268,7 +279,9 @@ describe('Dashboard View', () => {
     const store = useDiariesStore();
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     vi.spyOn(store, 'fetchStats').mockResolvedValue();
-    vi.spyOn(store, 'fetchDiaries').mockRejectedValue(new Error('Failed to fetch diaries'));
+    vi.spyOn(store, 'fetchDiaries').mockRejectedValue(
+      new Error('Failed to fetch diaries')
+    );
 
     const _wrapper = mount(Dashboard, {
       global: {
@@ -282,12 +295,12 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     // Diaries fetch error should be handled
     expect(store.fetchDiaries).toHaveBeenCalled();
-    
+
     consoleSpy.mockRestore();
   });
 
@@ -309,11 +322,11 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     expect(store.fetchStats).toHaveBeenCalled();
-    
+
     consoleSpy.mockRestore();
   });
 
@@ -334,9 +347,9 @@ describe('Dashboard View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     expect(wrapper.exists()).toBe(true);
   });
 });

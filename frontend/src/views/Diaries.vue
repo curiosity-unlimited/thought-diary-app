@@ -181,7 +181,7 @@ onMounted(() => {
 
       <!-- Empty State -->
       <EmptyState
-        v-else-if="diariesStore.entries.length === 0"
+        v-else-if="!diariesStore.entries || diariesStore.entries.length === 0"
         title="No diary entries found"
         message="Start your thought diary journey by creating your first entry."
         action-text="Create Entry"

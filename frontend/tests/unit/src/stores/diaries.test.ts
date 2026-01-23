@@ -22,7 +22,7 @@ describe('Diaries Store', () => {
   describe('State Initialization', () => {
     it('should initialize with empty values', () => {
       const store = useDiariesStore();
-      
+
       expect(store.entries).toEqual([]);
       expect(store.currentDiary).toBeNull();
       expect(store.stats).toBeNull();
@@ -97,7 +97,7 @@ describe('Diaries Store', () => {
         diaries: [],
         pagination: { page: 1, per_page: 10, total: 0, pages: 0 },
       };
-      
+
       let loadingDuringFetch = false;
       vi.mocked(api.getDiaries).mockImplementation(async () => {
         const store = useDiariesStore();
@@ -167,7 +167,9 @@ describe('Diaries Store', () => {
       const store = useDiariesStore();
       const result = await store.createDiary('New diary entry');
 
-      expect(api.createDiary).toHaveBeenCalledWith({ content: 'New diary entry' });
+      expect(api.createDiary).toHaveBeenCalledWith({
+        content: 'New diary entry',
+      });
       expect(result).toEqual(mockDiary);
     });
 
@@ -176,7 +178,9 @@ describe('Diaries Store', () => {
 
       const store = useDiariesStore();
 
-      await expect(store.createDiary('New diary')).rejects.toThrow('Create failed');
+      await expect(store.createDiary('New diary')).rejects.toThrow(
+        'Create failed'
+      );
     });
   });
 
@@ -208,7 +212,9 @@ describe('Diaries Store', () => {
 
       const result = await store.updateDiary(1, 'Updated content');
 
-      expect(api.updateDiary).toHaveBeenCalledWith(1, { content: 'Updated content' });
+      expect(api.updateDiary).toHaveBeenCalledWith(1, {
+        content: 'Updated content',
+      });
       expect(result).toEqual(mockDiary);
     });
 
@@ -217,7 +223,9 @@ describe('Diaries Store', () => {
 
       const store = useDiariesStore();
 
-      await expect(store.updateDiary(1, 'Updated content')).rejects.toThrow('Update failed');
+      await expect(store.updateDiary(1, 'Updated content')).rejects.toThrow(
+        'Update failed'
+      );
     });
   });
 
@@ -281,7 +289,9 @@ describe('Diaries Store', () => {
     });
 
     it('should throw error on stats fetch failure', async () => {
-      vi.mocked(api.getDiaryStats).mockRejectedValue(new Error('Stats fetch failed'));
+      vi.mocked(api.getDiaryStats).mockRejectedValue(
+        new Error('Stats fetch failed')
+      );
 
       const store = useDiariesStore();
 

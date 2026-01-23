@@ -22,7 +22,7 @@ describe('Auth Store', () => {
   describe('State Initialization', () => {
     it('should initialize with null values', () => {
       const store = useAuthStore();
-      
+
       expect(store.user).toBeNull();
       expect(store.accessToken).toBeNull();
       expect(store.refreshToken).toBeNull();
@@ -44,8 +44,8 @@ describe('Auth Store', () => {
 
   describe('register()', () => {
     it('should register successfully', async () => {
-      const mockResponse = { 
-        message: 'User registered successfully' 
+      const mockResponse = {
+        message: 'User registered successfully',
       };
       vi.mocked(api.register).mockResolvedValue(mockResponse);
 
@@ -59,7 +59,9 @@ describe('Auth Store', () => {
     });
 
     it('should throw error on registration failure', async () => {
-      vi.mocked(api.register).mockRejectedValue(new Error('Registration failed'));
+      vi.mocked(api.register).mockRejectedValue(
+        new Error('Registration failed')
+      );
 
       const store = useAuthStore();
 
@@ -104,12 +106,19 @@ describe('Auth Store', () => {
 
   describe('logout()', () => {
     it('should clear tokens and call logout API', async () => {
-      vi.mocked(api.logout).mockResolvedValue({ message: 'Logged out successfully' });
+      vi.mocked(api.logout).mockResolvedValue({
+        message: 'Logged out successfully',
+      });
 
       const store = useAuthStore();
       store.accessToken = 'test-access-token';
       store.refreshToken = 'test-refresh-token';
-      store.user = { id: 1, email: 'test@example.com', created_at: '2026-01-01', updated_at: '2026-01-01' };
+      store.user = {
+        id: 1,
+        email: 'test@example.com',
+        created_at: '2026-01-01',
+        updated_at: '2026-01-01',
+      };
       localStorage.setItem('access_token', 'test-access-token');
       localStorage.setItem('refresh_token', 'test-refresh-token');
 
@@ -181,7 +190,9 @@ describe('Auth Store', () => {
     });
 
     it('should throw error on profile fetch failure', async () => {
-      vi.mocked(api.getCurrentUser).mockRejectedValue(new Error('Unauthorized'));
+      vi.mocked(api.getCurrentUser).mockRejectedValue(
+        new Error('Unauthorized')
+      );
 
       const store = useAuthStore();
 
@@ -192,21 +203,21 @@ describe('Auth Store', () => {
   describe('isAuthenticated computed', () => {
     it('should return false when no tokens', () => {
       const store = useAuthStore();
-      
+
       expect(store.isAuthenticated).toBe(false);
     });
 
     it('should return false when only access token present', () => {
       const store = useAuthStore();
       store.accessToken = 'test-access-token';
-      
+
       expect(store.isAuthenticated).toBe(false);
     });
 
     it('should return false when only refresh token present', () => {
       const store = useAuthStore();
       store.refreshToken = 'test-refresh-token';
-      
+
       expect(store.isAuthenticated).toBe(false);
     });
 
@@ -214,7 +225,7 @@ describe('Auth Store', () => {
       const store = useAuthStore();
       store.accessToken = 'test-access-token';
       store.refreshToken = 'test-refresh-token';
-      
+
       expect(store.isAuthenticated).toBe(true);
     });
   });
@@ -225,13 +236,24 @@ describe('Auth Store', () => {
         access_token: 'persisted-access-token',
         refresh_token: 'persisted-refresh-token',
       };
+      const mockUser = {
+        id: 1,
+        email: 'test@example.com',
+        created_at: '2026-01-01T00:00:00Z',
+        updated_at: '2026-01-01T00:00:00Z',
+      };
       vi.mocked(api.login).mockResolvedValue(mockResponse);
+      vi.mocked(api.getCurrentUser).mockResolvedValue(mockUser);
 
       const store = useAuthStore();
       await store.login('test@example.com', 'Password123!');
 
-      expect(localStorage.getItem('access_token')).toBe('persisted-access-token');
-      expect(localStorage.getItem('refresh_token')).toBe('persisted-refresh-token');
+      expect(localStorage.getItem('access_token')).toBe(
+        'persisted-access-token'
+      );
+      expect(localStorage.getItem('refresh_token')).toBe(
+        'persisted-refresh-token'
+      );
     });
 
     it('should clear tokens from localStorage on logout', async () => {

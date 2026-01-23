@@ -55,7 +55,9 @@ describe('API Service', () => {
     });
 
     it('should logout user', async () => {
-      mock.onPost('/auth/logout').reply(200, { message: 'Logged out successfully' });
+      mock
+        .onPost('/auth/logout')
+        .reply(200, { message: 'Logged out successfully' });
 
       const result = await logout();
 
@@ -70,7 +72,9 @@ describe('API Service', () => {
       const axios = await import('axios');
       const axiosMock = require('axios-mock-adapter');
       const mock2 = new axiosMock(axios.default);
-      mock2.onPost('http://localhost:5000/auth/refresh').reply(200, mockResponse);
+      mock2
+        .onPost('http://localhost:5000/auth/refresh')
+        .reply(200, mockResponse);
 
       const result = await refreshToken();
 
@@ -172,7 +176,9 @@ describe('API Service', () => {
     });
 
     it('should delete diary', async () => {
-      mock.onDelete('/diaries/1').reply(200, { message: 'Diary deleted successfully' });
+      mock
+        .onDelete('/diaries/1')
+        .reply(200, { message: 'Diary deleted successfully' });
 
       const result = await deleteDiary(1);
 
@@ -197,8 +203,8 @@ describe('API Service', () => {
   describe('Request Interceptor', () => {
     it('should add authorization header when token exists', async () => {
       localStorage.setItem('access_token', 'test-token');
-      
-      mock.onGet('/auth/me').reply(config => {
+
+      mock.onGet('/auth/me').reply((config) => {
         expect(config.headers?.Authorization).toBe('Bearer test-token');
         return [200, { id: 1, email: 'test@example.com' }];
       });
@@ -207,7 +213,7 @@ describe('API Service', () => {
     });
 
     it('should not add authorization header for public endpoints', async () => {
-      mock.onPost('/auth/login').reply(config => {
+      mock.onPost('/auth/login').reply((config) => {
         expect(config.headers?.Authorization).toBeUndefined();
         return [200, { access_token: 'token', refresh_token: 'refresh' }];
       });
@@ -268,12 +274,14 @@ describe('API Service', () => {
 
       // First request triggers 401
       mock.onGet('/auth/me').replyOnce(401);
-      
+
       // Refresh succeeds
       const axios = await import('axios');
       const axiosMock = require('axios-mock-adapter');
       const mock2 = new axiosMock(axios.default);
-      mock2.onPost('http://localhost:5000/auth/refresh').reply(200, { access_token: 'new-token' });
+      mock2
+        .onPost('http://localhost:5000/auth/refresh')
+        .reply(200, { access_token: 'new-token' });
 
       // Retry succeeds
       mock.onGet('/auth/me').reply(200, { id: 1, email: 'test@example.com' });
@@ -333,19 +341,19 @@ describe('API Service', () => {
 
     it('should store refresh token when provided', async () => {
       const { setTokens } = await import('@/services/api');
-      
+
       setTokens('new-access-token', 'new-refresh-token');
-      
+
       expect(localStorage.getItem('access_token')).toBe('new-access-token');
       expect(localStorage.getItem('refresh_token')).toBe('new-refresh-token');
     });
 
     it('should not overwrite refresh token when not provided', async () => {
       const { setTokens } = await import('@/services/api');
-      
+
       localStorage.setItem('refresh_token', 'existing-refresh');
       setTokens('new-access-token');
-      
+
       expect(localStorage.getItem('access_token')).toBe('new-access-token');
       expect(localStorage.getItem('refresh_token')).toBe('existing-refresh');
     });

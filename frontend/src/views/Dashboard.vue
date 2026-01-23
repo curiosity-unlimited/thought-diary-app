@@ -16,7 +16,7 @@ const { showError } = useToast();
 const isLoading = ref(true);
 
 // Get recent entries (first 5) from the store
-const recentEntries = computed(() => diariesStore.entries.slice(0, 5));
+const recentEntries = computed(() => (diariesStore.entries || []).slice(0, 5));
 
 /**
  * Load dashboard data on component mount
@@ -95,7 +95,7 @@ onMounted(() => {
       <!-- Dashboard Content -->
       <div v-else>
         <!-- Statistics Cards -->
-        <div class="mb-8">
+        <div v-if="diariesStore.stats" class="mb-8">
           <StatsCard :stats="diariesStore.stats" />
         </div>
 

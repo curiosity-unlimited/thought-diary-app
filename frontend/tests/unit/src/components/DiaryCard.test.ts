@@ -18,7 +18,7 @@ describe('DiaryCard', () => {
     const wrapper = mount(DiaryCard, {
       props: { diary: mockDiary },
     });
-    
+
     expect(wrapper.html()).toContain('happy');
   });
 
@@ -26,7 +26,7 @@ describe('DiaryCard', () => {
     const wrapper = mount(DiaryCard, {
       props: { diary: mockDiary },
     });
-    
+
     expect(wrapper.text()).toContain('1');
   });
 
@@ -34,7 +34,7 @@ describe('DiaryCard', () => {
     const wrapper = mount(DiaryCard, {
       props: { diary: mockDiary },
     });
-    
+
     expect(wrapper.text()).toContain('0');
   });
 
@@ -42,7 +42,7 @@ describe('DiaryCard', () => {
     const wrapper = mount(DiaryCard, {
       props: { diary: mockDiary },
     });
-    
+
     expect(wrapper.text()).toContain('2026');
   });
 
@@ -50,11 +50,15 @@ describe('DiaryCard', () => {
     const wrapper = mount(DiaryCard, {
       props: { diary: mockDiary },
     });
-    
-    const editButton = wrapper.findAll('button').find(button => 
-      button.html().includes('pencil') || button.attributes('title')?.includes('Edit')
-    );
-    
+
+    const editButton = wrapper
+      .findAll('button')
+      .find(
+        (button) =>
+          button.html().includes('pencil') ||
+          button.attributes('title')?.includes('Edit')
+      );
+
     if (editButton) {
       await editButton.trigger('click');
       expect(wrapper.emitted('edit')).toBeTruthy();
@@ -66,11 +70,15 @@ describe('DiaryCard', () => {
     const wrapper = mount(DiaryCard, {
       props: { diary: mockDiary },
     });
-    
-    const deleteButton = wrapper.findAll('button').find(button => 
-      button.html().includes('trash') || button.attributes('title')?.includes('Delete')
-    );
-    
+
+    const deleteButton = wrapper
+      .findAll('button')
+      .find(
+        (button) =>
+          button.html().includes('trash') ||
+          button.attributes('title')?.includes('Delete')
+      );
+
     if (deleteButton) {
       await deleteButton.trigger('click');
       expect(wrapper.emitted('delete')).toBeTruthy();
@@ -82,7 +90,7 @@ describe('DiaryCard', () => {
     const wrapper = mount(DiaryCard, {
       props: { diary: mockDiary },
     });
-    
+
     const buttons = wrapper.findAll('button');
     expect(buttons.length).toBeGreaterThanOrEqual(2);
   });
@@ -94,11 +102,11 @@ describe('DiaryCard', () => {
       positive_count: 0,
       negative_count: 1,
     };
-    
+
     const wrapper = mount(DiaryCard, {
       props: { diary: negativeDiary },
     });
-    
+
     expect(wrapper.html()).toContain('sad');
   });
 
@@ -106,7 +114,7 @@ describe('DiaryCard', () => {
     const wrapper = mount(DiaryCard, {
       props: { diary: mockDiary },
     });
-    
+
     const card = wrapper.find('.bg-white, .border');
     expect(card.exists()).toBe(true);
   });
@@ -117,11 +125,11 @@ describe('DiaryCard', () => {
       content: 'This is a very long content. '.repeat(30),
       analyzed_content: 'This is a very long content. '.repeat(30),
     };
-    
+
     const wrapper = mount(DiaryCard, {
       props: { diary: longDiary },
     });
-    
+
     // Check if "Read more" button exists for long content
     const readMoreButton = wrapper.find('button:not([aria-label])');
     if (readMoreButton.exists() && readMoreButton.text().includes('Read')) {
@@ -139,11 +147,11 @@ describe('DiaryCard', () => {
     const wrapper = mount(DiaryCard, {
       props: { diary: mockDiary },
     });
-    
+
     const text = wrapper.text();
     // Short content should not have read more
     const hasReadMore = text.includes('Read more');
-    
+
     // This is expected to be false for short content
     expect(typeof hasReadMore).toBe('boolean');
   });
@@ -151,14 +159,17 @@ describe('DiaryCard', () => {
   it('should truncate long content when not expanded', () => {
     const longDiary: DiaryEntry = {
       ...mockDiary,
-      content: 'This is a very long content that should be truncated. '.repeat(20),
-      analyzed_content: 'This is a very long content that should be truncated. '.repeat(20),
+      content: 'This is a very long content that should be truncated. '.repeat(
+        20
+      ),
+      analyzed_content:
+        'This is a very long content that should be truncated. '.repeat(20),
     };
-    
+
     const wrapper = mount(DiaryCard, {
       props: { diary: longDiary },
     });
-    
+
     // Component should handle long content
     expect(wrapper.exists()).toBe(true);
   });
@@ -168,11 +179,11 @@ describe('DiaryCard', () => {
       ...mockDiary,
       created_at: '2026-01-15T14:30:00Z',
     };
-    
+
     const wrapper = mount(DiaryCard, {
       props: { diary },
     });
-    
+
     const text = wrapper.text();
     // Should contain date elements
     expect(text).toContain('2026') || expect(text).toContain('Jan');
@@ -182,7 +193,7 @@ describe('DiaryCard', () => {
     const wrapper = mount(DiaryCard, {
       props: { diary: mockDiary },
     });
-    
+
     const html = wrapper.html();
     // Should render analyzed content
     expect(html).toContain('happy');
@@ -194,11 +205,11 @@ describe('DiaryCard', () => {
       analyzed_content: '',
       content: 'Plain content',
     };
-    
+
     const wrapper = mount(DiaryCard, {
       props: { diary },
     });
-    
+
     const html = wrapper.html();
     // Should use plain content as fallback
     expect(html).toContain('Plain') || expect(wrapper.exists()).toBe(true);
@@ -210,11 +221,11 @@ describe('DiaryCard', () => {
       content: 'Short',
       analyzed_content: 'Short',
     };
-    
+
     const wrapper = mount(DiaryCard, {
       props: { diary: shortDiary },
     });
-    
+
     // Short content should not have "Read more"
     const hasReadMore = wrapper.text().includes('Read more');
     expect(typeof hasReadMore).toBe('boolean');
@@ -225,11 +236,11 @@ describe('DiaryCard', () => {
       ...mockDiary,
       analyzed_content: null,
     } as DiaryEntry;
-    
+
     const wrapper = mount(DiaryCard, {
       props: { diary },
     });
-    
+
     // Should render without error
     expect(wrapper.exists()).toBe(true);
   });
@@ -239,11 +250,11 @@ describe('DiaryCard', () => {
       ...mockDiary,
       analyzed_content: undefined,
     } as DiaryEntry;
-    
+
     const wrapper = mount(DiaryCard, {
       props: { diary },
     });
-    
+
     // Should render without error
     expect(wrapper.exists()).toBe(true);
   });

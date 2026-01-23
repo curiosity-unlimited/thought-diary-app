@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Backend [0.2.0]
+#### Fixed
+- Enhanced CORS configuration with explicit headers, methods, and OPTIONS support
+- Added allow_headers for Content-Type and Authorization
+- Added expose_headers for proper header visibility
+- Added explicit OPTIONS method support for preflight requests
+
 ### Frontend [0.1.0]
 #### Added
 - Project foundation setup with Vue 3 + TypeScript + Vite
@@ -339,9 +346,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Clarified test file naming convention: *.test.ts for unit tests, *.spec.ts for integration tests
   - Added examples for unit test and integration test file locations
   - Documented test directory structure mirroring source code structure
+- Fixed critical authentication and data loading issues:
+  - Updated main.ts to automatically fetch user profile on app initialization when tokens exist
+  - Fixed auth store login method to fetch user profile after successful login (backend doesn't return user object)
+  - Fixed DiaryStats interface to match backend API response (total_entries, positive_entries, negative_entries, neutral_entries)
+  - Updated StatsCard component to use correct property names from backend API
+  - Fixed duplicate defineProps() call in StatsCard component
+  - Fixed MainLayout to use <slot /> instead of <router-view /> for proper content rendering
+  - Added null safety checks in Dashboard and Diaries views for entries array
+  - Fixed type mismatch between frontend and backend stats property names
 
+#### Tests
+- Created comprehensive test suite for all fixes (9 new tests):
+  - `tests/unit/src/fixes/auth-profile-fetch.test.ts` - Tests user profile fetch after login and on initialization
+  - `tests/unit/src/fixes/diary-stats-types.test.ts` - Tests DiaryStats interface matches backend API
+  - `tests/unit/src/fixes/null-safety.test.ts` - Tests null/undefined handling in Dashboard and Diaries views
+- Updated existing tests to match new DiaryStats property names
+- All 171 tests passing with proper coverage of fixes
 
-## [0.2.0] - 2026-01-13
+#### Fixed (continued)
 
 ### Backend [0.1.0]
 #### Added

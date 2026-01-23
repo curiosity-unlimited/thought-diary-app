@@ -21,7 +21,7 @@ describe('Login.vue - Integration Tests', () => {
         { path: '/about', component: { template: '<div>About</div>' } },
       ],
     });
-    
+
     // Mock API calls
     vi.spyOn(api, 'login').mockResolvedValue({
       access_token: 'fake-access-token',
@@ -57,12 +57,16 @@ describe('Login.vue - Integration Tests', () => {
     await flushPromises();
 
     const text = wrapper.text().toLowerCase();
-    expect(text.includes('sign up') || text.includes('register') || text.includes('create account')).toBe(true);
+    expect(
+      text.includes('sign up') ||
+        text.includes('register') ||
+        text.includes('create account')
+    ).toBe(true);
   });
 
   it('should render with router and store integration', async () => {
     const store = useAuthStore();
-    
+
     const wrapper = mount(Login, {
       global: {
         plugins: [router],

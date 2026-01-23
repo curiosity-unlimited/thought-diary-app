@@ -9,9 +9,7 @@ vi.mock('@/services/api');
 
 const router = createRouter({
   history: createMemoryHistory(),
-  routes: [
-    { path: '/diaries', component: Diaries },
-  ],
+  routes: [{ path: '/diaries', component: Diaries }],
 });
 
 describe('Diaries View', () => {
@@ -34,7 +32,7 @@ describe('Diaries View', () => {
         },
       },
     });
-    
+
     expect(wrapper.exists()).toBe(true);
   });
 
@@ -55,9 +53,9 @@ describe('Diaries View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     expect(fetchDiariesSpy).toHaveBeenCalled();
   });
 
@@ -78,16 +76,17 @@ describe('Diaries View', () => {
         },
       },
     });
-    
+
     await flushPromises();
     await wrapper.vm.$nextTick();
     await flushPromises();
-    
+
     const buttons = wrapper.findAll('button');
-    const createButton = buttons.find(button => 
-      button.text().includes('Create') || button.text().includes('New')
+    const createButton = buttons.find(
+      (button) =>
+        button.text().includes('Create') || button.text().includes('New')
     );
-    
+
     expect(createButton).toBeDefined();
   });
 
@@ -128,12 +127,14 @@ describe('Diaries View', () => {
         },
       },
     });
-    
+
     await flushPromises();
     await wrapper.vm.$nextTick();
     await flushPromises();
-    
-    expect(wrapper.findAllComponents({ name: 'DiaryCard' }).length).toBeGreaterThan(0);
+
+    expect(
+      wrapper.findAllComponents({ name: 'DiaryCard' }).length
+    ).toBeGreaterThan(0);
   });
 
   it('should display pagination when entries exist', async () => {
@@ -170,11 +171,11 @@ describe('Diaries View', () => {
         },
       },
     });
-    
+
     await flushPromises();
     await wrapper.vm.$nextTick();
     await flushPromises();
-    
+
     expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true);
   });
 
@@ -196,18 +197,20 @@ describe('Diaries View', () => {
         },
       },
     });
-    
+
     await flushPromises();
     await wrapper.vm.$nextTick();
     await flushPromises();
-    
+
     expect(wrapper.findComponent({ name: 'EmptyState' }).exists()).toBe(true);
   });
 
   it('should show loading spinner during fetch', () => {
     const store = useDiariesStore();
     store.loading = true;
-    vi.spyOn(store, 'fetchDiaries').mockImplementation(() => new Promise(() => {}));
+    vi.spyOn(store, 'fetchDiaries').mockImplementation(
+      () => new Promise(() => {})
+    );
 
     const wrapper = mount(Diaries, {
       global: {
@@ -222,14 +225,18 @@ describe('Diaries View', () => {
         },
       },
     });
-    
-    expect(wrapper.findComponent({ name: 'LoadingSpinner' }).exists()).toBe(true);
+
+    expect(wrapper.findComponent({ name: 'LoadingSpinner' }).exists()).toBe(
+      true
+    );
   });
 
   it('should handle error when fetching diaries fails', async () => {
     const store = useDiariesStore();
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    vi.spyOn(store, 'fetchDiaries').mockRejectedValue(new Error('Failed to fetch'));
+    vi.spyOn(store, 'fetchDiaries').mockRejectedValue(
+      new Error('Failed to fetch')
+    );
 
     mount(Diaries, {
       global: {
@@ -244,11 +251,11 @@ describe('Diaries View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     expect(store.fetchDiaries).toHaveBeenCalled();
-    
+
     consoleSpy.mockRestore();
   });
 
@@ -270,9 +277,9 @@ describe('Diaries View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     // Verify create query param exists
     expect(router.currentRoute.value.query.create).toBe('true');
   });
@@ -295,9 +302,9 @@ describe('Diaries View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     // Verify page query param
     expect(router.currentRoute.value.query.page).toBe('2');
   });
@@ -319,12 +326,14 @@ describe('Diaries View', () => {
         },
       },
     });
-    
+
     await flushPromises();
-    
+
     // Look for create button
     const buttons = wrapper.findAll('button');
-    const createButton = buttons.find(b => b.text().includes('Create') || b.text().includes('New'));
+    const createButton = buttons.find(
+      (b) => b.text().includes('Create') || b.text().includes('New')
+    );
     expect(createButton || wrapper.exists()).toBeTruthy();
   });
 });

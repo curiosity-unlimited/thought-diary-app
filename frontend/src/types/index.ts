@@ -30,10 +30,10 @@ export interface DiaryEntry {
  * Statistics about user's diary entries
  */
 export interface DiaryStats {
-  total: number;
-  positive: number;
-  negative: number;
-  neutral: number;
+  total_entries: number;
+  positive_entries: number;
+  negative_entries: number;
+  neutral_entries: number;
 }
 
 /**

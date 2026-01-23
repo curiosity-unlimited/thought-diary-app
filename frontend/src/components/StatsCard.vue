@@ -19,7 +19,7 @@
           />
         </svg>
       </div>
-      <div class="text-3xl font-bold mb-1">{{ stats.total }}</div>
+      <div class="text-3xl font-bold mb-1">{{ total }}</div>
       <div class="text-sm font-medium opacity-90">Total Entries</div>
     </div>
 
@@ -41,7 +41,7 @@
           />
         </svg>
       </div>
-      <div class="text-3xl font-bold mb-1">{{ stats.positive }}</div>
+      <div class="text-3xl font-bold mb-1">{{ positive }}</div>
       <div class="text-sm font-medium opacity-90">Positive Entries</div>
     </div>
 
@@ -63,7 +63,7 @@
           />
         </svg>
       </div>
-      <div class="text-3xl font-bold mb-1">{{ stats.negative }}</div>
+      <div class="text-3xl font-bold mb-1">{{ negative }}</div>
       <div class="text-sm font-medium opacity-90">Negative Entries</div>
     </div>
 
@@ -85,7 +85,7 @@
           />
         </svg>
       </div>
-      <div class="text-3xl font-bold mb-1">{{ stats.neutral }}</div>
+      <div class="text-3xl font-bold mb-1">{{ neutral }}</div>
       <div class="text-sm font-medium opacity-90">Neutral Entries</div>
     </div>
   </div>
@@ -98,5 +98,11 @@ interface Props {
   stats: DiaryStats;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+// Provide safe access to stats with defaults
+const total = props.stats?.total_entries ?? 0;
+const positive = props.stats?.positive_entries ?? 0;
+const negative = props.stats?.negative_entries ?? 0;
+const neutral = props.stats?.neutral_entries ?? 0;
 </script>

@@ -52,7 +52,14 @@ def create_app(config_name: Optional[str] = None) -> Flask:
     
     # Configure CORS with origins from config
     cors_origins = app.config.get('CORS_ORIGINS', '').split(',')
-    cors.init_app(app, origins=cors_origins, supports_credentials=True)
+    cors.init_app(
+        app,
+        origins=cors_origins,
+        supports_credentials=True,
+        allow_headers=["Content-Type", "Authorization"],
+        expose_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+    )
     
     # Configure rate limiter with storage from config
     limiter.init_app(app)

@@ -13,9 +13,7 @@ import Navbar from '@/components/Navbar.vue';
 
     <!-- Main Content Area -->
     <main class="flex-1">
-      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <router-view />
-      </div>
+      <slot />
     </main>
 
     <!-- Optional Footer -->

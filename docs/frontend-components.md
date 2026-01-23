@@ -137,7 +137,8 @@ const props = withDefaults(defineProps<Props>(), {
 - Navbar with navigation links
 - Responsive container
 - Optional footer with copyright
-- Slot for page content
+- Uses `<slot />` to render child content passed from views
+- Content from views is directly rendered without nested router-view
 
 **Structure:**
 ```vue

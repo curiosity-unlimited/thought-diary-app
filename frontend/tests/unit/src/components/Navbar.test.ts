@@ -44,7 +44,7 @@ describe('Navbar', () => {
         },
       },
     });
-    
+
     expect(wrapper.find('nav').exists()).toBe(true);
   });
 
@@ -60,7 +60,7 @@ describe('Navbar', () => {
         },
       },
     });
-    
+
     expect(wrapper.text()).toContain('Thought Diary');
   });
 
@@ -86,7 +86,7 @@ describe('Navbar', () => {
         },
       },
     });
-    
+
     expect(wrapper.text()).toContain('Dashboard');
     expect(wrapper.text()).toContain('Diaries');
   });
@@ -113,7 +113,7 @@ describe('Navbar', () => {
         },
       },
     });
-    
+
     expect(wrapper.text()).toContain('test@example.com');
   });
 
@@ -141,11 +141,14 @@ describe('Navbar', () => {
         },
       },
     });
-    
-    const logoutButton = wrapper.findAll('button').find(button => 
-      button.text().includes('Logout') || button.text().includes('Log out')
-    );
-    
+
+    const logoutButton = wrapper
+      .findAll('button')
+      .find(
+        (button) =>
+          button.text().includes('Logout') || button.text().includes('Log out')
+      );
+
     if (logoutButton) {
       await logoutButton.trigger('click');
       expect(logoutSpy).toHaveBeenCalled();
@@ -164,12 +167,15 @@ describe('Navbar', () => {
         },
       },
     });
-    
-    const hamburgerButton = wrapper.find('button[aria-label="Toggle menu"], button[aria-expanded]');
+
+    const hamburgerButton = wrapper.find(
+      'button[aria-label="Toggle menu"], button[aria-expanded]'
+    );
     if (hamburgerButton.exists()) {
       await hamburgerButton.trigger('click');
       // Mobile menu should be visible
-      expect(wrapper.html()).toContain('Dashboard') || expect(wrapper.html()).toContain('menu');
+      expect(wrapper.html()).toContain('Dashboard') ||
+        expect(wrapper.html()).toContain('menu');
     }
   });
 
@@ -196,9 +202,9 @@ describe('Navbar', () => {
         },
       },
     });
-    
+
     await wrapper.vm.$nextTick();
-    
+
     // Component should handle active route highlighting
     expect(wrapper.html()).toContain('Dashboard');
   });
@@ -225,8 +231,9 @@ describe('Navbar', () => {
         },
       },
     });
-    
-    expect(wrapper.text()).toContain('Profile') || expect(wrapper.text()).toContain('About');
+
+    expect(wrapper.text()).toContain('Profile') ||
+      expect(wrapper.text()).toContain('About');
   });
 
   it('should handle logout error gracefully', async () => {
@@ -240,7 +247,9 @@ describe('Navbar', () => {
     store.accessToken = 'test-token';
     store.refreshToken = 'test-refresh-token';
 
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
     vi.spyOn(store, 'logout').mockRejectedValue(new Error('Logout failed'));
 
     const wrapper = mount(Navbar, {
@@ -254,11 +263,14 @@ describe('Navbar', () => {
         },
       },
     });
-    
-    const logoutButton = wrapper.findAll('button').find(button => 
-      button.text().includes('Logout') || button.text().includes('Log out')
-    );
-    
+
+    const logoutButton = wrapper
+      .findAll('button')
+      .find(
+        (button) =>
+          button.text().includes('Logout') || button.text().includes('Log out')
+      );
+
     if (logoutButton) {
       await logoutButton.trigger('click');
       expect(consoleErrorSpy).toHaveBeenCalled();
@@ -282,7 +294,7 @@ describe('Navbar', () => {
         },
       },
     });
-    
+
     // Should use default "User" when no email
     expect(wrapper.vm).toBeTruthy();
   });
@@ -310,9 +322,9 @@ describe('Navbar', () => {
         },
       },
     });
-    
+
     await wrapper.vm.$nextTick();
-    
+
     // Should recognize /diaries/123 as child of /diaries
     expect(wrapper.html()).toContain('Diaries');
   });

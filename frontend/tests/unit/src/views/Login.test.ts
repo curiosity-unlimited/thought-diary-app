@@ -32,7 +32,7 @@ describe('Login View', () => {
         },
       },
     });
-    
+
     expect(wrapper.find('form').exists()).toBe(true);
     expect(wrapper.find('input[type="email"]').exists()).toBe(true);
     expect(wrapper.find('input[type="password"]').exists()).toBe(true);
@@ -49,7 +49,7 @@ describe('Login View', () => {
         },
       },
     });
-    
+
     const inputs = wrapper.findAll('input');
     expect(inputs.length).toBeGreaterThanOrEqual(2);
   });
@@ -65,10 +65,15 @@ describe('Login View', () => {
         },
       },
     });
-    
-    const submitButton = wrapper.findAll('button').find(button => 
-      button.attributes('type') === 'submit' || button.text().includes('Login') || button.text().includes('Sign in')
-    );
+
+    const submitButton = wrapper
+      .findAll('button')
+      .find(
+        (button) =>
+          button.attributes('type') === 'submit' ||
+          button.text().includes('Login') ||
+          button.text().includes('Sign in')
+      );
     expect(submitButton).toBeDefined();
   });
 
@@ -83,16 +88,20 @@ describe('Login View', () => {
         },
       },
     });
-    
+
     const emailInput = wrapper.find('input[type="email"]');
     await emailInput.setValue('invalid-email');
     await emailInput.trigger('blur');
     await flushPromises();
-    
+
     // Check if error message container exists or validation styling is applied
     const hasErrorClass = emailInput.classes().includes('border-red-500');
-    const hasErrorText = wrapper.text().toLowerCase().includes('email') || wrapper.text().toLowerCase().includes('valid');
-    expect(hasErrorClass || hasErrorText || wrapper.html().includes('error')).toBe(true);
+    const hasErrorText =
+      wrapper.text().toLowerCase().includes('email') ||
+      wrapper.text().toLowerCase().includes('valid');
+    expect(
+      hasErrorClass || hasErrorText || wrapper.html().includes('error')
+    ).toBe(true);
   });
 
   it('should show validation error for short password', async () => {
@@ -106,16 +115,20 @@ describe('Login View', () => {
         },
       },
     });
-    
+
     const passwordInput = wrapper.find('input[type="password"]');
     await passwordInput.setValue('123');
     await passwordInput.trigger('blur');
     await flushPromises();
-    
+
     // Check for error indication (class or text)
     const hasErrorClass = passwordInput.classes().includes('border-red-500');
-    const hasErrorText = wrapper.text().toLowerCase().includes('password') || wrapper.text().toLowerCase().includes('characters');
-    expect(hasErrorClass || hasErrorText || wrapper.html().includes('error')).toBe(true);
+    const hasErrorText =
+      wrapper.text().toLowerCase().includes('password') ||
+      wrapper.text().toLowerCase().includes('characters');
+    expect(
+      hasErrorClass || hasErrorText || wrapper.html().includes('error')
+    ).toBe(true);
   });
 
   it('should have link to register page', () => {
@@ -130,7 +143,7 @@ describe('Login View', () => {
         },
       },
     });
-    
+
     expect(wrapper.text().toLowerCase()).toContain('sign up');
   });
 
@@ -146,10 +159,10 @@ describe('Login View', () => {
         },
       },
     });
-    
+
     const emailInput = wrapper.find('input[type="email"]');
     const passwordInput = wrapper.find('input[type="password"]');
-    
+
     expect(emailInput.exists()).toBe(true);
     expect(passwordInput.exists()).toBe(true);
   });

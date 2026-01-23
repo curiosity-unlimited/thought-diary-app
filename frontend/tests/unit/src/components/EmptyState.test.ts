@@ -10,7 +10,7 @@ describe('EmptyState', () => {
         message: 'There is no data to display.',
       },
     });
-    
+
     expect(wrapper.text()).toContain('No Data Found');
     expect(wrapper.text()).toContain('There is no data to display.');
   });
@@ -22,7 +22,7 @@ describe('EmptyState', () => {
         message: 'Empty',
       },
     });
-    
+
     expect(wrapper.find('svg').exists()).toBe(true);
   });
 
@@ -33,7 +33,7 @@ describe('EmptyState', () => {
         message: 'Empty',
       },
     });
-    
+
     expect(wrapper.find('router-link').exists()).toBe(false);
     expect(wrapper.find('button').exists()).toBe(false);
   });
@@ -55,7 +55,7 @@ describe('EmptyState', () => {
         },
       },
     });
-    
+
     expect(wrapper.text()).toContain('Create New');
   });
 
@@ -66,7 +66,7 @@ describe('EmptyState', () => {
         message: 'Empty',
       },
     });
-    
+
     const container = wrapper.find('.flex');
     expect(container.classes()).toContain('items-center');
     expect(container.classes()).toContain('justify-center');

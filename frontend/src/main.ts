@@ -5,6 +5,7 @@ import 'vue-toastification/dist/index.css';
 import './style.css';
 import App from './App.vue';
 import router from './router';
+import { useAuthStore } from './stores/auth';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -29,5 +30,18 @@ const toastOptions: PluginOptions = {
 app.use(pinia);
 app.use(router);
 app.use(Toast, toastOptions);
+
+// Initialize auth store and fetch user profile if tokens exist
+const authStore = useAuthStore();
+if (authStore.isAuthenticated) {
+  // Try to fetch user profile - if it fails, tokens are invalid
+  authStore.fetchProfile().catch(() => {
+    // Tokens are invalid, clear them silently
+    // The router guard will redirect to login on next navigation
+    authStore.logout().catch(() => {
+      // Ignore logout errors
+    });
+  });
+}
 
 app.mount('#app');

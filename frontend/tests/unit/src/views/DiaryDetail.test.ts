@@ -89,7 +89,7 @@ describe('DiaryDetail View', () => {
     await flushPromises();
 
     expect(store.fetchDiary).toHaveBeenCalled();
-    
+
     consoleSpy.mockRestore();
   });
 });

@@ -16,13 +16,16 @@ describe('Diaries.vue - Integration Tests', () => {
       routes: [
         { path: '/', component: { template: '<div>Home</div>' } },
         { path: '/diaries', component: Diaries },
-        { path: '/diaries/:id', component: { template: '<div>Diary Detail</div>' } },
+        {
+          path: '/diaries/:id',
+          component: { template: '<div>Diary Detail</div>' },
+        },
         { path: '/dashboard', component: { template: '<div>Dashboard</div>' } },
         { path: '/profile', component: { template: '<div>Profile</div>' } },
         { path: '/about', component: { template: '<div>About</div>' } },
       ],
     });
-    
+
     vi.spyOn(api, 'getDiaries').mockResolvedValue({
       diaries: [
         {
@@ -86,7 +89,7 @@ describe('Diaries.vue - Integration Tests', () => {
 
   it('should integrate with router and store', async () => {
     const store = useDiariesStore();
-    
+
     const wrapper = mount(Diaries, {
       global: {
         plugins: [router],
@@ -102,7 +105,7 @@ describe('Diaries.vue - Integration Tests', () => {
 
   it('should handle page changes via query params', async () => {
     await router.push('/diaries?page=2');
-    
+
     const wrapper = mount(Diaries, {
       global: {
         plugins: [router],
@@ -117,7 +120,7 @@ describe('Diaries.vue - Integration Tests', () => {
 
   it('should handle create query param to show form', async () => {
     await router.push('/diaries?create=true');
-    
+
     const wrapper = mount(Diaries, {
       global: {
         plugins: [router],
@@ -155,7 +158,7 @@ describe('Diaries.vue - Integration Tests', () => {
     const textarea = wrapper.find('textarea');
     if (textarea.exists()) {
       await textarea.setValue('New diary entry content');
-      
+
       // Find submit button in the form
       const submitButton = wrapper.find('button[type="submit"]');
       if (submitButton.exists()) {
@@ -166,7 +169,9 @@ describe('Diaries.vue - Integration Tests', () => {
   });
 
   it('should handle diary creation error', async () => {
-    vi.spyOn(api, 'createDiary').mockRejectedValue(new Error('Failed to create'));
+    vi.spyOn(api, 'createDiary').mockRejectedValue(
+      new Error('Failed to create')
+    );
 
     await router.push('/diaries?create=true');
     const wrapper = mount(Diaries, {
@@ -182,7 +187,7 @@ describe('Diaries.vue - Integration Tests', () => {
     const textarea = wrapper.find('textarea');
     if (textarea.exists()) {
       await textarea.setValue('New diary entry');
-      
+
       const submitButton = wrapper.find('button[type="submit"]');
       if (submitButton.exists()) {
         await submitButton.trigger('click');
@@ -210,7 +215,9 @@ describe('Diaries.vue - Integration Tests', () => {
   });
 
   it('should handle diary deletion error', async () => {
-    vi.spyOn(api, 'deleteDiary').mockRejectedValue(new Error('Failed to delete'));
+    vi.spyOn(api, 'deleteDiary').mockRejectedValue(
+      new Error('Failed to delete')
+    );
 
     await router.push('/diaries');
     const wrapper = mount(Diaries, {
@@ -223,7 +230,7 @@ describe('Diaries.vue - Integration Tests', () => {
     await flushPromises();
 
     const store = useDiariesStore();
-    
+
     // Try to delete a diary
     if (store.entries.length > 0) {
       try {

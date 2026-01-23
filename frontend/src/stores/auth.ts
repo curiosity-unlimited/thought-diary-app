@@ -92,8 +92,8 @@ export const useAuthStore = defineStore('auth', () => {
     // Store tokens
     setTokens(response.access_token, response.refresh_token);
 
-    // Set user data
-    user.value = response.user;
+    // Fetch user profile after successful login
+    await fetchProfile();
   };
 
   /**

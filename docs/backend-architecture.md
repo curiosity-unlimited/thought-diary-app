@@ -249,6 +249,22 @@ data = schema.load(request.json)  # Validates and deserializes
 - `create_app(config_name)`: Application factory
 - `configure_jwt_callbacks(app)`: Setup JWT handlers
 
+**CORS Configuration**:
+```python
+# Enhanced CORS setup for preflight requests
+cors.init_app(
+    app,
+    origins=cors_origins,
+    supports_credentials=True,
+    allow_headers=["Content-Type", "Authorization"],
+    expose_headers=["Content-Type", "Authorization"],
+    methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+)
+```
+- Explicitly allows Content-Type and Authorization headers
+- Supports OPTIONS method for preflight requests
+- Configured origins from CORS_ORIGINS environment variable
+
 ### Configuration System
 
 **File**: [config.py](../backend/config.py)

@@ -17,17 +17,20 @@ describe('Dashboard.vue - Integration Tests', () => {
         { path: '/', component: { template: '<div>Home</div>' } },
         { path: '/dashboard', component: Dashboard },
         { path: '/diaries', component: { template: '<div>Diaries</div>' } },
-        { path: '/diaries/:id', component: { template: '<div>Diary Detail</div>' } },
+        {
+          path: '/diaries/:id',
+          component: { template: '<div>Diary Detail</div>' },
+        },
       ],
     });
-    
+
     vi.spyOn(api, 'getDiaryStats').mockResolvedValue({
       total: 10,
       positive: 6,
       negative: 2,
       neutral: 2,
     });
-    
+
     vi.spyOn(api, 'getDiaries').mockResolvedValue({
       diaries: [
         {
@@ -105,15 +108,15 @@ describe('Dashboard.vue - Integration Tests', () => {
 
     // Find create button
     const buttons = wrapper.findAll('button, a');
-    const createButton = buttons.find(b => 
-      b.text().includes('Create') || b.text().includes('New')
+    const createButton = buttons.find(
+      (b) => b.text().includes('Create') || b.text().includes('New')
     );
 
     if (createButton) {
       await createButton.trigger('click');
       await flushPromises();
       await router.isReady();
-      
+
       // Should navigate to diaries with create param
       const path = router.currentRoute.value.path;
       const hasCreate = router.currentRoute.value.query.create === 'true';
@@ -122,7 +125,9 @@ describe('Dashboard.vue - Integration Tests', () => {
   });
 
   it('should handle error when loading dashboard data fails', async () => {
-    vi.spyOn(api, 'getDiaryStats').mockRejectedValue(new Error('Failed to load'));
+    vi.spyOn(api, 'getDiaryStats').mockRejectedValue(
+      new Error('Failed to load')
+    );
 
     await router.push('/dashboard');
     const wrapper = mount(Dashboard, {
