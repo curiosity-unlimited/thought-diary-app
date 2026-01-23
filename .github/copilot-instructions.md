@@ -186,16 +186,18 @@
 - Implement responsive design with Tailwind CSS.
 - Use Toast notifications for user feedback on actions.
 
-### VITEST (UNIT TESTING)
-- Use Vitest for unit testing framework.
+### VITEST (UNIT TESTING AND INTEGRATION TESTING)
+- Use Vitest for unit testing and integration testing framework.
 - Include comprehensive component tests for new Vue components.
 - Test Pinia stores and composables thoroughly.
 - Include accessibility testing in component tests.
 - Test responsive design across different screen sizes.
 - Mock API calls for isolated frontend testing.
-- Test files should be named `*.test.ts` and placed in the `./frontend/tests/unit/` directory.
-- Mirror the source code directory structure within the `./frontend/tests/unit/` directory.
-  - For example, the test file for `./frontend/src/components/Navbar.vue` must be `./frontend/tests/unit/src/components/Navbar.test.ts`.
+- Unit test files should be named `*.test.ts` and placed in the `./frontend/tests/unit/` directory.
+- Integration test files should be named `*.spec.ts` and placed in the `./frontend/tests/integration/` directory.
+- Mirror the source code directory structure within the `./frontend/tests/` directory, for example:
+  - The unit test file for `./frontend/src/components/Navbar.vue` must be `./frontend/tests/unit/src/components/Navbar.test.ts`.
+  - The integration test file for `./frontend/src/views/Dashboard.vue` must be `./frontend/tests/integration/src/views/Dashboard.spec.ts`.
 - Ensure 80%+ test coverage requirement.
 
 ## Guidelines for FULL STACK DEVELOPMENT
