@@ -141,7 +141,7 @@ A modern, comprehensive full-stack web application with a robust Flask API backe
 
 ## Documentation
 
-Comprehensive backend documentation is available in the `docs/` directory:
+Comprehensive documentation is available in the `docs/` directory:
 
 ### Backend Documentation
 
@@ -179,6 +179,67 @@ Comprehensive backend documentation is available in the `docs/` directory:
   - Cloud platform deployment (Heroku, AWS, GCP, Azure)
   - Database and Redis configuration
   - Monitoring, logging, and troubleshooting
+
+### Frontend Documentation
+
+- **[Development Guide](docs/frontend-development.md)** - Setup and workflow
+  - Prerequisites and initial setup
+  - Project structure overview
+  - Development workflow and common tasks
+  - Running tests with Vitest (95%+ coverage)
+  - Debugging tools and best practices
+  - Code quality with ESLint and Prettier
+
+- **[Architecture Documentation](docs/frontend-architecture.md)** - System design
+  - Technology stack and dependencies
+  - Application factory pattern
+  - State management with Pinia
+  - Routing architecture with Vue Router
+  - Component hierarchy and patterns
+  - Styling system with Tailwind CSS
+  - Authentication flow
+  - Error handling strategies
+
+- **[API Integration](docs/frontend-api.md)** - Backend communication
+  - API service configuration with Axios
+  - Authentication integration (JWT)
+  - Request/response interceptors
+  - Token refresh mechanism
+  - All API endpoints (auth, diaries)
+  - Error handling patterns
+  - Type safety with TypeScript
+  - Testing API integration
+
+- **[Components Documentation](docs/frontend-components.md)** - Component library
+  - Component guidelines and patterns
+  - Layout components (MainLayout, AuthLayout)
+  - UI components (LoadingSpinner, EmptyState, StatsCard)
+  - Form components (DiaryForm)
+  - Feedback components (DiaryCard, Pagination)
+  - Navigation components (Navbar)
+  - Modal components (DeleteConfirmationModal)
+  - Creating new components
+  - Accessibility guidelines
+
+- **[Testing Guide](docs/frontend-testing.md)** - Testing strategies
+  - Testing infrastructure (Vitest, Vue Test Utils)
+  - Unit testing patterns
+  - Integration testing patterns
+  - Component testing
+  - Store testing
+  - API testing with mocks
+  - Test coverage (95%+ achieved)
+  - Best practices and troubleshooting
+
+- **[Deployment Guide](docs/frontend-deployment.md)** - Production deployment
+  - Build process and optimization
+  - Environment configuration
+  - Static hosting (Netlify, Vercel, GitHub Pages)
+  - CDN deployment (Cloudflare, AWS CloudFront)
+  - Docker deployment with Nginx
+  - Performance optimization
+  - Monitoring and analytics
+  - CI/CD pipeline
 
 ## Getting Started
 1. Fork the Repository on GitHub
