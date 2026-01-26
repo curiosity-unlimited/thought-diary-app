@@ -87,11 +87,14 @@ export interface PaginationInfo {
 }
 
 /**
- * List diaries API response
+ * List diaries API response (backend structure)
  */
 export interface DiaryListResponse {
-  diaries: DiaryEntry[];
-  pagination: PaginationInfo;
+  items: DiaryEntry[];
+  page: number;
+  per_page: number;
+  total: number;
+  pages: number;
 }
 
 /**

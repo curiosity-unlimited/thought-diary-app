@@ -21,6 +21,7 @@ import type {
   DiaryUpdateRequest,
   DiaryListResponse,
   DiaryStats,
+  PaginationInfo,
   ApiError,
 } from '@/types';
 import { useToast } from '@/composables/useToast';
@@ -341,11 +342,20 @@ export const getCurrentUser = async (): Promise<User> => {
 export const getDiaries = async (
   page: number = 1,
   perPage: number = 10
-): Promise<DiaryListResponse> => {
+): Promise<{ diaries: DiaryEntry[]; pagination: PaginationInfo }> => {
   const response = await apiClient.get<DiaryListResponse>('/diaries', {
     params: { page, per_page: perPage },
   });
-  return response.data;
+  // Transform backend response to frontend format
+  return {
+    diaries: response.data.items,
+    pagination: {
+      page: response.data.page,
+      per_page: response.data.per_page,
+      total: response.data.total,
+      pages: response.data.pages,
+    },
+  };
 };
 
 /**

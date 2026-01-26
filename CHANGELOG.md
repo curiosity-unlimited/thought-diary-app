@@ -355,6 +355,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed MainLayout to use <slot /> instead of <router-view /> for proper content rendering
   - Added null safety checks in Dashboard and Diaries views for entries array
   - Fixed type mismatch between frontend and backend stats property names
+- Fixed diary list not displaying after creation (backend-frontend response structure mismatch):
+  - Updated DiaryListResponse interface to match backend structure (items, page, per_page, total, pages)
+  - Modified getDiaries API service to transform backend response to frontend format (diaries, pagination)
+  - Added PaginationInfo type import to API service
+  - Ensured new diaries appear in list immediately after creation
 
 #### Tests
 - Created comprehensive test suite for all fixes (9 new tests):
@@ -362,7 +367,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `tests/unit/src/fixes/diary-stats-types.test.ts` - Tests DiaryStats interface matches backend API
   - `tests/unit/src/fixes/null-safety.test.ts` - Tests null/undefined handling in Dashboard and Diaries views
 - Updated existing tests to match new DiaryStats property names
-- All 171 tests passing with proper coverage of fixes
+- Updated `tests/integration/src/services/api.spec.ts` to test backend response transformation:
+  - Updated getDiaries test to expect backend response structure (items, page, per_page, total, pages)
+  - Added test for transforming backend response with multiple diaries to frontend format
+  - Verified transformation creates separate diaries and pagination objects
+- All 225 tests passing with 83.81% code coverage (exceeds 80%+ requirement)
+
+#### Documentation
+- Updated [docs/backend-api.md](docs/backend-api.md) to reflect actual backend response structure:
+  - Corrected List Diaries endpoint response to show `items` array instead of `diaries`
+  - Pagination fields now documented at root level: `page`, `per_page`, `total`, `pages`
+- Updated [docs/frontend-api.md](docs/frontend-api.md) to document response transformation:
+  - Added note explaining backend returns `{items, page, per_page, total, pages}`
+  - Documented transformation logic in `getDiaries()` to frontend format `{diaries, pagination}`
+  - Updated `DiaryListResponse` interface to match actual backend structure
+  - Added comment showing the transformed output structure
 
 #### Fixed (continued)
 

@@ -325,19 +325,31 @@ console.log(user.email);
 ```typescript
 /**
  * Get paginated list of user's diaries
+ * 
+ * Note: Backend returns {items, page, per_page, total, pages}
+ * but we transform it to {diaries, pagination} for cleaner API
  */
 export const getDiaries = async (
   page: number = 1,
   perPage: number = 10
-): Promise<DiaryListResponse> => {
+): Promise<{ diaries: DiaryEntry[]; pagination: PaginationInfo }> => {
   const response = await api.get<DiaryListResponse>('/diaries', {
     params: { page, per_page: perPage },
   });
-  return response.data;
+  // Transform backend response to frontend format
+  return {
+    diaries: response.data.items,
+    pagination: {
+      page: response.data.page,
+      per_page: response.data.per_page,
+      total: response.data.total,
+      pages: response.data.pages,
+    },
+  };
 };
 
 // Usage
-const { data, pagination } = await getDiaries(1, 10);
+const { diaries, pagination } = await getDiaries(1, 10);
 console.log(`Total: ${pagination.total} diaries`);
 ```
 
@@ -724,10 +736,17 @@ export interface PaginationInfo {
   pages: number;
 }
 
+// Backend response structure
 export interface DiaryListResponse {
-  data: DiaryEntry[];
-  pagination: PaginationInfo;
+  items: DiaryEntry[];
+  page: number;
+  per_page: number;
+  total: number;
+  pages: number;
 }
+
+// Note: getDiaries() transforms this to:
+// { diaries: DiaryEntry[]; pagination: PaginationInfo }
 
 export interface DiaryStats {
   total_entries: number;

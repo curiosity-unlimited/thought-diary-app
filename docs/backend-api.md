@@ -299,7 +299,7 @@ Retrieve paginated list of user's diary entries.
 **Response**: `200 OK`
 ```json
 {
-  "diaries": [
+  "items": [
     {
       "id": 1,
       "content": "Original diary text...",
@@ -310,12 +310,10 @@ Retrieve paginated list of user's diary entries.
       "updated_at": "2026-01-14T12:00:00.000Z"
     }
   ],
-  "pagination": {
-    "page": 2,
-    "per_page": 20,
-    "total": 45,
-    "pages": 3
-  }
+  "page": 2,
+  "per_page": 20,
+  "total": 45,
+  "pages": 3
 }
 ```
 

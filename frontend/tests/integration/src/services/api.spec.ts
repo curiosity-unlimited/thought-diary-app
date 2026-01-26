@@ -98,8 +98,9 @@ describe('API Service', () => {
 
   describe('Diary Endpoints', () => {
     it('should get diaries with pagination', async () => {
-      const mockResponse = {
-        diaries: [
+      // Backend returns items, page, per_page, total, pages
+      const mockBackendResponse = {
+        items: [
           {
             id: 1,
             content: 'Test',
@@ -110,18 +111,25 @@ describe('API Service', () => {
             updated_at: '2026-01-01T00:00:00Z',
           },
         ],
+        page: 1,
+        per_page: 10,
+        total: 1,
+        pages: 1,
+      };
+      mock.onGet('/diaries').reply(200, mockBackendResponse);
+
+      const result = await getDiaries();
+
+      // Frontend transforms to diaries and pagination
+      expect(result).toEqual({
+        diaries: mockBackendResponse.items,
         pagination: {
           page: 1,
           per_page: 10,
           total: 1,
           pages: 1,
         },
-      };
-      mock.onGet('/diaries').reply(200, mockResponse);
-
-      const result = await getDiaries();
-
-      expect(result).toEqual(mockResponse);
+      });
     });
 
     it('should get single diary', async () => {
@@ -139,6 +147,50 @@ describe('API Service', () => {
       const result = await getDiary(1);
 
       expect(result).toEqual(mockDiary);
+    });
+
+    it('should transform backend response with multiple diaries', async () => {
+      // Backend returns items array with pagination fields at root level
+      const mockBackendResponse = {
+        items: [
+          {
+            id: 1,
+            content: 'First diary',
+            analyzed_content: 'First diary',
+            positive_count: 1,
+            negative_count: 0,
+            created_at: '2026-01-01T00:00:00Z',
+            updated_at: '2026-01-01T00:00:00Z',
+          },
+          {
+            id: 2,
+            content: 'Second diary',
+            analyzed_content: 'Second diary',
+            positive_count: 0,
+            negative_count: 1,
+            created_at: '2026-01-02T00:00:00Z',
+            updated_at: '2026-01-02T00:00:00Z',
+          },
+        ],
+        page: 2,
+        per_page: 10,
+        total: 25,
+        pages: 3,
+      };
+      mock.onGet('/diaries').reply(200, mockBackendResponse);
+
+      const result = await getDiaries(2, 10);
+
+      // Frontend should transform to separate diaries and pagination objects
+      expect(result.diaries).toHaveLength(2);
+      expect(result.diaries[0].id).toBe(1);
+      expect(result.diaries[1].id).toBe(2);
+      expect(result.pagination).toEqual({
+        page: 2,
+        per_page: 10,
+        total: 25,
+        pages: 3,
+      });
     });
 
     it('should create diary', async () => {
