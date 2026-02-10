@@ -38,14 +38,17 @@
         "vue.volar",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "openai.chatgpt"
       ],
       "settings": {
         "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
         "[javascript]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode",
           "editor.formatOnSave": true
-        }
+        },
+        "chat.customAgentInSubagent.enabled": true,
+        "github.copilot.chat.cli.customAgents.enabled": true
       }
     }
   }
