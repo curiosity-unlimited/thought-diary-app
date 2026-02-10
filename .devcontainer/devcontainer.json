@@ -6,9 +6,7 @@
   },
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "25"
-    }
+    "ghcr.io/devcontainers/features/node:1": {}
   },
   "forwardPorts": [5000, 5173],
   "portsAttributes": {
