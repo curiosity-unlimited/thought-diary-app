@@ -44,9 +44,7 @@
         "[javascript]": {
           "editor.defaultFormatter": "esbenp.prettier-vscode",
           "editor.formatOnSave": true
-        },
-        "chat.customAgentInSubagent.enabled": true,
-        "github.copilot.chat.cli.customAgents.enabled": true
+        }
       }
     }
   }
