@@ -6,9 +6,7 @@
   },
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "25"
-    }
+    "ghcr.io/devcontainers/features/node:1": {}
   },
   "forwardPorts": [5000, 5173],
   "portsAttributes": {
@@ -38,7 +36,8 @@
         "vue.volar",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "openai.chatgpt"
       ],
       "settings": {
         "python.defaultInterpreterPath": "${containerWorkspaceFolder}/.venv/bin/python",
