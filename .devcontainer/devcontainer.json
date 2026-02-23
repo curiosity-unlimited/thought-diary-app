@@ -45,6 +45,14 @@
           "editor.defaultFormatter": "esbenp.prettier-vscode",
           "editor.formatOnSave": true
         }
+      },
+      "mcp": {
+        "servers": {
+          "github": {
+            "type": "http",
+            "url": "https://api.githubcopilot.com/mcp/"
+          }
+        }
       }
     }
   }
