@@ -861,6 +861,7 @@ const handleDelete = async (diary: DiaryEntry) => {
 - [ ] Proper event naming (kebab-case)
 - [ ] Accessible ARIA labels
 - [ ] Responsive design (mobile-first)
+- [ ] Dark mode `dark:` variants for all color utilities
 - [ ] Loading states (if async)
 - [ ] Error handling
 - [ ] Unit tests with good coverage
@@ -933,13 +934,49 @@ onMounted(() => {
     <!-- Flex layout -->
     <div class="flex items-center justify-between">
       
-      <!-- Button states -->
+      <!-- Button states with dark mode support -->
       <button class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50">
         Button
       </button>
     </div>
   </div>
 </template>
+```
+
+### Dark Mode Pattern
+
+All components use Tailwind's `dark:` variant prefix to support dark mode. The `dark` class is applied to `document.documentElement` when dark mode is active.
+
+```vue
+<template>
+  <!-- Light: white bg, dark text; Dark: dark bg, light text -->
+  <div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+    
+    <!-- Light: gray border; Dark: darker border -->
+    <div class="border border-gray-200 dark:border-gray-700">
+      
+      <!-- Light: gray label; Dark: lighter gray label -->
+      <label class="text-gray-700 dark:text-gray-300">Label</label>
+      
+      <!-- Light: white input; Dark: dark input -->
+      <input class="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100" />
+    </div>
+  </div>
+</template>
+```
+
+To toggle the theme, use the UI store:
+
+```typescript
+import { useUIStore } from '@/stores/ui';
+
+const uiStore = useUIStore();
+
+// Check if dark mode is active
+const isDark = uiStore.isDark;
+
+// Toggle the theme
+uiStore.toggleTheme();
 ```
 
 ### Scoped Styles

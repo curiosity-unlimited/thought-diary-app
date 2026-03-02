@@ -29,15 +29,15 @@
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 p-6 text-left align-middle shadow-xl transition-all"
             >
               <!-- Icon -->
               <div
-                class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 mb-4"
+                class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 mb-4"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6 text-red-600"
+                  class="h-6 w-6 text-red-600 dark:text-red-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -54,13 +54,13 @@
               <!-- Title -->
               <DialogTitle
                 as="h3"
-                class="text-lg font-semibold leading-6 text-gray-900 text-center mb-2"
+                class="text-lg font-semibold leading-6 text-gray-900 dark:text-gray-100 text-center mb-2"
               >
                 Delete Diary Entry?
               </DialogTitle>
 
               <!-- Description -->
-              <DialogDescription class="text-sm text-gray-500 text-center mb-4">
+              <DialogDescription class="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">
                 This action cannot be undone. This will permanently delete your
                 diary entry.
               </DialogDescription>
@@ -68,9 +68,9 @@
               <!-- Diary Preview -->
               <div
                 v-if="diaryPreview"
-                class="bg-gray-50 rounded-lg p-4 mb-6 border border-gray-200"
+                class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6 border border-gray-200 dark:border-gray-600"
               >
-                <p class="text-sm text-gray-700 italic line-clamp-3">
+                <p class="text-sm text-gray-700 dark:text-gray-300 italic line-clamp-3">
                   "{{ diaryPreview }}"
                 </p>
               </div>
@@ -79,14 +79,14 @@
               <div class="flex gap-3 justify-end">
                 <button
                   type="button"
-                  class="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300"
+                  class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
                   @click="$emit('cancel')"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
-                  class="px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                  class="px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                   @click="$emit('confirm', diaryId)"
                 >
                   Delete

@@ -6,6 +6,7 @@ import './style.css';
 import App from './App.vue';
 import router from './router';
 import { useAuthStore } from './stores/auth';
+import { useUIStore } from './stores/ui';
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -30,6 +31,10 @@ const toastOptions: PluginOptions = {
 app.use(pinia);
 app.use(router);
 app.use(Toast, toastOptions);
+
+// Initialize theme before mounting to avoid flash of wrong theme
+const uiStore = useUIStore();
+uiStore.initTheme();
 
 // Initialize auth store and fetch user profile if tokens exist
 const authStore = useAuthStore();

@@ -7,7 +7,7 @@
     <!-- Previous Button -->
     <button
       :disabled="pagination.page === 1"
-      class="px-3 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:hover:bg-white"
+      class="px-3 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:hover:bg-white dark:disabled:hover:bg-gray-800"
       aria-label="Previous page"
       @click="changePage(pagination.page - 1)"
     >
@@ -36,8 +36,8 @@
           page === pagination.page
             ? 'bg-indigo-600 text-white'
             : typeof page === 'number'
-              ? 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
-              : 'bg-white text-gray-400 cursor-default',
+              ? 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
+              : 'bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-default',
         ]"
         :aria-label="typeof page === 'number' ? `Page ${page}` : 'More pages'"
         :aria-current="page === pagination.page ? 'page' : undefined"
@@ -48,14 +48,14 @@
     </div>
 
     <!-- Mobile: Current Page Indicator -->
-    <div class="sm:hidden px-4 py-2 text-sm font-medium text-gray-700">
+    <div class="sm:hidden px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300">
       {{ pagination.page }} / {{ pagination.pages }}
     </div>
 
     <!-- Next Button -->
     <button
       :disabled="pagination.page === pagination.pages"
-      class="px-3 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 disabled:hover:bg-white"
+      class="px-3 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:hover:bg-white dark:disabled:hover:bg-gray-800"
       aria-label="Next page"
       @click="changePage(pagination.page + 1)"
     >

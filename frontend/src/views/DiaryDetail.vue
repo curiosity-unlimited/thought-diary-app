@@ -149,7 +149,7 @@ onMounted(() => {
         <!-- Back Button -->
         <div class="mb-6">
           <button
-            class="inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
+            class="inline-flex items-center text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
             @click="goBack"
           >
             <svg
@@ -173,22 +173,22 @@ onMounted(() => {
         <!-- View Mode -->
         <div
           v-if="!isEditing"
-          class="bg-white shadow rounded-lg overflow-hidden"
+          class="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden"
         >
           <!-- Header -->
-          <div class="px-6 py-4 border-b border-gray-200">
+          <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
             <div class="flex items-start justify-between">
               <div>
-                <h1 class="text-2xl font-bold text-gray-900 mb-2">
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
                   Diary Entry
                 </h1>
-                <p class="text-sm text-gray-500">
+                <p class="text-sm text-gray-500 dark:text-gray-400">
                   {{ formatDate(diariesStore.currentDiary.created_at) }}
                 </p>
               </div>
               <div class="flex space-x-2">
                 <button
-                  class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  class="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
                   @click="toggleEditMode"
                 >
                   <svg
@@ -235,17 +235,17 @@ onMounted(() => {
           <div class="px-6 py-6">
             <!-- Note: analyzed_content is sanitized by backend AI service -->
             <div
-              class="prose max-w-none text-gray-900 leading-relaxed"
+              class="prose max-w-none dark:prose-invert text-gray-900 dark:text-gray-100 leading-relaxed"
               v-html="diariesStore.currentDiary.analyzed_content"
             ></div>
           </div>
 
           <!-- Footer with Sentiment Counts -->
-          <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+          <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
             <div class="flex items-center space-x-6 text-sm">
               <div class="flex items-center">
                 <svg
-                  class="h-5 w-5 text-green-500 mr-1"
+                  class="h-5 w-5 text-green-500 dark:text-green-400 mr-1"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -258,7 +258,7 @@ onMounted(() => {
                     d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
                   />
                 </svg>
-                <span class="text-gray-700">
+                <span class="text-gray-700 dark:text-gray-300">
                   <span class="font-medium">{{
                     diariesStore.currentDiary.positive_count
                   }}</span>
@@ -267,7 +267,7 @@ onMounted(() => {
               </div>
               <div class="flex items-center">
                 <svg
-                  class="h-5 w-5 text-red-500 mr-1"
+                  class="h-5 w-5 text-red-500 dark:text-red-400 mr-1"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -280,7 +280,7 @@ onMounted(() => {
                     d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"
                   />
                 </svg>
-                <span class="text-gray-700">
+                <span class="text-gray-700 dark:text-gray-300">
                   <span class="font-medium">{{
                     diariesStore.currentDiary.negative_count
                   }}</span>
@@ -292,8 +292,8 @@ onMounted(() => {
         </div>
 
         <!-- Edit Mode -->
-        <div v-else class="bg-white shadow rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-gray-900 mb-4">Edit Entry</h2>
+        <div v-else class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Edit Entry</h2>
           <DiaryForm
             :diary="diariesStore.currentDiary"
             :is-submitting="isSubmitting"
@@ -315,9 +315,9 @@ onMounted(() => {
 
       <!-- Not Found State -->
       <div v-else class="text-center py-12">
-        <p class="text-gray-500 mb-4">Diary entry not found</p>
+        <p class="text-gray-500 dark:text-gray-400 mb-4">Diary entry not found</p>
         <button
-          class="text-indigo-600 hover:text-indigo-800 font-medium"
+          class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium"
           @click="goBack"
         >
           ← Back to Diaries
@@ -341,5 +341,13 @@ onMounted(() => {
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
+}
+
+:global(.dark) :deep(.positive) {
+  background-color: #059669;
+}
+
+:global(.dark) :deep(.negative) {
+  background-color: #dc2626;
 }
 </style>

@@ -6,7 +6,7 @@
     <div class="mb-6">
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-24 w-24 text-gray-400"
+        class="h-24 w-24 text-gray-400 dark:text-gray-600"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -21,12 +21,12 @@
     </div>
 
     <!-- Title -->
-    <h3 class="text-2xl font-semibold text-gray-900 mb-2">
+    <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
       {{ title }}
     </h3>
 
     <!-- Message -->
-    <p class="text-gray-600 mb-6 max-w-md">
+    <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-md">
       {{ message }}
     </p>
 
@@ -34,7 +34,7 @@
     <RouterLink
       v-if="actionText && actionTo"
       :to="actionTo"
-      class="px-6 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
+      class="px-6 py-3 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 transition-colors"
     >
       {{ actionText }}
     </RouterLink>

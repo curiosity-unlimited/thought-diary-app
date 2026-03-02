@@ -14,3 +14,18 @@ span.negative {
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
 }
+
+/* Dark mode sentiment highlighting */
+.dark span.positive {
+  background-color: #059669;
+}
+
+.dark span.negative {
+  background-color: #dc2626;
+}
+
+/* Dark mode base styles */
+.dark body {
+  color: #f3f4f6;
+  background-color: #111827;
+}
