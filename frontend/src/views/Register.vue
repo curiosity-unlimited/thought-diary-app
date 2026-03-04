@@ -59,7 +59,7 @@ const onSubmit = handleSubmit(async (values) => {
 <template>
   <AuthLayout>
     <!-- Page Title -->
-    <h2 class="text-2xl font-bold text-gray-900 text-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 text-center mb-6">
       Create your account
     </h2>
 
@@ -67,7 +67,7 @@ const onSubmit = handleSubmit(async (values) => {
     <form class="space-y-6" @submit="onSubmit">
       <!-- Email Field -->
       <div>
-        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Email address
         </label>
         <input
@@ -75,7 +75,7 @@ const onSubmit = handleSubmit(async (values) => {
           v-model="email"
           type="email"
           autocomplete="email"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
           :class="{
             'border-red-500 focus:ring-red-500 focus:border-red-500':
               errors.email,
@@ -83,7 +83,7 @@ const onSubmit = handleSubmit(async (values) => {
           placeholder="you@example.com"
         />
         <!-- Inline Error Message -->
-        <p v-if="errors.email" class="mt-1 text-sm text-red-600">
+        <p v-if="errors.email" class="mt-1 text-sm text-red-600 dark:text-red-400">
           {{ errors.email }}
         </p>
       </div>
@@ -92,7 +92,7 @@ const onSubmit = handleSubmit(async (values) => {
       <div>
         <label
           for="password"
-          class="block text-sm font-medium text-gray-700 mb-1"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
         >
           Password
         </label>
@@ -101,7 +101,7 @@ const onSubmit = handleSubmit(async (values) => {
           v-model="password"
           type="password"
           autocomplete="new-password"
-          class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 dark:placeholder-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
           :class="{
             'border-red-500 focus:ring-red-500 focus:border-red-500':
               errors.password,
@@ -109,11 +109,11 @@ const onSubmit = handleSubmit(async (values) => {
           placeholder="Create a strong password"
         />
         <!-- Inline Error Message -->
-        <p v-if="errors.password" class="mt-1 text-sm text-red-600">
+        <p v-if="errors.password" class="mt-1 text-sm text-red-600 dark:text-red-400">
           {{ errors.password }}
         </p>
         <!-- Password Requirements -->
-        <div class="mt-2 text-xs text-gray-500 space-y-1">
+        <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 space-y-1">
           <p class="font-medium">Password must contain:</p>
           <ul class="list-disc list-inside space-y-0.5 ml-2">
             <li>At least 8 characters</li>
@@ -130,7 +130,7 @@ const onSubmit = handleSubmit(async (values) => {
         <button
           type="submit"
           :disabled="isSubmitting"
-          class="w-full flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          class="w-full flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <!-- Loading Spinner -->
           <svg
@@ -163,11 +163,11 @@ const onSubmit = handleSubmit(async (values) => {
 
     <!-- Link to Login -->
     <div class="mt-6 text-center">
-      <p class="text-sm text-gray-600">
+      <p class="text-sm text-gray-600 dark:text-gray-400">
         Already have an account?
         <router-link
           to="/login"
-          class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+          class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors"
         >
           Sign in
         </router-link>

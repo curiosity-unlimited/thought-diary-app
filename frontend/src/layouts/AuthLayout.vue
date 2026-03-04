@@ -7,7 +7,7 @@
 
 <template>
   <div
-    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 px-4 sm:px-6 lg:px-8"
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 sm:px-6 lg:px-8"
   >
     <div class="w-full max-w-md">
       <!-- Logo and App Name -->
@@ -33,7 +33,7 @@
       </div>
 
       <!-- Card Container -->
-      <div class="bg-white rounded-lg shadow-2xl overflow-hidden">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl overflow-hidden">
         <div class="px-6 py-8 sm:px-10">
           <!-- Content Slot -->
           <slot />

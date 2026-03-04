@@ -86,6 +86,7 @@ A modern, comprehensive full-stack web application with a robust Flask API backe
 - **Real-time Updates**: Live data synchronization with optimistic UI updates
 - **Responsive Design**: Mobile-first with CSS Grid and Flexbox
 - **Accessibility**: WCAG 2.1 AA compliant interface
+- **Dark Theme**: Toggle between light and dark modes via the theme button in the navigation bar; preference is persisted across sessions using `localStorage`
 
 ### Authentication & Security
 - **JWT Authentication**: Secure token-based authentication with refresh mechanism

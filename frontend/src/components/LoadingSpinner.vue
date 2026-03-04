@@ -8,7 +8,7 @@
     <!-- Spinner -->
     <svg
       :class="spinnerSizeClass"
-      class="animate-spin text-indigo-600"
+      class="animate-spin text-indigo-600 dark:text-indigo-400"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -32,7 +32,7 @@
     <p
       v-if="message"
       :class="messageSizeClass"
-      class="text-gray-600 font-medium"
+      class="text-gray-600 dark:text-gray-400 font-medium"
     >
       {{ message }}
     </p>

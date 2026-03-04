@@ -10,32 +10,32 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <!-- Page Header -->
       <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
           About Thought Diary App
         </h1>
-        <p class="text-lg text-gray-600">
+        <p class="text-lg text-gray-600 dark:text-gray-400">
           An AI-powered journal for better mental health
         </p>
       </div>
 
       <!-- Description -->
-      <div class="bg-white shadow rounded-lg p-8 mb-8">
-        <div class="prose prose-lg max-w-none">
-          <p class="text-gray-700 mb-4">
+      <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-8 mb-8">
+        <div class="prose prose-lg max-w-none dark:prose-invert">
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
             Thought Diary App is an AI-powered tool designed to help you track
             and analyze your thoughts and emotions. Based on the principles of
             <a
               href="https://positivepsychology.com/thought-diary/"
               target="_blank"
               rel="noopener noreferrer"
-              class="text-indigo-600 hover:text-indigo-800"
+              class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
             >
               Thought Diaries
             </a>
             , our application helps you identify and challenge negative thinking
             patterns, promoting healthier mental habits.
           </p>
-          <p class="text-gray-700 mb-4">
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
             By analyzing your diary entries with advanced sentiment analysis,
             you can gain insights into your emotional patterns and work towards
             improved well-being.
@@ -44,16 +44,16 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
       </div>
 
       <!-- Features -->
-      <div class="bg-white shadow rounded-lg p-8 mb-8">
-        <h2 class="text-2xl font-semibold text-gray-900 mb-6">Key Features</h2>
+      <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-8 mb-8">
+        <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Key Features</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Feature 1 -->
           <div class="flex items-start">
             <div
-              class="flex-shrink-0 h-10 w-10 rounded-lg bg-indigo-100 flex items-center justify-center"
+              class="flex-shrink-0 h-10 w-10 rounded-lg bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center"
             >
               <svg
-                class="h-6 w-6 text-indigo-600"
+                class="h-6 w-6 text-indigo-600 dark:text-indigo-400"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -68,10 +68,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
               </svg>
             </div>
             <div class="ml-4">
-              <h3 class="text-lg font-medium text-gray-900">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 Diary Management
               </h3>
-              <p class="mt-1 text-gray-600">
+              <p class="mt-1 text-gray-600 dark:text-gray-400">
                 Create, edit, and organize your thought diary entries with ease.
               </p>
             </div>
@@ -80,10 +80,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
           <!-- Feature 2 -->
           <div class="flex items-start">
             <div
-              class="flex-shrink-0 h-10 w-10 rounded-lg bg-green-100 flex items-center justify-center"
+              class="flex-shrink-0 h-10 w-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center"
             >
               <svg
-                class="h-6 w-6 text-green-600"
+                class="h-6 w-6 text-green-600 dark:text-green-400"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -98,10 +98,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
               </svg>
             </div>
             <div class="ml-4">
-              <h3 class="text-lg font-medium text-gray-900">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 AI Sentiment Analysis
               </h3>
-              <p class="mt-1 text-gray-600">
+              <p class="mt-1 text-gray-600 dark:text-gray-400">
                 Automatic analysis identifies positive and negative thinking
                 patterns.
               </p>
@@ -111,10 +111,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
           <!-- Feature 3 -->
           <div class="flex items-start">
             <div
-              class="flex-shrink-0 h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center"
+              class="flex-shrink-0 h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center"
             >
               <svg
-                class="h-6 w-6 text-blue-600"
+                class="h-6 w-6 text-blue-600 dark:text-blue-400"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -129,10 +129,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
               </svg>
             </div>
             <div class="ml-4">
-              <h3 class="text-lg font-medium text-gray-900">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 Statistics Dashboard
               </h3>
-              <p class="mt-1 text-gray-600">
+              <p class="mt-1 text-gray-600 dark:text-gray-400">
                 View insights and trends about your emotional patterns over
                 time.
               </p>
@@ -142,10 +142,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
           <!-- Feature 4 -->
           <div class="flex items-start">
             <div
-              class="flex-shrink-0 h-10 w-10 rounded-lg bg-purple-100 flex items-center justify-center"
+              class="flex-shrink-0 h-10 w-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center"
             >
               <svg
-                class="h-6 w-6 text-purple-600"
+                class="h-6 w-6 text-purple-600 dark:text-purple-400"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -160,10 +160,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
               </svg>
             </div>
             <div class="ml-4">
-              <h3 class="text-lg font-medium text-gray-900">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 Secure & Private
               </h3>
-              <p class="mt-1 text-gray-600">
+              <p class="mt-1 text-gray-600 dark:text-gray-400">
                 Your data is encrypted and protected with industry-standard
                 security.
               </p>
@@ -173,17 +173,17 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
       </div>
 
       <!-- Credits & Version -->
-      <div class="bg-white shadow rounded-lg p-8">
-        <h2 class="text-2xl font-semibold text-gray-900 mb-4">
+      <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-8">
+        <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
           Credits & Acknowledgments
         </h2>
-        <p class="text-gray-700 mb-4">
+        <p class="text-gray-700 dark:text-gray-300 mb-4">
           Built with Vue 3, TypeScript, and Flask. Sentiment analysis powered by
           GitHub Models API.
         </p>
-        <div class="flex items-center text-sm text-gray-600">
+        <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
           <svg
-            class="h-5 w-5 mr-2 text-gray-400"
+            class="h-5 w-5 mr-2 text-gray-400 dark:text-gray-500"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

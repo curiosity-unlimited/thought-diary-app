@@ -7,7 +7,7 @@ import Navbar from '@/components/Navbar.vue';
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-50">
+  <div class="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-900">
     <!-- Navigation Bar -->
     <Navbar />
 
@@ -17,9 +17,9 @@ import Navbar from '@/components/Navbar.vue';
     </main>
 
     <!-- Optional Footer -->
-    <footer class="bg-white border-t border-gray-200">
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
       <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-        <p class="text-center text-sm text-gray-500">
+        <p class="text-center text-sm text-gray-500 dark:text-gray-400">
           &copy; {{ new Date().getFullYear() }} Thought Diary App. All rights
           reserved.
         </p>

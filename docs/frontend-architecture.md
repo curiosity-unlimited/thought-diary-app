@@ -253,20 +253,27 @@ export const useMyStore = defineStore('myStore', () => {
 
 #### UI Store (`stores/ui.ts`)
 
-**Purpose**: Global UI state
+**Purpose**: Global UI state and theme management
 
 **State:**
 - `isLoading`: Global loading indicator
 - `loadingMessage`: Optional loading text
+- `theme`: Current theme (`'light'` | `'dark'`)
+
+**Computed:**
+- `isDark`: Boolean shorthand for dark theme check
 
 **Key Actions:**
 - `setLoading()`: Show loading state
 - `clearLoading()`: Hide loading state
+- `initTheme()`: Read theme preference from localStorage and apply to document
+- `toggleTheme()`: Switch between light/dark and persist to localStorage
 
 **Usage:**
 - API call loading overlays
 - Navigation loading states
 - Long-running operations
+- Dark mode theme toggle in Navbar
 
 ### Store Best Practices
 
@@ -520,6 +527,7 @@ export default {
     './index.html',
     './src/**/*.{vue,js,ts,jsx,tsx}',
   ],
+  darkMode: 'class', // Class-based dark mode strategy
   theme: {
     extend: {
       colors: {
@@ -531,6 +539,35 @@ export default {
   },
   plugins: [],
 };
+```
+
+### Dark Mode
+
+Dark mode is implemented using Tailwind's class-based strategy. The `dark` class is added to `document.documentElement` to enable dark variants globally.
+
+**Strategy**: Manual toggle (no system `prefers-color-scheme` detection)
+**Storage**: `localStorage` with key `theme` (`'light'` | `'dark'`)
+**Initialization**: Reads from localStorage in `main.ts` via `uiStore.initTheme()` before app mount to avoid flash
+
+**Toggle mechanism:**
+- `uiStore.toggleTheme()` in Navbar switches the theme and persists to localStorage
+- `uiStore.isDark` computed property drives the moon/sun icon in the toggle button
+
+**Applying dark variants:**
+```vue
+<div class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
+  Content
+</div>
+```
+
+**Sentiment highlighting in dark mode (scoped styles):**
+```css
+:global(.dark) :deep(.positive) {
+  background-color: #059669; /* slightly darker green */
+}
+:global(.dark) :deep(.negative) {
+  background-color: #dc2626; /* slightly darker red */
+}
 ```
 
 ### Styling Approach

@@ -1,18 +1,18 @@
 <template>
   <div
-    class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200"
+    class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200"
   >
     <!-- Date and Actions Header -->
     <div class="flex justify-between items-start mb-4">
       <time
         :datetime="diary.created_at"
-        class="text-sm text-gray-500 font-medium"
+        class="text-sm text-gray-500 dark:text-gray-400 font-medium"
       >
         {{ formatDate(diary.created_at) }}
       </time>
       <div class="flex gap-2">
         <button
-          class="p-2 text-indigo-600 hover:bg-indigo-50 rounded-md transition-colors"
+          class="p-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-md transition-colors"
           aria-label="Edit diary entry"
           @click="$emit('edit', diary.id)"
         >
@@ -28,7 +28,7 @@
           </svg>
         </button>
         <button
-          class="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
+          class="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 rounded-md transition-colors"
           aria-label="Delete diary entry"
           @click="$emit('delete', diary.id)"
         >
@@ -53,14 +53,14 @@
     <!-- eslint-disable vue/no-v-html -->
     <div
       v-if="!isExpanded && isLongContent"
-      class="prose prose-sm max-w-none mb-4"
+      class="prose prose-sm max-w-none mb-4 dark:prose-invert"
     >
       <div
-        class="diary-content text-gray-700 leading-relaxed"
+        class="diary-content text-gray-700 dark:text-gray-300 leading-relaxed"
         v-html="truncatedContent"
       ></div>
       <button
-        class="text-indigo-600 hover:text-indigo-800 font-medium text-sm mt-2"
+        class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium text-sm mt-2"
         @click="isExpanded = true"
       >
         Read more
@@ -68,17 +68,17 @@
     </div>
     <div
       v-else
-      class="diary-content prose prose-sm max-w-none text-gray-700 leading-relaxed mb-4"
+      class="diary-content prose prose-sm max-w-none dark:prose-invert text-gray-700 dark:text-gray-300 leading-relaxed mb-4"
       v-html="diary.analyzed_content || diary.content"
     ></div>
     <!-- eslint-enable vue/no-v-html -->
 
     <!-- Sentiment Counts -->
-    <div class="flex gap-4 pt-4 border-t border-gray-200">
+    <div class="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
       <div class="flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 text-green-600"
+          class="h-5 w-5 text-green-600 dark:text-green-400"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -88,14 +88,14 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span class="text-sm font-medium text-gray-700">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
           {{ diary.positive_count }} positive
         </span>
       </div>
       <div class="flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 text-red-600"
+          class="h-5 w-5 text-red-600 dark:text-red-400"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -105,7 +105,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span class="text-sm font-medium text-gray-700">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
           {{ diary.negative_count }} negative
         </span>
       </div>
@@ -174,5 +174,13 @@ const formatDate = (dateString: string): string => {
   color: white;
   padding: 2px 4px;
   border-radius: 3px;
+}
+
+:global(.dark) :deep(.diary-content .positive) {
+  background-color: #059669;
+}
+
+:global(.dark) :deep(.diary-content .negative) {
+  background-color: #dc2626;
 }
 </style>

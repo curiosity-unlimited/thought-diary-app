@@ -128,8 +128,8 @@ onMounted(() => {
       <div class="mb-8">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-3xl font-bold text-gray-900">My Diaries</h1>
-            <p class="mt-2 text-sm text-gray-600">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">My Diaries</h1>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
               Manage and review your thought diary entries
             </p>
           </div>
@@ -159,8 +159,8 @@ onMounted(() => {
 
       <!-- Create Form -->
       <div v-if="showCreateForm" class="mb-8">
-        <div class="bg-white shadow rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-gray-900 mb-4">
+        <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
             Create New Entry
           </h2>
           <DiaryForm

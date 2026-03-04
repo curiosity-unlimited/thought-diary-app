@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-03-02
+
+### Frontend [0.2.0]
+#### Added
+- Dark theme support with manual toggle and localStorage persistence (issue #1)
+- Moon/sun icon toggle button in Navbar (desktop and mobile) with accessible `aria-label`
+- `theme` state, `isDark` computed, `initTheme()` and `toggleTheme()` actions to UI store
+- Tailwind `darkMode: 'class'` configuration in `tailwind.config.js`
+- Theme initialization in `main.ts` via `uiStore.initTheme()` before app mount to prevent flash
+- `dark:` variants across all 9 components: Navbar, DiaryCard, StatsCard, DiaryForm, LoadingSpinner, EmptyState, DeleteConfirmationModal, Pagination
+- `dark:` variants for both layouts: MainLayout and AuthLayout
+- `dark:` variants across all 9 views: Dashboard, Diaries, DiaryDetail, Profile, Login, Register, About, Home, NotFound
+- Dark mode sentiment highlighting in `style.css`, `DiaryCard.vue`, and `DiaryDetail.vue`
+- Unit tests for UI store theme management (`tests/unit/src/stores/ui.test.ts`)
+
 ## [0.3.0] - 2026-01-27
 
 ### Backend [0.2.0]
