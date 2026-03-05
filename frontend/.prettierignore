@@ -1,0 +1,23 @@
+# Build outputs
+dist
+dist-ssr
+*.local
+
+# Dependencies
+node_modules
+
+# IDE
+.vscode
+.idea
+
+# Logs
+logs
+*.log
+
+# Coverage
+coverage
+.nyc_output
+
+# Environment
+.env.local
+.env.*.local

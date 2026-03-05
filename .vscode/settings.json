@@ -1,8 +1,13 @@
 {
   // GitHub Copilot Chat
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
       "file": ".copilot-commit-message-instructions.md"
     }
-  ]
+  ],
+  "chat.customAgentInSubagent.enabled": true,
+  "github.copilot.chat.backgroundAgent.enabled": true,
+  "github.copilot.chat.cli.customAgents.enabled": true,
+  "github.copilot.chat.claudeAgent.enabled": true
 }

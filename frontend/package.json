@@ -6,17 +6,48 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx --fix",
+    "format": "prettier --write src/",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:unit": "vitest tests/unit",
+    "test:integration": "vitest tests/integration",
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
-    "vue": "^3.5.24"
+    "axios": "^1.13.5",
+    "pinia": "^3.0.4",
+    "vee-validate": "^4.15.1",
+    "vue": "^3.5.24",
+    "vue-router": "^4.6.4",
+    "vue-toastification": "^2.0.0-rc.5",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@headlessui/vue": "^1.7.23",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.53.1",
+    "@typescript-eslint/parser": "^8.53.1",
     "@vitejs/plugin-vue": "^6.0.1",
+    "@vitest/coverage-v8": "^4.0.17",
+    "@vitest/ui": "^4.0.17",
+    "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.8.1",
+    "autoprefixer": "^10.4.23",
+    "axios-mock-adapter": "^2.1.0",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "^10.7.0",
+    "jsdom": "^27.4.0",
+    "postcss": "^8.5.6",
+    "prettier": "^3.8.0",
+    "tailwindcss": "^4.1.18",
     "typescript": "~5.9.3",
     "vite": "^7.2.4",
+    "vitest": "^4.0.17",
     "vue-tsc": "^3.1.4"
   }
 }
