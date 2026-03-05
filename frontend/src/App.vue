@@ -1,8 +1,16 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import HelloWorld from './components/HelloWorld.vue'
+import LanguageSwitcher from './components/LanguageSwitcher.vue'
+
+const { t } = useI18n()
 </script>
 
 <template>
+  <header class="app-header">
+    <h2 class="app-title">{{ t('app.title') }}</h2>
+    <LanguageSwitcher />
+  </header>
   <div>
     <a href="https://vite.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
@@ -11,10 +19,21 @@ import HelloWorld from './components/HelloWorld.vue'
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <HelloWorld msg="Vite + Vue" />
+  <HelloWorld :msg="t('diary.greeting')" />
 </template>
 
 <style scoped>
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1em;
+}
+.app-title {
+  margin: 0;
+  font-size: 1.4em;
+}
 .logo {
   height: 6em;
   padding: 1.5em;
