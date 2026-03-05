@@ -3,4 +3,524 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+<<<<<<< HEAD
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+=======
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.4.0] - 2026-03-02
+
+### Frontend [0.2.0]
+#### Added
+- Dark theme support with manual toggle and localStorage persistence (issue #1)
+- Moon/sun icon toggle button in Navbar (desktop and mobile) with accessible `aria-label`
+- `theme` state, `isDark` computed, `initTheme()` and `toggleTheme()` actions to UI store
+- Tailwind `darkMode: 'class'` configuration in `tailwind.config.js`
+- Theme initialization in `main.ts` via `uiStore.initTheme()` before app mount to prevent flash
+- `dark:` variants across all 9 components: Navbar, DiaryCard, StatsCard, DiaryForm, LoadingSpinner, EmptyState, DeleteConfirmationModal, Pagination
+- `dark:` variants for both layouts: MainLayout and AuthLayout
+- `dark:` variants across all 9 views: Dashboard, Diaries, DiaryDetail, Profile, Login, Register, About, Home, NotFound
+- Dark mode sentiment highlighting in `style.css`, `DiaryCard.vue`, and `DiaryDetail.vue`
+- Unit tests for UI store theme management (`tests/unit/src/stores/ui.test.ts`)
+
+## [0.3.0] - 2026-01-27
+
+### Backend [0.2.0]
+#### Fixed
+- Enhanced CORS configuration with explicit headers, methods, and OPTIONS support
+- Added allow_headers for Content-Type and Authorization
+- Added expose_headers for proper header visibility
+- Added explicit OPTIONS method support for preflight requests
+
+### Frontend [0.1.0]
+#### Added
+- Project foundation setup with Vue 3 + TypeScript + Vite
+- Core dependencies: vue-router@4, pinia, axios, vue-toastification@next (Vue 3 compatible)
+- UI framework: Tailwind CSS 4.x, PostCSS, Autoprefixer, @headlessui/vue
+- Form validation: vee-validate, yup
+- Linting and formatting: ESLint 9 (flat config), Prettier, TypeScript ESLint plugins
+- Tailwind CSS configuration (tailwind.config.js) with content paths for Vue files
+- PostCSS configuration (postcss.config.js) for Tailwind and Autoprefixer
+- Custom CSS for sentiment highlighting: .positive (green) and .negative (red) spans
+- Environment configuration: .env and .env.example files
+- Environment variables: VITE_API_BASE_URL=http://localhost:5000, VITE_APP_NAME, VITE_APP_VERSION
+- ESLint flat config (eslint.config.js) with Vue 3 and TypeScript support
+- Prettier configuration (.prettierrc.json) with consistent formatting rules
+- Prettier ignore file (.prettierignore) for build outputs
+- Package.json scripts: lint, format commands
+- Vite configuration with path aliases (@/ for src/) and port 5173
+- Dev server successfully running with hot reload
+- TypeScript interfaces in src/types/index.ts matching backend API responses
+- User, DiaryEntry, DiaryStats interfaces for data models
+- AuthState interface for Pinia store state management
+- Request/Response interfaces for all API endpoints (LoginRequest, RegisterRequest, DiaryCreateRequest, etc.)
+- ApiError interface for consistent error handling
+- TokenResponse and AuthResponse interfaces for authentication
+- PaginationInfo and DiaryListResponse interfaces for paginated data
+- Axios API service in src/services/api.ts with 30-second timeout
+- Request interceptor to automatically add JWT Bearer token to protected endpoints
+- Response interceptor handling 401 Unauthorized with automatic token refresh
+- Token refresh queue mechanism to prevent multiple simultaneous refresh calls
+- Token rotation logic updating localStorage with new access tokens on refresh
+- Automatic logout and redirect on refresh token expiry
+- Network error handling with structured ApiError responses
+- Helper functions for token management (getAccessToken, getRefreshToken, setTokens, clearTokens)
+- Auth API methods: register(), login(), logout(), refreshToken(), getCurrentUser()
+- Diary API methods: getDiaries(), getDiary(), createDiary(), updateDiary(), deleteDiary(), getDiaryStats()
+- Comprehensive TSDoc comments for all functions and interfaces
+- TypeScript strict mode enabled with proper type safety throughout
+- ESLint configuration updated with browser globals support
+- Path aliases configured in tsconfig.app.json (@/ for src/)
+- All code formatted with Prettier and passes ESLint validation
+- Pinia store implementation for state management (Step 3 complete)
+- Auth store (src/stores/auth.ts) managing user authentication state
+- Auth state: user, accessToken, refreshToken, isAuthenticated computed property
+- Auth actions: register(), login(), logout(), refreshAccessToken(), fetchProfile()
+- Token persistence in localStorage with automatic restore on app initialization
+- Clear tokens on logout with proper cleanup
+- Register action (note: backend requires separate login after registration)
+- Login action with automatic token storage
+- Token refresh handling with proper token rotation
+- Diaries store (src/stores/diaries.ts) managing diary entries and statistics
+- Diary state: entries array, currentDiary, stats, pagination, loading flag
+- Diary actions: fetchDiaries(), fetchDiary(), createDiary(), updateDiary(), deleteDiary(), fetchStats()
+- Pagination support with configurable page and per_page parameters
+- Loading states for all async operations
+- Optimistic UI updates for create/update/delete operations
+- Store clearing on logout (clearStore() method)
+- UI store (src/stores/ui.ts) for global UI state management
+- Global loading state with isLoading and loadingMessage
+- setLoading() and clearLoading() actions for loading overlay control
+- hasLoadingMessage computed property
+- Pinia configured in src/main.ts with proper Vue app registration
+- All stores use Vue 3 Composition API with `<script setup>` pattern
+- Stores follow best practices with proper TypeScript typing
+- Error handling allows components to handle API errors appropriately
+- All store code passes ESLint validation and TypeScript strict mode checks
+- Toast notification system with vue-toastification (Step 4 complete)
+- Testing infrastructure with Vitest (Step 10 complete)
+- Vitest testing framework with @vitest/ui and @vitest/coverage-v8
+- jsdom environment for DOM testing
+- @vue/test-utils for Vue component testing
+- axios-mock-adapter for API mocking
+- vitest.config.ts with comprehensive configuration (80%+ coverage thresholds)
+- Test directory structure: tests/unit/ for unit tests (*.test.ts), tests/integration/ for integration tests (*.spec.ts)
+- Test setup file (tests/unit/setup.ts) with localStorage, toast, and matchMedia mocks
+- Comprehensive unit test coverage for Components, Views, Stores, and Composables
+- Comprehensive integration test coverage for API service HTTP integration and View component integration
+- Store tests: auth.test.ts and diaries.test.ts covering authentication and diary management
+- Component tests: LoadingSpinner, EmptyState, StatsCard, Pagination, DiaryCard, DiaryForm, Navbar
+- View unit tests: Login, Register, Dashboard, Diaries, DiaryDetail (with stubbed child components)
+- View integration tests: Login.spec.ts, Register.spec.ts, Diaries.spec.ts, Dashboard.spec.ts (testing component integration without stubs)
+- API integration tests: api.spec.ts with comprehensive HTTP integration testing (endpoints, interceptors, error handling, token refresh queue, edge cases)
+- Composable tests: useToast.test.ts for toast notification wrapper
+- Test scripts added to package.json: test, test:ui, test:unit, test:integration, test:coverage
+- Vue Test Utils configured with proper stubbing and mocking strategies
+- All tests passing with comprehensive coverage across all metrics
+- Test coverage exceeds requirements across statements, lines, branches, and functions
+- Comprehensive test coverage for critical application paths including edge cases
+- Toast notification system with vue-toastification (Step 4 complete)
+- Toast plugin configured in src/main.ts with top-right position and 3-second timeout
+- Toast CSS imported with default styling
+- Toast options configured (position, timeout, closeOnClick, pauseOnHover, draggable)
+- useToast composable in src/composables/useToast.ts with wrapper functions
+- showSuccess() function for green success toasts (3-second timeout)
+- showError() function for red error toasts (5-second timeout)
+- showInfo() function for blue info toasts (3-second timeout)
+- showWarning() function for yellow warning toasts (4-second timeout)
+- showErrorWithRetry() function with retry button and custom callback
+- Toast integration with API service error interceptor for global error handling
+- Network error toasts with retry button for connection failures
+- Session expiry toast when JWT tokens expire or refresh fails
+- Success toast on logout
+- Form validation errors excluded from global toast (handled in components)
+- Retry mechanism for failed network requests triggered from toast button
+- TypeScript types for all toast functions with TSDoc comments
+- Vue Router configuration with createWebHistory mode (Step 5 complete)
+- Router file created in src/router/index.ts with all route definitions
+- Lazy loading configured for all route components using dynamic imports
+- Routes defined: Home (/), Login (/login), Register (/register), Dashboard (/dashboard), Diaries (/diaries), DiaryDetail (/diaries/:id), Profile (/profile), About (/about), NotFound (404 catch-all)
+- Route meta fields configured: requiresAuth, guestOnly, title for all routes
+- Authentication guard implemented in router.beforeEach navigation guard
+- Unauthenticated users redirected to /login when accessing protected routes
+- Intended route saved in query parameter for redirect after successful login
+- Guest-only guard redirects authenticated users from /login and /register to /dashboard
+- Page title updates automatically on navigation using route meta.title
+- Document.title format: "{Page Title} - {App Name}"
+- 404 Not Found route configured for undefined paths
+- Scroll behavior set to scroll to top on navigation, restore position on back/forward
+- Router registered in src/main.ts between Pinia and Toast plugins
+- App.vue updated to use <RouterView /> component
+- Placeholder view components created for all routes with Tailwind styling
+- Home view with landing page design, CTA buttons, and navigation links
+- Login view placeholder with link to register (full implementation in Step 7)
+- Register view placeholder with link to login (full implementation in Step 7)
+- Dashboard view placeholder with link to diaries (full implementation in Step 9)
+- Diaries view placeholder with navigation (full implementation in Step 9)
+- DiaryDetail view placeholder using route params (full implementation in Step 9)
+- Profile view placeholder with navigation
+- About view with app information, features list, and navigation
+- NotFound view with 404 error page design and navigation to home
+- TypeScript errors fixed: POSITION enum imported for toast configuration
+- ESLint validation passed with no errors
+- Prettier formatting applied to all view components and router configuration
+- Layout components implementation (Step 6 complete)
+- MainLayout component in src/layouts/MainLayout.vue with Navbar and router-view
+- MainLayout uses responsive container with Tailwind classes
+- MainLayout includes optional footer with copyright
+- MainLayout uses <script setup> syntax with TypeScript
+- AuthLayout component in src/layouts/AuthLayout.vue for login/register pages
+- AuthLayout has centered card design with gradient background
+- AuthLayout displays logo and app name at top
+- AuthLayout uses <slot> for page content
+- AuthLayout is responsive for mobile/tablet/desktop
+- AuthLayout styled with Tailwind CSS
+- Navbar component in src/components/Navbar.vue with full navigation
+- Navbar displays logo/app name on left (book icon)
+- Navbar has navigation links: Dashboard, Diaries, Profile, About
+- Navbar shows user email from auth store in dropdown menu
+- Navbar has logout button that calls auth store logout action
+- Navbar implements mobile hamburger menu for small screens
+- Navbar uses Headless UI Menu component for user dropdown
+- Navbar highlights active route with different background color
+- Navbar includes proper ARIA labels for accessibility
+- Mobile menu toggles open/closed on hamburger button click
+- Mobile menu displays navigation links and user info
+- Desktop navigation uses horizontal layout with proper spacing
+- All layouts follow mobile-first responsive design
+- Layouts tested on different screen sizes
+- All components pass ESLint validation with no errors
+- All components formatted with Prettier
+- Authentication views with VeeValidate and Yup validation (Step 7 complete)
+- Validation schemas in src/utils/validationSchemas.ts with reusable email and password rules
+- Email validation: RFC 5322 format, max 120 characters, required
+- Password validation for registration: min 8 chars, uppercase, lowercase, digit, special character
+- Login view (src/views/Login.vue) with AuthLayout wrapper
+- Login form with email and password fields using VeeValidate
+- Real-time validation on input with inline error messages below fields
+- Submit button disabled during loading with animated spinner
+- Auth store login() action called on submit
+- Redirect to dashboard on success, or to intended route from query params
+- Toast notification for API errors with proper error message
+- Link to register page from login view
+- Register view (src/views/Register.vue) with AuthLayout wrapper
+- Register form with email and password fields using VeeValidate
+- Password requirements displayed: 8+ chars, uppercase, lowercase, digit, special character
+- Auth store register() action called on submit
+- Success toast and redirect to login page after registration (backend requires separate login)
+- Link to login page from register view
+- TypeScript strict mode with proper error type checking (no any types)
+- All authentication forms styled with Tailwind CSS
+- Input focus states with indigo ring, error states with red border
+- Button states: normal, hover, disabled, loading with proper styling
+- Forms fully responsive on mobile, tablet, and desktop
+- No ESLint errors or warnings
+- No TypeScript compilation errors
+- Core diary components for diary management and UI feedback (Step 8 complete)
+- DiaryCard component (src/components/DiaryCard.vue) for displaying diary entries
+- Sentiment highlighting with v-html rendering analyzed_content from backend
+- CSS styling for .positive (green background) and .negative (red background) spans
+- Absolute date formatting with readable display (Month Day, Year at Time)
+- Positive/negative sentiment count display with icons
+- Edit and delete action buttons with icon buttons
+- Responsive card design with hover effects
+- Truncation of long content with "Read more" expand functionality
+- DiaryForm component (src/components/DiaryForm.vue) for creating/editing entries
+- Textarea input with VeeValidate integration (validation without VeeValidate lib)
+- Content validation: min 10 characters, max 5000 characters, required
+- Real-time character counter display (current / 5000)
+- Validation error messages displayed below textarea
+- Submit and cancel buttons with proper states
+- Loading state with animated spinner in submit button
+- Auto-resize textarea based on content (5-20 rows)
+- Mobile-friendly textarea with responsive design
+- StatsCard component (src/components/StatsCard.vue) for dashboard statistics
+- Four stat cards: Total, Positive, Negative, Neutral entries
+- Grid layout: 2x2 on mobile, 4x1 on desktop (responsive)
+- Color-coded gradient cards: blue (total), green (positive), red (negative), gray (neutral)
+- Icons for each stat type with opacity effects
+- Large number display with labels
+- Hover effects with shadow transitions
+- Pagination component (src/components/Pagination.vue) for diary list navigation
+- Previous/Next buttons with disabled states
+- Page number display with ellipsis for skipped pages
+- Current page highlighting with indigo background
+- Mobile view showing "current / total" pages
+- Desktop view with visible page numbers
+- Page change event emission for parent handling
+- Proper ARIA labels for accessibility
+- LoadingSpinner component (src/components/LoadingSpinner.vue) for loading states
+- Three size options: sm, md, lg with corresponding spinner sizes
+- Optional loading message below spinner
+- Animated spinning SVG with indigo color
+- Centered layout option with proper padding
+- Accessible with aria-label attribute
+- EmptyState component (src/components/EmptyState.vue) for no-data scenarios
+- Icon display (document/file icon)
+- Title and message text with proper styling
+- Optional action button with RouterLink integration
+- Centered layout with min-height for proper display
+- Clean, minimalist design with gray color scheme
+- DeleteConfirmationModal component using Headless UI Dialog
+- Modal overlay with backdrop blur and opacity transition
+- Diary preview showing first 100 characters with line-clamp
+- Warning icon in red circle
+- Confirmation dialog with title and description
+- Cancel and Delete buttons with proper styling
+- Focus trap for keyboard navigation
+- Smooth enter/exit transitions
+- Accessible ARIA labels and roles
+- Event emission for confirm/cancel actions
+- Dashboard and Diary Views implementation (Step 9 complete)
+- Dashboard view (src/views/Dashboard.vue) with MainLayout wrapper
+- Dashboard loads stats and recent 5 diaries on mount
+- StatsCard component displays entry statistics (total, positive, negative, neutral)
+- Recent entries section with DiaryCard components
+- EmptyState component shown when no diary entries exist
+- "Create Entry" button navigates to diaries page with create query param
+- LoadingSpinner displayed during data loading
+- Error handling with toast notifications
+- Diaries list view (src/views/Diaries.vue) with MainLayout wrapper
+- Diaries loaded with pagination (10 per page, default from backend)
+- "Create New Entry" button at top toggles inline creation form
+- DiaryForm component for inline diary creation
+- DiaryCard components for each diary entry in list
+- Pagination component with page navigation
+- Query parameter-based pagination (?page=N)
+- LoadingSpinner during diary loading
+- EmptyState shown when no diaries exist
+- List automatically refreshed after create/update/delete operations
+- Success/error toast notifications for all operations
+- DiaryDetail view (src/views/DiaryDetail.vue) with MainLayout wrapper
+- Diary loaded by ID from route params on mount
+- Full diary content displayed with sentiment highlighting using v-html
+- Scoped CSS styles for .positive (green) and .negative (red) sentiment spans
+- Absolute date formatting (Month Day, Year at Time)
+- Positive and negative sentiment counts displayed with icons
+- Edit and Delete action buttons in header
+- Back to list button for navigation
+- Inline editing functionality with toggle between view and edit modes
+- DiaryForm shown in edit mode with current diary content
+- Cancel button returns to view mode without saving
+- Save button updates diary and returns to view mode
+- DeleteConfirmationModal integration for delete confirmation
+- Loading states during all async operations
+- 404 error handling with redirect to diaries list
+- Navigate to diaries list after successful deletion
+- Profile view (src/views/Profile.vue) with MainLayout wrapper
+- User email displayed from auth store
+- Account created date displayed with absolute formatting
+- Last updated date displayed with absolute formatting
+- Clean card layout with labeled fields
+- Informational message about future features (password change, account deletion)
+- About view (src/views/About.vue) with MainLayout wrapper
+- App description with link to Thought Diary concept
+- Key features section with four feature cards (grid layout)
+- Feature icons with colored backgrounds (indigo, green, blue, purple)
+- Feature descriptions: Diary Management, AI Sentiment Analysis, Statistics Dashboard, Secure & Private
+- Credits and acknowledgments section
+- App version number displayed from VITE_APP_VERSION environment variable
+- Responsive design for mobile, tablet, and desktop
+- All views use TypeScript with strict type checking
+- Error handlers use unknown type instead of any for better type safety
+- ESLint warnings resolved with proper type guards (error instanceof Error)
+- Single v-html warning accepted (sanitized by backend AI service)
+- TypeScript compilation successful with no errors
+- Production build completed successfully
+
+#### Fixed
+- Tailwind CSS 4.x syntax: Updated src/style.css from @tailwind directives to @import 'tailwindcss' for Tailwind CSS 4.x compatibility
+- Tailwind CSS 4.x PostCSS configuration: installed @tailwindcss/postcss and updated postcss.config.js
+- Test suite comprehensive improvements through systematic development:
+  - Navbar tests: Added router plugin and proper Vue Router configuration
+  - Pagination tests: Fixed event emission handling for camelCase/kebab-case compatibility
+  - API service tests: Corrected return types for void functions (logout, deleteDiary)
+  - Store tests: Fixed token restoration, refresh token mocking, and initial state assertions
+  - View tests: Improved validation error detection, form submission handling, and component stubbing
+  - Testing infrastructure fully functional with proper mocking and coverage capabilities
+- Test organization and structure improvements:
+  - Moved API service tests to integration tests (api.spec.ts) as they test HTTP integration with axios
+  - Reorganized test directory structure: tests/unit/ for isolated tests, tests/integration/ for integration tests
+  - Fixed package.json test scripts: removed duplicate --run flags from test:unit and test:integration
+  - Test naming convention enforced: *.test.ts for unit tests, *.spec.ts for integration tests
+  - Proper test categorization: unit tests use stubs/mocks for isolation, integration tests verify component/service integration
+- Test coverage improvements to exceed requirements:
+  - Added comprehensive edge case tests for stores (auth, diaries) covering pagination, null values, error conditions
+  - Added extensive API integration tests covering token refresh queue, error responses, network errors
+  - Added component tests for null/undefined handling in DiaryCard
+  - Added view tests for error handling in Dashboard, Diaries, DiaryDetail
+  - Added integration tests for view components (Login, Register, Diaries, Dashboard)
+  - Achieved comprehensive coverage across statements, lines, branches, and functions
+- Store enhancements for robustness:
+  - Auth store: Added null check in refreshAccessToken() before attempting token refresh
+  - Diaries store: Changed stats and pagination initialization from empty objects to null for clearer state management
+  - Diaries store: Added null checks for pagination in createDiary and deleteDiary operations
+- Component code quality improvements:
+  - Fixed unused variable ESLint errors in Dashboard, Diaries, DiaryDetail test files
+  - Fixed TypeScript any types in DiaryCard tests with proper type assertions
+  - Applied consistent code formatting with Prettier across all test files
+- Copilot instructions updated to reflect testing best practices:
+  - Updated VITEST section title to include both unit and integration testing
+  - Clarified test file naming convention: *.test.ts for unit tests, *.spec.ts for integration tests
+  - Added examples for unit test and integration test file locations
+  - Documented test directory structure mirroring source code structure
+- Fixed critical authentication and data loading issues:
+  - Updated main.ts to automatically fetch user profile on app initialization when tokens exist
+  - Fixed auth store login method to fetch user profile after successful login (backend doesn't return user object)
+  - Fixed DiaryStats interface to match backend API response (total_entries, positive_entries, negative_entries, neutral_entries)
+  - Updated StatsCard component to use correct property names from backend API
+  - Fixed duplicate defineProps() call in StatsCard component
+  - Fixed MainLayout to use <slot /> instead of <router-view /> for proper content rendering
+  - Added null safety checks in Dashboard and Diaries views for entries array
+  - Fixed type mismatch between frontend and backend stats property names
+- Fixed diary list not displaying after creation (backend-frontend response structure mismatch):
+  - Updated DiaryListResponse interface to match backend structure (items, page, per_page, total, pages)
+  - Modified getDiaries API service to transform backend response to frontend format (diaries, pagination)
+  - Added PaginationInfo type import to API service
+  - Ensured new diaries appear in list immediately after creation
+
+#### Tests
+- Created comprehensive test suite for all fixes (9 new tests):
+  - `tests/unit/src/fixes/auth-profile-fetch.test.ts` - Tests user profile fetch after login and on initialization
+  - `tests/unit/src/fixes/diary-stats-types.test.ts` - Tests DiaryStats interface matches backend API
+  - `tests/unit/src/fixes/null-safety.test.ts` - Tests null/undefined handling in Dashboard and Diaries views
+- Updated existing tests to match new DiaryStats property names
+- Updated `tests/integration/src/services/api.spec.ts` to test backend response transformation:
+  - Updated getDiaries test to expect backend response structure (items, page, per_page, total, pages)
+  - Added test for transforming backend response with multiple diaries to frontend format
+  - Verified transformation creates separate diaries and pagination objects
+- All 225 tests passing with 83.81% code coverage (exceeds 80%+ requirement)
+
+#### Documentation
+- Updated [docs/backend-api.md](docs/backend-api.md) to reflect actual backend response structure:
+  - Corrected List Diaries endpoint response to show `items` array instead of `diaries`
+  - Pagination fields now documented at root level: `page`, `per_page`, `total`, `pages`
+- Updated [docs/frontend-api.md](docs/frontend-api.md) to document response transformation:
+  - Added note explaining backend returns `{items, page, per_page, total, pages}`
+  - Documented transformation logic in `getDiaries()` to frontend format `{diaries, pagination}`
+  - Updated `DiaryListResponse` interface to match actual backend structure
+  - Added comment showing the transformed output structure
+
+#### Fixed (continued)
+
+### Backend [0.1.0]
+#### Added
+- Flask application infrastructure with application factory pattern
+- Environment-based configuration system (Development, Testing, Production)
+- Flask extensions initialization (SQLAlchemy, Flask-Migrate, Flask-Marshmallow, Flask-JWT-Extended, Flask-Limiter, Flask-CORS)
+- Comprehensive error handlers with consistent JSON error format
+- JWT authentication configuration with 15-minute access tokens and 7-day refresh tokens
+- CORS configuration for frontend integration (http://localhost:5173)
+- Rate limiting infrastructure with Redis support
+- GitHub Models API configuration for AI sentiment analysis (gpt-4o)
+- Environment variables documentation in .env.example
+- Type hints (PEP 484) and comprehensive docstrings (PEP 257) throughout codebase
+- Development dependencies: pytest, pytest-cov, pytest-flask
+- Production dependencies: flask, flask-sqlalchemy, flask-migrate, flask-marshmallow, marshmallow-sqlalchemy, flask-jwt-extended, flask-limiter, bcrypt, flask-cors, requests, gunicorn, redis, python-dotenv
+- User model with email validation, bcrypt password hashing, and verification methods
+- ThoughtDiary model with content validation, sentiment analysis support, and user relationship
+- Database models registered with SQLAlchemy for proper ORM functionality
+- Flask-Migrate integration with initial migration for User and ThoughtDiary tables
+- One-to-many relationship between User and ThoughtDiary with cascade delete
+- Model helper methods: User.validate_email(), User.set_password(), User.check_password()
+- Model helper methods: ThoughtDiary.validate_content(), ThoughtDiary.get_sentiment(), ThoughtDiary.to_dict()
+- Database indexes on User.email, ThoughtDiary.user_id, and ThoughtDiary.created_at for query optimization- Password utility functions with strict validation requirements (8+ chars, uppercase, lowercase, number, special character)
+- Bcrypt-based password hashing and verification functions
+- Email format validation and input sanitization utilities
+- Marshmallow schemas for authentication (RegisterSchema, LoginSchema, UserSchema, TokenSchema)
+- Authentication blueprint with complete user auth endpoints
+- POST /auth/register endpoint with rate limiting (3 requests/hour)
+- POST /auth/login endpoint with JWT token generation and rate limiting (5 requests/15min)
+- POST /auth/refresh endpoint for access token renewal
+- POST /auth/logout endpoint with token blacklist support
+- GET /auth/me endpoint for current user profile retrieval
+- JWT token blacklist functionality for secure logout
+- JWT callbacks for token validation and error handling (expired, invalid, missing, revoked tokens)
+- Consistent error responses across all auth endpoints with error codes
+- Integration between auth system and User model with secure password handling
+- AI sentiment analysis service using GitHub Models API (gpt-4o)
+- analyze_sentiment() function to identify positive and negative sentiment words
+- HTML-based sentiment markers with <span class="positive"> and <span class="negative"> tags
+- Automatic counting of positive and negative sentiment markers
+- Comprehensive error handling for API timeouts, connection errors, and HTTP errors
+- Graceful fallback to original content when sentiment analysis fails
+- get_sentiment_summary() helper function for overall sentiment classification
+- Environment variable configuration for GITHUB_TOKEN and GITHUB_MODEL_NAME
+- Request timeout set to 30 seconds for AI API calls
+- Detailed logging of sentiment analysis results and errors
+- Thought Diary endpoints blueprint (app/blueprints/diaries/)
+- Marshmallow schemas for diary operations (DiaryCreateSchema, DiaryUpdateSchema, DiarySchema, DiaryListSchema, DiaryStatsSchema)
+- GET /diaries endpoint - List user's diaries with pagination (10 per page, descending by created_at)
+- POST /diaries endpoint - Create new diary with automatic AI sentiment analysis
+- GET /diaries/<id> endpoint - Get specific diary entry
+- PUT /diaries/<id> endpoint - Update diary with automatic AI sentiment re-analysis
+- DELETE /diaries/<id> endpoint - Delete diary entry
+- GET /diaries/stats endpoint - Get user statistics (total, positive, negative, neutral entries)
+- Authorization checks ensuring users can only access their own diaries (403 on unauthorized access)
+- AI sentiment analysis integration on diary create and update operations
+- Pagination support with configurable page size (default 10, max 100 items)
+- JWT authentication required for all diary endpoints (@jwt_required decorator)
+- Comprehensive error handling with consistent error format for all diary operations
+- Comprehensive pytest test suite with 172 test cases covering all components
+- Test configuration with fixtures in tests/conftest.py (app, client, db, test_user, auth_headers, test_diary)
+- Unit tests for User and ThoughtDiary models (20 test cases)
+- Unit tests for authentication endpoints (31 test cases covering register, login, refresh, logout, me, rate limiting)
+- Unit tests for diary endpoints (24 test cases covering list, create, get, update, delete, stats, authorization)
+- Unit tests for AI sentiment analysis service (18 test cases with mocked API calls)
+- Unit tests for password utilities (22 test cases covering validation, hashing, verification)
+- Unit tests for validators (26 test cases covering email validation, normalization, sanitization)
+- Test coverage achieved: 94% (exceeds 80%+ requirement)
+- External API mocking for isolated testing
+- Edge case coverage including error handling, validation, and authorization
+- Fixtures for database setup/teardown and JWT authentication
+- Test organization mirroring source code structure
+- Environment variable fixture for setting GITHUB_TOKEN in test environment
+
+#### Fixed
+- JWT identity type conversion: Added int() wrapper for get_jwt_identity() in all diary routes to match database integer user_id
+- Marshmallow validator signatures: Updated validate_content() methods to accept **kwargs for compatibility with Marshmallow field validators
+- AI service mocking: Configured test environment with GITHUB_TOKEN and correct patch paths for external API mocking
+- Password hash length validation: Updated long password tests to respect bcrypt's 72-byte limit
+- Email validation enhancement: Added checks to reject consecutive dots and leading/trailing dots in email addresses
+- SQLAlchemy session handling: Fixed cascade delete test to use fresh database queries instead of cached instances
+- Test code quality: Removed duplicate class definitions in test_ai_service.py (TestGetSentimentSummary, TestAPIIntegration)
+- Import cleanup: Removed unused imports (pytest, timezone, time, json, MagicMock) across all test files
+- Test assertions: Replaced pytest.skip() with early return and pytest.raises() with try/except pattern
+- System endpoints: Created system blueprint with health check and version info endpoints (GET /health, GET /version)
+- OpenAPI documentation: Integrated flasgger for Swagger UI available at GET /docs
+- API documentation: Comprehensive OpenAPI/Swagger specs for all endpoints (auth, diaries, system)
+- Health endpoint: Returns API health status and timestamp in ISO 8601 format
+- Version endpoint: Returns API version (0.1.0) and API level (v1)
+- Swagger configuration: Full OpenAPI 2.0 spec with security definitions (Bearer JWT)
+- Endpoint documentation: Request/response schemas, error codes, authentication requirements documented
+- API tags: Organized endpoints into System, Authentication, and Thought Diaries categories
+- Security documentation: JWT Bearer token authentication flow documented
+- Rate limiting documentation: Documented rate limits on register and login endpoints
+- System blueprint tests: 9 comprehensive test cases covering health, version, and docs endpoints
+- Test coverage: Achieved 95% overall test coverage (181 passing tests)
+- Timezone-aware datetime: Updated health endpoint to use datetime.now(UTC) instead of deprecated utcnow()
+- Development seed data script (app/utils/seed.py) for populating database with sample data
+- Flask CLI command `flask seed` to run seeding operations
+- Sample users: alice@example.com and bob@example.com with secure passwords (Dev only)
+- Sample diary entries: 10 realistic diary entries per user with pre-analyzed sentiment
+- Mixed sentiment entries: positive, negative, and neutral diary examples
+- Idempotent seeding: Safe to run multiple times without creating duplicates
+- Clear option: `flask seed --clear` to remove existing data before seeding
+- Backdated entries: Diary entries created with timestamps 1-10 days ago for realistic data
+- FLASK_APP environment variable added to .env.example for Flask CLI commands
+
+#### Fixed (continued)
+- Health endpoint: Fixed deprecation warning by using timezone-aware datetime (datetime.now(UTC))
+- Docs endpoint test: Updated to handle redirect responses (301, 302, 308) in addition to 200
+
+#### Documentation
+- Comprehensive backend documentation suite in docs/ directory:
+  - docs/backend-api.md: Complete REST API reference with authentication, endpoints, error handling, and examples
+  - docs/backend-database.md: Database schema, models, migrations, query optimization, and backup strategies
+  - docs/backend-development.md: Development setup, testing, debugging, and common tasks guide
+  - docs/backend-architecture.md: System design, design patterns, security architecture, and data flow
+  - docs/backend-deployment.md: Production deployment options (VPS, Docker, Heroku, Cloud), monitoring, and scaling
+- Updated README.md with organized documentation links and descriptions
+- Documentation follows "one purpose per document" principle with cross-references to avoid duplication
+- All documentation includes practical examples, code snippets, and troubleshooting sections
+>>>>>>> origin/demo
