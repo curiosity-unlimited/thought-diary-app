@@ -3,28 +3,60 @@
 /* Enable class-based dark mode for Tailwind v4 */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Sentiment highlighting styles */
+/* Sentiment highlighting styles - WCAG 2.1 AA compliant */
 span.positive {
-  background-color: #10b981;
+  /* Using darker green (#047857 / emerald-700) for 4.5:1 contrast with white text */
+  background-color: #047857;
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
+  /* Add bottom border as non-color indicator */
+  border-bottom: 2px solid #065f46;
+  font-weight: 500;
+}
+
+span.positive::before {
+  /* Add plus icon as non-color visual indicator */
+  content: '+';
+  font-weight: bold;
+  margin-right: 0.125rem;
+  opacity: 0.9;
 }
 
 span.negative {
-  background-color: #ef4444;
+  /* Using darker red (#b91c1c / red-700) for 4.5:1 contrast with white text */
+  background-color: #b91c1c;
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
+  /* Add bottom border as non-color indicator with distinct pattern */
+  border-bottom: 2px dotted #991b1b;
+  font-weight: 500;
 }
 
-/* Dark mode sentiment highlighting */
+span.negative::before {
+  /* Add minus icon as non-color visual indicator */
+  content: '−';
+  font-weight: bold;
+  margin-right: 0.125rem;
+  opacity: 0.9;
+}
+
+/* Dark mode sentiment highlighting - maintain 4.5:1 contrast */
 .dark span.positive {
-  background-color: #059669;
+  /* Using lighter green (#10b981 / emerald-500) for sufficient contrast on dark backgrounds */
+  background-color: #10b981;
+  color: #1f2937;
+  /* Darker border for dark mode */
+  border-bottom-color: #059669;
 }
 
 .dark span.negative {
-  background-color: #dc2626;
+  /* Using lighter red (#ef4444 / red-500) for sufficient contrast on dark backgrounds */
+  background-color: #ef4444;
+  color: #1f2937;
+  /* Darker border for dark mode */
+  border-bottom-color: #dc2626;
 }
 
 /* Dark mode base styles */

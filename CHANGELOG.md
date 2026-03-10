@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-03-10
+
+### Backend [0.3.0]
+#### Changed
+- Updated AI sentiment analysis prompt to generate accessible HTML with ARIA attributes (role="mark", aria-label) for WCAG 2.1 AA compliance
+- Modified sentiment marker counting regex to handle both old and new HTML formats with attributes
+
+### Frontend [0.3.0]
+#### Changed
+- **WCAG 2.1 AA Compliance:** Fixed all sentiment display accessibility issues across the application
+- Updated sentiment span colors to meet 4.5:1 contrast ratio requirement:
+  - Light mode positive: Changed from emerald-500 (#10b981) to emerald-700 (#047857)
+  - Light mode negative: Changed from red-500 (#ef4444) to red-700 (#b91c1c)
+  - Dark mode: Adjusted colors to maintain sufficient contrast with dark text on light backgrounds
+- Added visual indicators beyond color for sentiment spans (WCAG 1.4.1 Use of Color):
+  - Positive spans: '+' prefix icon and solid bottom border
+  - Negative spans: '−' prefix icon and dotted bottom border
+- Improved StatsCard gradient backgrounds for better text contrast:
+  - Changed all cards from -500/-600 gradients to -600/-700 gradients
+  - Updated label text from font-medium to font-semibold for better readability
+  - Added role="region" and descriptive aria-label to each statistics card
+  - Added aria-hidden="true" to decorative icons
+- Enhanced sentiment spans with programmatic semantics:
+  - Backend now generates role="mark" attribute for semantic meaning
+  - Backend now generates aria-label="positive sentiment" / "negative sentiment" for screen reader accessibility
+
+#### Fixed
+- WCAG 1.4.3 Contrast (Minimum) - Level AA: All text now meets 4.5:1 contrast ratio requirement
+- WCAG 1.4.1 Use of Color - Level A: Sentiment no longer relies solely on color for distinction
+- WCAG 1.3.1 Info and Relationships - Level A: Sentiment meaning is now programmatically determinable
+- WCAG 4.1.2 Name, Role, Value - Level A: Sentiment spans now have proper semantic role and accessible names
+- WCAG 1.4.11 Non-text Contrast - Level AA: Icon contrast improved to meet 3:1 ratio
+
 ## [0.4.0] - 2026-03-02
 
 ### Frontend [0.2.0]

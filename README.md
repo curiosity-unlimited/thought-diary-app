@@ -59,27 +59,21 @@ A modern, comprehensive full-stack web application with a robust Flask API backe
 
 ### AI-Powered Sentiment Analysis
 - The app leverages [model inference from GitHub Models](https://docs.github.com/en/rest/models/inference?apiVersion=2022-11-28#run-an-inference-request) to analyze thought diaries.
-- Words and phrases are marked for positive/negative thinking and feelings with green/red background colors.
+- Words and phrases are marked for positive/negative thinking and feelings with accessible, high-contrast highlights that meet WCAG 2.1 AA standards.
     - For example, when a user adds or edits a thought diary:
         ```text
         I felt both excitement and anxious after I got elected to join a team for international math competition.
         ```
-    - The backend sends the text to GitHub for model inference and receives HTML-labeled text:
+    - The backend sends the text to GitHub for model inference and receives accessible HTML-labeled text:
         ```html
-        I felt both <span class="positive">excitement</span> and <span class="negative">anxious</span> after I got elected to join a team for international math competition.
+        I felt both <span class="positive" role="mark" aria-label="positive sentiment">excitement</span> and <span class="negative" role="mark" aria-label="negative sentiment">anxious</span> after I got elected to join a team for international math competition.
         ```
     - The backend saves the labeled text in the database.
-    - The frontend retrieves and displays the text using CSS:
-        ```css
-        span.positive {
-            background-color: green;
-            color: white; /* Optional: Change text color for better contrast */
-        }
-        span.negative {
-            background-color: red;
-            color: white; /* Optional: Change text color for better contrast */
-        }
-        ```
+    - The frontend displays the text with accessible styling:
+        - WCAG 2.1 AA compliant color contrast (4.5:1 ratio for all text)
+        - Visual indicators beyond color: '+' and '−' prefix symbols, distinctive border patterns
+        - Screen reader support via ARIA labels and semantic roles
+        - Works for users with color blindness or low vision
 
 ### User Experience
 - **Progressive Web App**: Installable with native app-like experience

@@ -58,13 +58,15 @@ def analyze_sentiment(content: str) -> Tuple[str, int, int]:
         "Authorization": f"Bearer {github_token}"
     }
     
-    # Create the sentiment analysis prompt
+    # Create the sentiment analysis prompt with accessibility requirements
     prompt = """Analyze the following text for sentiment and identify words or phrases that convey positive or negative emotions.
 
-Return the text with HTML span tags around sentiment words:
-- Use <span class="positive">word</span> for positive sentiment words
-- Use <span class="negative">word</span> for negative sentiment words
+Return the text with accessible HTML span tags around sentiment words:
+- Use <span class="positive" role="mark" aria-label="positive sentiment">word</span> for positive sentiment words
+- Use <span class="negative" role="mark" aria-label="negative sentiment">word</span> for negative sentiment words
 - Leave neutral words unmarked
+
+IMPORTANT: Include exactly the role="mark" and aria-label attributes as shown above for accessibility compliance.
 
 Only return the marked-up HTML text, nothing else. Do not add any explanation or additional text.
 
@@ -113,9 +115,9 @@ Text to analyze:
             analyzed_content = analyzed_content[:-3]
         analyzed_content = analyzed_content.strip()
         
-        # Count positive and negative markers
-        positive_count = len(re.findall(r'<span class="positive">', analyzed_content))
-        negative_count = len(re.findall(r'<span class="negative">', analyzed_content))
+        # Count positive and negative markers (handle both old and new format)
+        positive_count = len(re.findall(r'<span class="positive"[^>]*>', analyzed_content))
+        negative_count = len(re.findall(r'<span class="negative"[^>]*>', analyzed_content))
         
         current_app.logger.info(
             f"Sentiment analysis completed: {positive_count} positive, {negative_count} negative markers"

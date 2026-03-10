@@ -162,25 +162,51 @@ const formatDate = (dateString: string): string => {
 </script>
 
 <style scoped>
+/* Sentiment highlighting styles - WCAG 2.1 AA compliant */
 :deep(.diary-content .positive) {
-  background-color: #10b981;
+  /* Using darker green (#047857 / emerald-700) for 4.5:1 contrast with white text */
+  background-color: #047857;
   color: white;
   padding: 2px 4px;
   border-radius: 3px;
+  border-bottom: 2px solid #065f46;
+  font-weight: 500;
+}
+
+:deep(.diary-content .positive::before) {
+  content: '+';
+  font-weight: bold;
+  margin-right: 0.125rem;
+  opacity: 0.9;
 }
 
 :deep(.diary-content .negative) {
-  background-color: #ef4444;
+  /* Using darker red (#b91c1c / red-700) for 4.5:1 contrast with white text */
+  background-color: #b91c1c;
   color: white;
   padding: 2px 4px;
   border-radius: 3px;
+  border-bottom: 2px dotted #991b1b;
+  font-weight: 500;
 }
 
+:deep(.diary-content .negative::before) {
+  content: '−';
+  font-weight: bold;
+  margin-right: 0.125rem;
+  opacity: 0.9;
+}
+
+/* Dark mode - maintain sufficient contrast */
 :global(.dark) :deep(.diary-content .positive) {
-  background-color: #059669;
+  background-color: #10b981;
+  color: #1f2937;
+  border-bottom-color: #059669;
 }
 
 :global(.dark) :deep(.diary-content .negative) {
-  background-color: #dc2626;
+  background-color: #ef4444;
+  color: #1f2937;
+  border-bottom-color: #dc2626;
 }
 </style>
