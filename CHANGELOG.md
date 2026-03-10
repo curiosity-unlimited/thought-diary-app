@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-03-10
+
+### Backend [0.3.0]
+#### Changed
+- Updated `ai_service.py` sentiment analysis prompt to instruct the model to generate `role="mark"` and `aria-label="{word} (positive/negative sentiment)"` attributes on every sentiment span, making sentiment meaning programmatically determinable (WCAG 1.3.1, 4.1.2)
+
+### Frontend [0.3.0]
+#### Changed
+- `style.css`: Updated `.positive` color to `#047857` (green-700, ≥5.3:1 contrast with white) and `.negative` to `#b91c1c` (red-800, ≥6.5:1 contrast with white); added underline as non-color visual distinction (WCAG 1.4.1, 1.4.3)
+- `DiaryCard.vue`: Aligned scoped CSS colors with global sentiment styles; added `aria-label` with counts to sentiment stat containers; marked decorative SVG icons with `aria-hidden="true"` (WCAG 1.3.1, 4.1.2)
+- `DiaryDetail.vue`: Aligned scoped CSS colors; changed positive icon from `text-green-500` to `text-green-600` (≥3:1 non-text contrast, WCAG 1.4.11); added `aria-label` to sentiment containers; marked decorative icons with `aria-hidden="true"`
+- `StatsCard.vue`: Darkened gradient backgrounds (`blue-700/800`, `green-700/800`, `red-800/900`, `gray-600/700`) so white small-text labels meet ≥4.5:1 contrast (WCAG 1.4.3); removed `opacity-90` from labels; added `aria-label` to each card; marked decorative icons with `aria-hidden="true"` (WCAG 1.4.11)
+
 ## [0.4.0] - 2026-03-02
 
 ### Frontend [0.2.0]

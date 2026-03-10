@@ -19,7 +19,8 @@ def analyze_sentiment(content: str) -> Tuple[str, int, int]:
     
     This function sends text to the GitHub Models API (gpt-4o) to identify
     positive and negative sentiment words/phrases. The API returns HTML with
-    <span class="positive"> and <span class="negative"> tags wrapping
+    <span class="positive" role="mark" aria-label="{word} (positive sentiment)"> and
+    <span class="negative" role="mark" aria-label="{word} (negative sentiment)"> tags wrapping
     sentiment-bearing words.
     
     Args:
@@ -27,7 +28,7 @@ def analyze_sentiment(content: str) -> Tuple[str, int, int]:
         
     Returns:
         Tuple[str, int, int]: A tuple containing:
-            - analyzed_content (str): HTML with sentiment markers
+            - analyzed_content (str): HTML with sentiment markers and ARIA attributes
             - positive_count (int): Number of positive sentiment markers
             - negative_count (int): Number of negative sentiment markers
             
@@ -38,7 +39,7 @@ def analyze_sentiment(content: str) -> Tuple[str, int, int]:
         >>> content = "I felt both excitement and anxious today."
         >>> analyzed, pos, neg = analyze_sentiment(content)
         >>> print(analyzed)
-        'I felt both <span class="positive">excitement</span> and <span class="negative">anxious</span> today.'
+        'I felt both <span class="positive" role="mark" aria-label="excitement (positive sentiment)">excitement</span> and <span class="negative" role="mark" aria-label="anxious (negative sentiment)">anxious</span> today.'
         >>> print(pos, neg)
         1 1
     """
@@ -62,8 +63,9 @@ def analyze_sentiment(content: str) -> Tuple[str, int, int]:
     prompt = """Analyze the following text for sentiment and identify words or phrases that convey positive or negative emotions.
 
 Return the text with HTML span tags around sentiment words:
-- Use <span class="positive">word</span> for positive sentiment words
-- Use <span class="negative">word</span> for negative sentiment words
+- Use <span class="positive" role="mark" aria-label="{word} (positive sentiment)">{word}</span> for positive sentiment words
+- Use <span class="negative" role="mark" aria-label="{word} (negative sentiment)">{word}</span> for negative sentiment words
+- Replace {word} with the actual word or phrase being marked
 - Leave neutral words unmarked
 
 Only return the marked-up HTML text, nothing else. Do not add any explanation or additional text.

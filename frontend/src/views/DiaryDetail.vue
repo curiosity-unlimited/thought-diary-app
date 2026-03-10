@@ -243,13 +243,15 @@ onMounted(() => {
           <!-- Footer with Sentiment Counts -->
           <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
             <div class="flex items-center space-x-6 text-sm">
-              <div class="flex items-center">
+              <div class="flex items-center" :aria-label="`${diariesStore.currentDiary.positive_count} positive sentiment words`">
                 <svg
-                  class="h-5 w-5 text-green-500 dark:text-green-400 mr-1"
+                  class="h-5 w-5 text-green-600 dark:text-green-400 mr-1"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  aria-hidden="true"
+                  focusable="false"
                 >
                   <path
                     stroke-linecap="round"
@@ -258,20 +260,22 @@ onMounted(() => {
                     d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
                   />
                 </svg>
-                <span class="text-gray-700 dark:text-gray-300">
+                <span class="text-gray-700 dark:text-gray-300" aria-hidden="true">
                   <span class="font-medium">{{
                     diariesStore.currentDiary.positive_count
                   }}</span>
                   positive
                 </span>
               </div>
-              <div class="flex items-center">
+              <div class="flex items-center" :aria-label="`${diariesStore.currentDiary.negative_count} negative sentiment words`">
                 <svg
-                  class="h-5 w-5 text-red-500 dark:text-red-400 mr-1"
+                  class="h-5 w-5 text-red-600 dark:text-red-400 mr-1"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  aria-hidden="true"
+                  focusable="false"
                 >
                   <path
                     stroke-linecap="round"
@@ -280,7 +284,7 @@ onMounted(() => {
                     d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"
                   />
                 </svg>
-                <span class="text-gray-700 dark:text-gray-300">
+                <span class="text-gray-700 dark:text-gray-300" aria-hidden="true">
                   <span class="font-medium">{{
                     diariesStore.currentDiary.negative_count
                   }}</span>
@@ -328,26 +332,28 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* Sentiment highlighting styles */
+/* Colors meet WCAG 1.4.3 contrast (≥4.5:1 with white):
+   positive #047857 ≈ 5.3:1, negative #b91c1c ≈ 6.5:1.
+   Underline provides non-color distinction (WCAG 1.4.1). */
 :deep(.positive) {
-  background-color: #10b981;
+  background-color: #047857;
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.7);
+  text-underline-offset: 2px;
+  font-weight: 600;
 }
 
 :deep(.negative) {
-  background-color: #ef4444;
+  background-color: #b91c1c;
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
-}
-
-:global(.dark) :deep(.positive) {
-  background-color: #059669;
-}
-
-:global(.dark) :deep(.negative) {
-  background-color: #dc2626;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.7);
+  text-underline-offset: 2px;
+  font-weight: 600;
 }
 </style>

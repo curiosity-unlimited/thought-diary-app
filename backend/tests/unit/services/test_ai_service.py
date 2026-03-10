@@ -381,3 +381,25 @@ class TestAPIIntegration:
         # Verify test content is included in messages
         message_contents = [msg.get('content', '') for msg in payload['messages']]
         assert any(test_content in content for content in message_contents)
+
+    @patch('app.services.ai_service.requests.post')
+    def test_api_prompt_instructs_aria_attributes(self, mock_post, app):
+        """Test that the prompt instructs the LLM to include ARIA attributes for accessibility."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            'choices': [{'message': {'content': 'Test content'}}]
+        }
+        mock_post.return_value = mock_response
+
+        analyze_sentiment('Test content.')
+
+        call_kwargs = mock_post.call_args[1]
+        payload = call_kwargs['json']
+        message_contents = ' '.join(
+            msg.get('content', '') for msg in payload['messages']
+        )
+        # The prompt must instruct the LLM to add role="mark" and aria-label
+        # attributes so sentiment meaning is programmatically determinable (WCAG 4.1.2)
+        assert 'role="mark"' in message_contents
+        assert 'aria-label' in message_contents

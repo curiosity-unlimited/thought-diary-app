@@ -4,27 +4,30 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Sentiment highlighting styles */
+/* Colors chosen to meet WCAG 1.4.3 contrast (≥4.5:1 with white text):
+   - positive: #047857 (green-700) ≈ 5.3:1
+   - negative: #b91c1c (red-800)   ≈ 6.5:1
+   Underline provides a non-color visual cue (WCAG 1.4.1). */
 span.positive {
-  background-color: #10b981;
+  background-color: #047857;
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.7);
+  text-underline-offset: 2px;
+  font-weight: 600;
 }
 
 span.negative {
-  background-color: #ef4444;
+  background-color: #b91c1c;
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
-}
-
-/* Dark mode sentiment highlighting */
-.dark span.positive {
-  background-color: #059669;
-}
-
-.dark span.negative {
-  background-color: #dc2626;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.7);
+  text-underline-offset: 2px;
+  font-weight: 600;
 }
 
 /* Dark mode base styles */

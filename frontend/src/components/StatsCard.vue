@@ -1,15 +1,19 @@
 <template>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <!-- Total Entries -->
+    <!-- from-blue-700 to-blue-800 gives white text contrast ≥4.5:1 (WCAG 1.4.3) -->
     <div
-      class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
+      class="bg-gradient-to-br from-blue-700 to-blue-800 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
+      aria-label="Total diary entries"
     >
       <div class="flex items-center justify-between mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8 opacity-80"
+          class="h-8 w-8"
           viewBox="0 0 20 20"
           fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
         >
           <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
           <path
@@ -20,19 +24,23 @@
         </svg>
       </div>
       <div class="text-3xl font-bold mb-1">{{ total }}</div>
-      <div class="text-sm font-medium opacity-90">Total Entries</div>
+      <div class="text-sm font-medium">Total Entries</div>
     </div>
 
     <!-- Positive Entries -->
+    <!-- from-green-700 to-green-800 gives white text contrast ≥4.5:1 (WCAG 1.4.3) -->
     <div
-      class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
+      class="bg-gradient-to-br from-green-700 to-green-800 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
+      aria-label="Positive diary entries"
     >
       <div class="flex items-center justify-between mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8 opacity-80"
+          class="h-8 w-8"
           viewBox="0 0 20 20"
           fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
         >
           <path
             fill-rule="evenodd"
@@ -42,19 +50,23 @@
         </svg>
       </div>
       <div class="text-3xl font-bold mb-1">{{ positive }}</div>
-      <div class="text-sm font-medium opacity-90">Positive Entries</div>
+      <div class="text-sm font-medium">Positive Entries</div>
     </div>
 
     <!-- Negative Entries -->
+    <!-- from-red-800 to-red-900 gives white text contrast ≥4.5:1 (WCAG 1.4.3) -->
     <div
-      class="bg-gradient-to-br from-red-500 to-red-600 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
+      class="bg-gradient-to-br from-red-800 to-red-900 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
+      aria-label="Negative diary entries"
     >
       <div class="flex items-center justify-between mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8 opacity-80"
+          class="h-8 w-8"
           viewBox="0 0 20 20"
           fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
         >
           <path
             fill-rule="evenodd"
@@ -64,19 +76,23 @@
         </svg>
       </div>
       <div class="text-3xl font-bold mb-1">{{ negative }}</div>
-      <div class="text-sm font-medium opacity-90">Negative Entries</div>
+      <div class="text-sm font-medium">Negative Entries</div>
     </div>
 
     <!-- Neutral Entries -->
+    <!-- from-gray-600 to-gray-700 gives white text contrast ≥4.5:1 (WCAG 1.4.3) -->
     <div
-      class="bg-gradient-to-br from-gray-500 to-gray-600 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
+      class="bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
+      aria-label="Neutral diary entries"
     >
       <div class="flex items-center justify-between mb-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8 opacity-80"
+          class="h-8 w-8"
           viewBox="0 0 20 20"
           fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
         >
           <path
             fill-rule="evenodd"
@@ -86,7 +102,7 @@
         </svg>
       </div>
       <div class="text-3xl font-bold mb-1">{{ neutral }}</div>
-      <div class="text-sm font-medium opacity-90">Neutral Entries</div>
+      <div class="text-sm font-medium">Neutral Entries</div>
     </div>
   </div>
 </template>

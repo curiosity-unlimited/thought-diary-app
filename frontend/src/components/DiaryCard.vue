@@ -75,12 +75,14 @@
 
     <!-- Sentiment Counts -->
     <div class="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2" :aria-label="`${diary.positive_count} positive sentiment words`">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5 text-green-600 dark:text-green-400"
           viewBox="0 0 20 20"
           fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
         >
           <path
             fill-rule="evenodd"
@@ -88,16 +90,18 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300" aria-hidden="true">
           {{ diary.positive_count }} positive
         </span>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2" :aria-label="`${diary.negative_count} negative sentiment words`">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5 text-red-600 dark:text-red-400"
           viewBox="0 0 20 20"
           fill="currentColor"
+          aria-hidden="true"
+          focusable="false"
         >
           <path
             fill-rule="evenodd"
@@ -105,7 +109,7 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span class="text-sm font-medium text-gray-700 dark:text-gray-300" aria-hidden="true">
           {{ diary.negative_count }} negative
         </span>
       </div>
@@ -162,25 +166,28 @@ const formatDate = (dateString: string): string => {
 </script>
 
 <style scoped>
+/* Colors meet WCAG 1.4.3 contrast (≥4.5:1 with white):
+   positive #047857 ≈ 5.3:1, negative #b91c1c ≈ 6.5:1.
+   Underline provides non-color distinction (WCAG 1.4.1). */
 :deep(.diary-content .positive) {
-  background-color: #10b981;
+  background-color: #047857;
   color: white;
   padding: 2px 4px;
   border-radius: 3px;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.7);
+  text-underline-offset: 2px;
+  font-weight: 600;
 }
 
 :deep(.diary-content .negative) {
-  background-color: #ef4444;
+  background-color: #b91c1c;
   color: white;
   padding: 2px 4px;
   border-radius: 3px;
-}
-
-:global(.dark) :deep(.diary-content .positive) {
-  background-color: #059669;
-}
-
-:global(.dark) :deep(.diary-content .negative) {
-  background-color: #dc2626;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.7);
+  text-underline-offset: 2px;
+  font-weight: 600;
 }
 </style>

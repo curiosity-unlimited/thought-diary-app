@@ -90,4 +90,43 @@ describe('StatsCard', () => {
     expect(grid.classes()).toContain('grid-cols-2');
     expect(grid.classes()).toContain('md:grid-cols-4');
   });
+
+  it('should use darker gradient backgrounds for WCAG contrast compliance', () => {
+    const wrapper = mount(StatsCard, {
+      props: { stats: mockStats },
+    });
+
+    const cards = wrapper.findAll('.bg-gradient-to-br');
+    // blue-700/800 for total
+    expect(cards[0].classes()).toContain('from-blue-700');
+    // green-700/800 for positive
+    expect(cards[1].classes()).toContain('from-green-700');
+    // red-800/900 for negative
+    expect(cards[2].classes()).toContain('from-red-800');
+    // gray-600/700 for neutral
+    expect(cards[3].classes()).toContain('from-gray-600');
+  });
+
+  it('should have aria-label on each stat card', () => {
+    const wrapper = mount(StatsCard, {
+      props: { stats: mockStats },
+    });
+
+    const cards = wrapper.findAll('.bg-gradient-to-br');
+    expect(cards[0].attributes('aria-label')).toBe('Total diary entries');
+    expect(cards[1].attributes('aria-label')).toBe('Positive diary entries');
+    expect(cards[2].attributes('aria-label')).toBe('Negative diary entries');
+    expect(cards[3].attributes('aria-label')).toBe('Neutral diary entries');
+  });
+
+  it('should mark icons as aria-hidden for decorative icons', () => {
+    const wrapper = mount(StatsCard, {
+      props: { stats: mockStats },
+    });
+
+    const svgs = wrapper.findAll('svg');
+    svgs.forEach((svg) => {
+      expect(svg.attributes('aria-hidden')).toBe('true');
+    });
+  });
 });

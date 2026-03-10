@@ -258,4 +258,34 @@ describe('DiaryCard', () => {
     // Should render without error
     expect(wrapper.exists()).toBe(true);
   });
+
+  it('should have aria-label on positive sentiment count container', () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+
+    const positiveContainer = wrapper.find('[aria-label*="positive sentiment"]');
+    expect(positiveContainer.exists()).toBe(true);
+    expect(positiveContainer.attributes('aria-label')).toContain('1');
+  });
+
+  it('should have aria-label on negative sentiment count container', () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+
+    const negativeContainer = wrapper.find('[aria-label*="negative sentiment"]');
+    expect(negativeContainer.exists()).toBe(true);
+    expect(negativeContainer.attributes('aria-label')).toContain('0');
+  });
+
+  it('should mark sentiment count icons as aria-hidden', () => {
+    const wrapper = mount(DiaryCard, {
+      props: { diary: mockDiary },
+    });
+
+    // All decorative SVG icons in the sentiment count section should be aria-hidden
+    const svgs = wrapper.findAll('svg[aria-hidden="true"]');
+    expect(svgs.length).toBeGreaterThanOrEqual(2);
+  });
 });
