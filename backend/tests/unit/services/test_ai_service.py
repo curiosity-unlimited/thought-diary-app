@@ -5,6 +5,7 @@ This module tests:
 - Positive and negative sentiment counting
 - API error handling (connection, timeout, HTTP errors)
 - Graceful fallback to original content on failure
+- WCAG 2.1 AA accessible HTML format with ARIA attributes
 """
 
 from unittest.mock import patch, MagicMock
@@ -381,3 +382,100 @@ class TestAPIIntegration:
         # Verify test content is included in messages
         message_contents = [msg.get('content', '') for msg in payload['messages']]
         assert any(test_content in content for content in message_contents)
+
+
+class TestAccessibleHTMLFormat:
+    """Test cases for WCAG 2.1 AA accessible HTML format."""
+
+    @patch('app.services.ai_service.requests.post')
+    def test_counting_with_aria_attributes(self, mock_post, app):
+        """Test that sentiment counting works with ARIA attributes."""
+        # Mock response with accessible HTML format
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            'choices': [{
+                'message': {
+                    'content': 'I felt <span class="positive" role="mark" aria-label="positive sentiment">happy</span> and <span class="negative" role="mark" aria-label="negative sentiment">sad</span>.'
+                }
+            }]
+        }
+        mock_post.return_value = mock_response
+
+        analyzed_content, positive_count, negative_count = analyze_sentiment('I felt happy and sad.')
+
+        # Should correctly count spans even with ARIA attributes
+        assert positive_count == 1
+        assert negative_count == 1
+        assert 'role="mark"' in analyzed_content
+        assert 'aria-label="positive sentiment"' in analyzed_content
+        assert 'aria-label="negative sentiment"' in analyzed_content
+
+    @patch('app.services.ai_service.requests.post')
+    def test_counting_mixed_format(self, mock_post, app):
+        """Test counting with mixed old and new format (backward compatibility)."""
+        # Mock response with both old format and new format spans
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            'choices': [{
+                'message': {
+                    'content': '<span class="positive">old</span> <span class="positive" role="mark" aria-label="positive sentiment">new</span> <span class="negative">old</span>'
+                }
+            }]
+        }
+        mock_post.return_value = mock_response
+
+        analyzed_content, positive_count, negative_count = analyze_sentiment('test')
+
+        # Should count both old and new format spans
+        assert positive_count == 2
+        assert negative_count == 1
+
+    @patch('app.services.ai_service.requests.post')
+    def test_multiple_accessible_spans(self, mock_post, app):
+        """Test counting multiple accessible sentiment spans."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            'choices': [{
+                'message': {
+                    'content': '''I felt <span class="positive" role="mark" aria-label="positive sentiment">excited</span>,
+                    <span class="positive" role="mark" aria-label="positive sentiment">joyful</span>, and
+                    <span class="positive" role="mark" aria-label="positive sentiment">happy</span> but also
+                    <span class="negative" role="mark" aria-label="negative sentiment">worried</span> and
+                    <span class="negative" role="mark" aria-label="negative sentiment">anxious</span>.'''
+                }
+            }]
+        }
+        mock_post.return_value = mock_response
+
+        analyzed_content, positive_count, negative_count = analyze_sentiment('test')
+
+        assert positive_count == 3
+        assert negative_count == 2
+
+    @patch('app.services.ai_service.requests.post')
+    def test_prompt_requests_aria_attributes(self, mock_post, app):
+        """Test that the AI prompt requests ARIA attributes for accessibility."""
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            'choices': [{
+                'message': {
+                    'content': 'Test content'
+                }
+            }]
+        }
+        mock_post.return_value = mock_response
+
+        analyze_sentiment('Test content')
+
+        # Verify the prompt includes ARIA attribute instructions
+        call_kwargs = mock_post.call_args[1]
+        payload = call_kwargs['json']
+        user_message = payload['messages'][1]['content']
+
+        assert 'role="mark"' in user_message
+        assert 'aria-label' in user_message
+        assert 'accessibility' in user_message.lower() or 'accessible' in user_message.lower()
