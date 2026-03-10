@@ -13,6 +13,15 @@ from app.models.user import User
 from app.models.thought_diary import ThoughtDiary
 
 
+def accessible_span(word: str, sentiment: str = "positive") -> str:
+    """Helper to mirror accessible sentiment markup used by the AI service."""
+    label = f"{sentiment.capitalize()} sentiment"
+    return (
+        f'<span class="{sentiment}" role="mark" data-sentiment="{sentiment}" '
+        f'aria-label="{label}"><span class="sr-only">{label}: </span>{word}</span>'
+    )
+
+
 class TestUserModel:
     """Test cases for the User model."""
     
@@ -175,7 +184,7 @@ class TestThoughtDiaryModel:
             diary = ThoughtDiary(
                 user_id=test_user.id,
                 content='I felt happy today.',
-                analyzed_content='I felt <span class="positive">happy</span> today.',
+                analyzed_content=f'I felt {accessible_span("happy")} today.',
                 positive_count=1,
                 negative_count=0
             )
@@ -185,7 +194,7 @@ class TestThoughtDiaryModel:
             assert diary.id is not None
             assert diary.user_id == test_user.id
             assert diary.content == 'I felt happy today.'
-            assert diary.analyzed_content == 'I felt <span class="positive">happy</span> today.'
+            assert diary.analyzed_content == f'I felt {accessible_span("happy")} today.'
             assert diary.positive_count == 1
             assert diary.negative_count == 0
             assert diary.created_at is not None
@@ -225,7 +234,7 @@ class TestThoughtDiaryModel:
             diary = ThoughtDiary(
                 user_id=test_user.id,
                 content='I felt great!',
-                analyzed_content='I felt <span class="positive">great</span>!',
+                analyzed_content=f'I felt {accessible_span("great")}!',
                 positive_count=3,
                 negative_count=1
             )
@@ -237,7 +246,7 @@ class TestThoughtDiaryModel:
             diary = ThoughtDiary(
                 user_id=test_user.id,
                 content='I felt terrible.',
-                analyzed_content='I felt <span class="negative">terrible</span>.',
+                analyzed_content=f'I felt {accessible_span("terrible", "negative")}.',
                 positive_count=1,
                 negative_count=3
             )

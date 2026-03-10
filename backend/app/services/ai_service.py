@@ -113,9 +113,12 @@ Text to analyze:
             analyzed_content = analyzed_content[:-3]
         analyzed_content = analyzed_content.strip()
         
+        # Add accessibility metadata to sentiment spans
+        analyzed_content = _add_accessibility_metadata(analyzed_content)
+        
         # Count positive and negative markers
-        positive_count = len(re.findall(r'<span class="positive">', analyzed_content))
-        negative_count = len(re.findall(r'<span class="negative">', analyzed_content))
+        positive_count = len(POSITIVE_SPAN_PATTERN.findall(analyzed_content))
+        negative_count = len(NEGATIVE_SPAN_PATTERN.findall(analyzed_content))
         
         current_app.logger.info(
             f"Sentiment analysis completed: {positive_count} positive, {negative_count} negative markers"
@@ -173,3 +176,47 @@ def get_sentiment_summary(positive_count: int, negative_count: int) -> str:
         return "negative"
     else:
         return "neutral"
+
+
+POSITIVE_SPAN_PATTERN = re.compile(
+    r'<span\s+class=["\']positive["\'][^>]*>',
+    re.IGNORECASE,
+)
+NEGATIVE_SPAN_PATTERN = re.compile(
+    r'<span\s+class=["\']negative["\'][^>]*>',
+    re.IGNORECASE,
+)
+
+POSITIVE_SPAN_WITH_CONTENT = re.compile(
+    r'<span\s+class=["\']positive["\']([^>]*)>(.*?)</span>',
+    re.IGNORECASE | re.DOTALL,
+)
+NEGATIVE_SPAN_WITH_CONTENT = re.compile(
+    r'<span\s+class=["\']negative["\']([^>]*)>(.*?)</span>',
+    re.IGNORECASE | re.DOTALL,
+)
+
+
+def _add_accessibility_metadata(analyzed_content: str) -> str:
+    """Add aria-labels and hidden text to sentiment spans for accessibility."""
+
+    def _decorate(match: re.Match, sentiment: str) -> str:
+        existing_attrs = match.group(1) or ""
+        content = match.group(2)
+        aria_label = f"{sentiment.capitalize()} sentiment"
+        # Preserve any attributes the model may have added while appending accessibility hooks.
+        return (
+            f'<span class="{sentiment}"{existing_attrs} role="mark" '
+            f'data-sentiment="{sentiment}" aria-label="{aria_label}">'
+            f'<span class="sr-only">{aria_label}: </span>{content}</span>'
+        )
+
+    updated_content = POSITIVE_SPAN_WITH_CONTENT.sub(
+        lambda m: _decorate(m, "positive"),
+        analyzed_content,
+    )
+    updated_content = NEGATIVE_SPAN_WITH_CONTENT.sub(
+        lambda m: _decorate(m, "negative"),
+        updated_content,
+    )
+    return updated_content

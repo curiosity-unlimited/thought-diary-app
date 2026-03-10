@@ -12,6 +12,15 @@ import requests
 from app.services.ai_service import analyze_sentiment, get_sentiment_summary
 
 
+def sentiment_span(word: str, sentiment: str) -> str:
+    """Build expected accessible sentiment span used by the service."""
+    label = f"{sentiment.capitalize()} sentiment"
+    return (
+        f'<span class="{sentiment}" role="mark" data-sentiment="{sentiment}" '
+        f'aria-label="{label}"><span class="sr-only">{label}: </span>{word}</span>'
+    )
+
+
 class TestAnalyzeSentiment:
     """Test cases for analyze_sentiment function."""
     
@@ -31,8 +40,12 @@ class TestAnalyzeSentiment:
         mock_post.return_value = mock_response
         
         analyzed_content, positive_count, negative_count = analyze_sentiment('I felt happy and excited but also nervous.')
-        
-        assert analyzed_content == 'I felt <span class="positive">happy</span> and <span class="positive">excited</span> but also <span class="negative">nervous</span>.'
+
+        assert sentiment_span("happy", "positive") in analyzed_content
+        assert sentiment_span("excited", "positive") in analyzed_content
+        assert sentiment_span("nervous", "negative") in analyzed_content
+        assert 'aria-label="Positive sentiment"' in analyzed_content
+        assert 'aria-label="Negative sentiment"' in analyzed_content
         assert positive_count == 2
         assert negative_count == 1
         

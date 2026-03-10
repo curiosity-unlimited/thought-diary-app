@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2026-03-10
+
+### Backend [0.2.1]
+#### Changed
+- Added programmatic sentiment metadata (role/data-sentiment/aria-label + sr-only text) to analyzer output for WCAG compliance.
+- Updated sentiment span counting to handle the new accessible markup and refreshed fixtures/tests accordingly.
+
+### Frontend [0.2.1]
+#### Changed
+- Refreshed sentiment chip styling with contrast-safe backgrounds, dotted underlines, and ▲/▼ icons to avoid color-only cues in light/dark themes.
+- Simplified DiaryCard/DiaryDetail sentiment styles to rely on the global accessible chips.
+- Rebuilt StatsCard with high-contrast borders/backgrounds, explicit labels, and aria-labels to meet WCAG contrast requirements.
+
 ## [0.4.0] - 2026-03-02
 
 ### Frontend [0.2.0]

@@ -14,6 +14,15 @@ from unittest.mock import patch
 from app.models.thought_diary import ThoughtDiary
 
 
+def accessible_span(word: str, sentiment: str = "positive") -> str:
+    """Match the accessible sentiment markup emitted by the AI service."""
+    label = f"{sentiment.capitalize()} sentiment"
+    return (
+        f'<span class="{sentiment}" role="mark" data-sentiment="{sentiment}" '
+        f'aria-label="{label}"><span class="sr-only">{label}: </span>{word}</span>'
+    )
+
+
 class TestListDiariesEndpoint:
     """Test cases for GET /diaries endpoint."""
     
@@ -125,7 +134,7 @@ class TestCreateDiaryEndpoint:
         """Test successful diary creation with AI analysis."""
         # Mock AI service response - returns tuple of (analyzed_content, positive_count, negative_count)
         mock_analyze.return_value = (
-            'I felt <span class="positive">happy</span> today.',
+            f'I felt {accessible_span("happy")} today.',
             1,
             0
         )
@@ -140,7 +149,7 @@ class TestCreateDiaryEndpoint:
         data = response.get_json()
         assert 'id' in data
         assert data['content'] == 'I felt happy today.'
-        assert data['analyzed_content'] == 'I felt <span class="positive">happy</span> today.'
+        assert data['analyzed_content'] == f'I felt {accessible_span("happy")} today.'
         assert data['positive_count'] == 1
         assert data['negative_count'] == 0
         
@@ -278,7 +287,7 @@ class TestUpdateDiaryEndpoint:
         """Test successful diary update with AI re-analysis."""
         # Mock AI service response
         mock_analyze.return_value = (
-            'Updated <span class="positive">content</span>.',
+            f'Updated {accessible_span("content")}.',
             1,
             0
         )
@@ -293,7 +302,7 @@ class TestUpdateDiaryEndpoint:
         data = response.get_json()
         assert 'id' in data
         assert data['content'] == 'Updated content.'
-        assert data['analyzed_content'] == 'Updated <span class="positive">content</span>.'
+        assert data['analyzed_content'] == f'Updated {accessible_span("content")}.'
         
         # Verify AI service was called with new content
         mock_analyze.assert_called_once_with('Updated content.')
@@ -451,7 +460,7 @@ class TestDiaryStatsEndpoint:
             diary = ThoughtDiary(
                 user_id=test_user.id,
                 content='Great day!',
-                analyzed_content='<span class="positive">Great</span> day!',
+                analyzed_content=f'{accessible_span("Great")} day!',
                 positive_count=5,
                 negative_count=1
             )
@@ -473,7 +482,7 @@ class TestDiaryStatsEndpoint:
             diary = ThoughtDiary(
                 user_id=test_user.id,
                 content='Terrible day.',
-                analyzed_content='<span class="negative">Terrible</span> day.',
+                analyzed_content=f'{accessible_span("Terrible", "negative")} day.',
                 positive_count=1,
                 negative_count=5
             )

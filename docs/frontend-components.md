@@ -458,7 +458,7 @@ interface Props {
 
 **Features:**
 - Sentiment highlighting with v-html rendering (analyzed_content from backend)
-- CSS styling for `.positive` (green) and `.negative` (red) spans
+- Accessible chips for `.positive`/`.negative` with icons, dotted underline, and screen reader labels (no color-only reliance)
 - Absolute date formatting (Month Day, Year at Time)
 - Positive/negative sentiment count display with icons
 - Edit and delete action buttons with icon buttons
@@ -468,11 +468,18 @@ interface Props {
 **Sentiment Display:**
 ```html
 <!-- Backend returns analyzed_content: -->
-I felt both <span class="positive">excitement</span> and <span class="negative">anxious</span>
+I felt both
+<span class="positive" role="mark" data-sentiment="positive" aria-label="Positive sentiment">
+  <span class="sr-only">Positive sentiment: </span>excitement
+</span>
+and
+<span class="negative" role="mark" data-sentiment="negative" aria-label="Negative sentiment">
+  <span class="sr-only">Negative sentiment: </span>anxious
+</span>
 
 <!-- Rendered with CSS: -->
-I felt both [excitement] and [anxious]
-           ↑ green bg   ↑ red bg
+I felt both [▲ excitement] and [▼ anxious]
+           ↑ icon + border + contrast-safe background
 ```
 
 **Visual:**

@@ -160,27 +160,3 @@ const formatDate = (dateString: string): string => {
   });
 };
 </script>
-
-<style scoped>
-:deep(.diary-content .positive) {
-  background-color: #10b981;
-  color: white;
-  padding: 2px 4px;
-  border-radius: 3px;
-}
-
-:deep(.diary-content .negative) {
-  background-color: #ef4444;
-  color: white;
-  padding: 2px 4px;
-  border-radius: 3px;
-}
-
-:global(.dark) :deep(.diary-content .positive) {
-  background-color: #059669;
-}
-
-:global(.dark) :deep(.diary-content .negative) {
-  background-color: #dc2626;
-}
-</style>

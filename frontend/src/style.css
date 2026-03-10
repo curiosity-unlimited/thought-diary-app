@@ -3,28 +3,92 @@
 /* Enable class-based dark mode for Tailwind v4 */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Sentiment highlighting styles */
+:root {
+  --positive-bg: #ecfdf3;
+  --positive-text: #065f46;
+  --positive-border: #047857;
+  --positive-icon: #047857;
+  --negative-bg: #fef2f2;
+  --negative-text: #7f1d1d;
+  --negative-border: #b91c1c;
+  --negative-icon: #b91c1c;
+}
+
+.dark {
+  --positive-bg: #0b3a2c;
+  --positive-text: #d1fae5;
+  --positive-border: #34d399;
+  --positive-icon: #34d399;
+  --negative-bg: #3b0f0f;
+  --negative-text: #fee2e2;
+  --negative-border: #fca5a5;
+  --negative-icon: #fca5a5;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Sentiment highlighting styles with non-color cues */
+span.positive,
+span.negative {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: underline dotted currentColor;
+}
+
 span.positive {
-  background-color: #10b981;
-  color: white;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
+  background-color: var(--positive-bg);
+  color: var(--positive-text);
+  border: 1px solid var(--positive-border);
+  box-shadow: 0 0 0 1px rgba(4, 120, 87, 0.3);
 }
 
 span.negative {
-  background-color: #ef4444;
-  color: white;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
+  background-color: var(--negative-bg);
+  color: var(--negative-text);
+  border: 1px solid var(--negative-border);
+  box-shadow: 0 0 0 1px rgba(185, 28, 28, 0.35);
 }
 
-/* Dark mode sentiment highlighting */
-.dark span.positive {
-  background-color: #059669;
+span.positive::before,
+span.negative::before {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 800;
 }
 
-.dark span.negative {
-  background-color: #dc2626;
+span.positive::before {
+  content: '▲';
+  color: var(--positive-icon);
+}
+
+span.negative::before {
+  content: '▼';
+  color: var(--negative-icon);
+}
+
+span.positive:focus-visible {
+  outline: 2px solid var(--positive-border);
+  outline-offset: 2px;
+}
+
+span.negative:focus-visible {
+  outline: 2px solid var(--negative-border);
+  outline-offset: 2px;
 }
 
 /* Dark mode base styles */

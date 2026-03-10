@@ -560,15 +560,10 @@ Dark mode is implemented using Tailwind's class-based strategy. The `dark` class
 </div>
 ```
 
-**Sentiment highlighting in dark mode (scoped styles):**
-```css
-:global(.dark) :deep(.positive) {
-  background-color: #059669; /* slightly darker green */
-}
-:global(.dark) :deep(.negative) {
-  background-color: #dc2626; /* slightly darker red */
-}
-```
+**Sentiment highlighting (global + accessible):**
+- Backend spans include `role="mark"`, `data-sentiment`, `aria-label`, and a visually hidden prefix (e.g., "Positive sentiment:") so assistive tech can convey meaning.
+- Global styles in `src/style.css` use CSS variables for light/dark contrast, dotted underlines, and ▲/▼ icons to avoid color-only cues.
+- Avoid overriding `.positive`/`.negative` in scoped styles to keep accessibility consistent.
 
 ### Styling Approach
 
@@ -593,29 +588,7 @@ Dark mode is implemented using Tailwind's class-based strategy. The `dark` class
 
 **2. Scoped Styles for Specificity:**
 
-```vue
-<style scoped>
-/* Component-specific styles */
-.custom-component {
-  /* Styles that don't fit Tailwind patterns */
-}
-
-/* Sentiment highlighting (from backend) */
-:deep(.positive) {
-  background-color: #10b981;
-  color: white;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-}
-
-:deep(.negative) {
-  background-color: #ef4444;
-  color: white;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-}
-</style>
-```
+Use scoped styles for component-only tweaks, but let the global `.positive`/`.negative` chip styles handle sentiment tokens so they keep their accessible cues (icons, borders, and readable contrast).
 
 **3. Global Styles:**
 

@@ -402,24 +402,8 @@ See [Frontend Architecture - State Management](./frontend-architecture.md#state-
 ```
 
 **Scoped Styles:**
-```vue
-<style scoped>
-/* Sentiment highlighting from backend */
-:deep(.positive) {
-  background-color: #10b981;
-  color: white;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-}
-
-:deep(.negative) {
-  background-color: #ef4444;
-  color: white;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-}
-</style>
-```
+- Keep sentiment chip styling centralized in `src/style.css` so `.positive`/`.negative` spans retain their icons, borders, and ARIA labels.
+- Only add scoped rules for component-specific layout concerns; avoid overriding sentiment colors to preserve WCAG contrast.
 
 ## Debugging
 

@@ -326,28 +326,3 @@ onMounted(() => {
     </div>
   </MainLayout>
 </template>
-
-<style scoped>
-/* Sentiment highlighting styles */
-:deep(.positive) {
-  background-color: #10b981;
-  color: white;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-}
-
-:deep(.negative) {
-  background-color: #ef4444;
-  color: white;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
-}
-
-:global(.dark) :deep(.positive) {
-  background-color: #059669;
-}
-
-:global(.dark) :deep(.negative) {
-  background-color: #dc2626;
-}
-</style>
