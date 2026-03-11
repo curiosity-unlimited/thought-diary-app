@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2026-03-11
+
+### Backend [0.2.1]
+#### Changed
+- Added accessible semantics, roles, and icon cues to AI-generated sentiment spans so sentiment meaning is programmatically determinable without relying on color.
+
+### Frontend [0.2.1]
+#### Changed
+- Restyled sentiment chips with high-contrast palettes, dotted underlines, and + / - icons for WCAG 2.1 AA compliance in light and dark themes across diary views.
+- Rebuilt stats cards with high-contrast surfaces, accessible labels, and icon badges that meet non-text contrast requirements.
+
+#### Fixed
+- Improved sentiment count icon contrast in both themes to meet minimum non-text contrast ratios.
+
 ## [0.4.0] - 2026-03-02
 
 ### Frontend [0.2.0]

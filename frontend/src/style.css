@@ -4,27 +4,71 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Sentiment highlighting styles */
-span.positive {
-  background-color: #10b981;
-  color: white;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
+.sentiment-chip,
+span.positive,
 span.negative {
-  background-color: #ef4444;
-  color: white;
-  padding: 0.125rem 0.25rem;
-  border-radius: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 0.08em;
+  text-decoration-color: currentColor;
+  border-width: 1px;
+  border-style: solid;
 }
 
-/* Dark mode sentiment highlighting */
+.sentiment-icon {
+  font-size: 0.75rem;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.sentiment-text {
+  display: inline;
+}
+
+.sentiment-positive,
+span.positive {
+  background-color: #ecfdf3;
+  color: #14532d;
+  border-color: #34d399;
+}
+
+.sentiment-negative,
+span.negative {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border-color: #fca5a5;
+}
+
+.dark .sentiment-positive,
 .dark span.positive {
-  background-color: #059669;
+  background-color: #064e3b;
+  color: #bbf7d0;
+  border-color: #34d399;
 }
 
+.dark .sentiment-negative,
 .dark span.negative {
-  background-color: #dc2626;
+  background-color: #7f1d1d;
+  color: #fecdd3;
+  border-color: #f87171;
 }
 
 /* Dark mode base styles */

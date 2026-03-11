@@ -15,7 +15,7 @@ describe('StatsCard', () => {
       props: { stats: mockStats },
     });
 
-    expect(wrapper.findAll('.bg-gradient-to-br')).toHaveLength(4);
+    expect(wrapper.findAll('.stat-card')).toHaveLength(4);
   });
 
   it('should display correct total count', () => {
@@ -23,7 +23,7 @@ describe('StatsCard', () => {
       props: { stats: mockStats },
     });
 
-    const cards = wrapper.findAll('.bg-gradient-to-br');
+    const cards = wrapper.findAll('.stat-card');
     expect(cards[0].text()).toContain('42');
     expect(cards[0].text()).toContain('Total Entries');
   });
@@ -33,7 +33,7 @@ describe('StatsCard', () => {
       props: { stats: mockStats },
     });
 
-    const cards = wrapper.findAll('.bg-gradient-to-br');
+    const cards = wrapper.findAll('.stat-card');
     expect(cards[1].text()).toContain('25');
     expect(cards[1].text()).toContain('Positive');
   });
@@ -43,7 +43,7 @@ describe('StatsCard', () => {
       props: { stats: mockStats },
     });
 
-    const cards = wrapper.findAll('.bg-gradient-to-br');
+    const cards = wrapper.findAll('.stat-card');
     expect(cards[2].text()).toContain('10');
     expect(cards[2].text()).toContain('Negative');
   });
@@ -53,7 +53,7 @@ describe('StatsCard', () => {
       props: { stats: mockStats },
     });
 
-    const cards = wrapper.findAll('.bg-gradient-to-br');
+    const cards = wrapper.findAll('.stat-card');
     expect(cards[3].text()).toContain('7');
     expect(cards[3].text()).toContain('Neutral');
   });
@@ -87,7 +87,20 @@ describe('StatsCard', () => {
     });
 
     const grid = wrapper.find('.grid');
-    expect(grid.classes()).toContain('grid-cols-2');
-    expect(grid.classes()).toContain('md:grid-cols-4');
+    expect(grid.classes()).toContain('grid-cols-1');
+    expect(grid.classes()).toContain('sm:grid-cols-2');
+    expect(grid.classes()).toContain('xl:grid-cols-4');
+  });
+
+  it('should expose accessible labels on stat cards', () => {
+    const wrapper = mount(StatsCard, {
+      props: { stats: mockStats },
+    });
+
+    const cards = wrapper.findAll('.stat-card');
+    expect(cards[0].attributes('aria-label')).toBe('Total entries');
+    expect(cards[1].attributes('aria-label')).toBe('Positive entries');
+    expect(cards[2].attributes('aria-label')).toBe('Negative entries');
+    expect(cards[3].attributes('aria-label')).toBe('Neutral entries');
   });
 });

@@ -74,38 +74,48 @@
     <!-- eslint-enable vue/no-v-html -->
 
     <!-- Sentiment Counts -->
-    <div class="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-      <div class="flex items-center gap-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 text-green-600 dark:text-green-400"
-          viewBox="0 0 20 20"
-          fill="currentColor"
+    <div class="flex gap-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+      <div class="flex items-center gap-3">
+        <span
+          class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-100 shadow-inner"
+          aria-hidden="true"
         >
-          <path
-            fill-rule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-3.5 4a.5.5 0 01.5-.5h.01a.5.5 0 01.5.5v.01a.5.5 0 01-.5.5H11a.5.5 0 01-.5-.5V12zm-2.5.5a.5.5 0 00-.5-.5h-.01a.5.5 0 00-.5.5v.01c0 .276.224.5.5.5H8.5a.5.5 0 00.5-.5V12z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <span class="text-sm font-semibold text-slate-800 dark:text-slate-100">
           {{ diary.positive_count }} positive
         </span>
       </div>
-      <div class="flex items-center gap-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 text-red-600 dark:text-red-400"
-          viewBox="0 0 20 20"
-          fill="currentColor"
+      <div class="flex items-center gap-3">
+        <span
+          class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-100 shadow-inner"
+          aria-hidden="true"
         >
-          <path
-            fill-rule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-3.5 5.5a.5.5 0 01-.5.5h-.01a.5.5 0 01-.5-.5v-.01a.5.5 0 01.5-.5H10a.5.5 0 01.5.5v.01zm2.5-.5a.5.5 0 00.5.5h.01a.5.5 0 00.5-.5v-.01a.5.5 0 00-.5-.5H13a.5.5 0 00-.5.5v.01z"
-            clip-rule="evenodd"
-          />
-        </svg>
-        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-7.536 5.879a1 1 0 001.415 0 3 3 0 014.242 0 1 1 0 001.415-1.415 5 5 0 00-7.072 0 1 1 0 000 1.415z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </span>
+        <span class="text-sm font-semibold text-slate-800 dark:text-slate-100">
           {{ diary.negative_count }} negative
         </span>
       </div>
@@ -160,27 +170,3 @@ const formatDate = (dateString: string): string => {
   });
 };
 </script>
-
-<style scoped>
-:deep(.diary-content .positive) {
-  background-color: #10b981;
-  color: white;
-  padding: 2px 4px;
-  border-radius: 3px;
-}
-
-:deep(.diary-content .negative) {
-  background-color: #ef4444;
-  color: white;
-  padding: 2px 4px;
-  border-radius: 3px;
-}
-
-:global(.dark) :deep(.diary-content .positive) {
-  background-color: #059669;
-}
-
-:global(.dark) :deep(.diary-content .negative) {
-  background-color: #dc2626;
-}
-</style>

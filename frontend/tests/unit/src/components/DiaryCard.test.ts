@@ -7,7 +7,8 @@ describe('DiaryCard', () => {
   const mockDiary: DiaryEntry = {
     id: 1,
     content: 'I felt happy today',
-    analyzed_content: 'I felt <span class="positive">happy</span> today',
+    analyzed_content:
+      'I felt <span class="sentiment-chip sentiment-positive positive" role="mark" aria-label="Positive sentiment: happy" data-sentiment="positive"><span class="sr-only">Positive sentiment: </span><span class="sentiment-icon" aria-hidden="true">+</span><span class="sentiment-text">happy</span></span> today',
     positive_count: 1,
     negative_count: 0,
     created_at: '2026-01-15T10:00:00Z',
@@ -98,7 +99,8 @@ describe('DiaryCard', () => {
   it('should display negative sentiment correctly', () => {
     const negativeDiary: DiaryEntry = {
       ...mockDiary,
-      analyzed_content: 'I felt <span class="negative">sad</span> today',
+      analyzed_content:
+        'I felt <span class="sentiment-chip sentiment-negative negative" role="mark" aria-label="Negative sentiment: sad" data-sentiment="negative"><span class="sr-only">Negative sentiment: </span><span class="sentiment-icon" aria-hidden="true">-</span><span class="sentiment-text">sad</span></span> today',
       positive_count: 0,
       negative_count: 1,
     };

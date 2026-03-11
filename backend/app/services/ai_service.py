@@ -13,6 +13,56 @@ import requests
 from flask import current_app
 
 
+def _wrap_sentiment_span(match: re.Match[str], sentiment: str) -> str:
+    """
+    Add accessible semantics and visible indicators to sentiment spans.
+    
+    Args:
+        match (re.Match[str]): Regex match for the sentiment span.
+        sentiment (str): Either "positive" or "negative".
+        
+    Returns:
+        str: Enhanced HTML span with accessibility metadata and icons.
+    """
+    sentiment_text = match.group(1)
+    label = "Positive sentiment" if sentiment == "positive" else "Negative sentiment"
+    icon = "+" if sentiment == "positive" else "-"
+    
+    return (
+        f'<span class="sentiment-chip sentiment-{sentiment} {sentiment}" '
+        f'role="mark" aria-label="{label}: {sentiment_text}" data-sentiment="{sentiment}">'
+        f'<span class="sr-only">{label}: </span>'
+        f'<span class="sentiment-icon" aria-hidden="true">{icon}</span>'
+        f'<span class="sentiment-text">{sentiment_text}</span>'
+        "</span>"
+    )
+
+
+def _enhance_sentiment_markup(marked_html: str) -> str:
+    """
+    Inject accessibility metadata into sentiment spans.
+    
+    Args:
+        marked_html (str): HTML with <span class="positive"> and <span class="negative"> markers.
+        
+    Returns:
+        str: HTML with accessible sentiment markup.
+    """
+    enhanced = re.sub(
+        r'<span class="positive">(.*?)</span>',
+        lambda match: _wrap_sentiment_span(match, "positive"),
+        marked_html,
+        flags=re.DOTALL,
+    )
+    enhanced = re.sub(
+        r'<span class="negative">(.*?)</span>',
+        lambda match: _wrap_sentiment_span(match, "negative"),
+        enhanced,
+        flags=re.DOTALL,
+    )
+    return enhanced
+
+
 def analyze_sentiment(content: str) -> Tuple[str, int, int]:
     """
     Analyze text content for sentiment using GitHub Models API.
@@ -113,9 +163,12 @@ Text to analyze:
             analyzed_content = analyzed_content[:-3]
         analyzed_content = analyzed_content.strip()
         
-        # Count positive and negative markers
+        # Count positive and negative markers before enhancing markup
         positive_count = len(re.findall(r'<span class="positive">', analyzed_content))
         negative_count = len(re.findall(r'<span class="negative">', analyzed_content))
+        
+        # Add programmatic accessibility metadata to sentiment spans
+        analyzed_content = _enhance_sentiment_markup(analyzed_content)
         
         current_app.logger.info(
             f"Sentiment analysis completed: {positive_count} positive, {negative_count} negative markers"

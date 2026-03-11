@@ -59,27 +59,17 @@ A modern, comprehensive full-stack web application with a robust Flask API backe
 
 ### AI-Powered Sentiment Analysis
 - The app leverages [model inference from GitHub Models](https://docs.github.com/en/rest/models/inference?apiVersion=2022-11-28#run-an-inference-request) to analyze thought diaries.
-- Words and phrases are marked for positive/negative thinking and feelings with green/red background colors.
+- Sentiment chips include icons, dotted underline, and ARIA labels so meaning is conveyed without color alone and remains screen-reader friendly.
     - For example, when a user adds or edits a thought diary:
         ```text
         I felt both excitement and anxious after I got elected to join a team for international math competition.
         ```
-    - The backend sends the text to GitHub for model inference and receives HTML-labeled text:
+    - The backend sends the text to GitHub for model inference and receives HTML-labeled text with accessible metadata:
         ```html
-        I felt both <span class="positive">excitement</span> and <span class="negative">anxious</span> after I got elected to join a team for international math competition.
+        I felt both <span class="sentiment-chip sentiment-positive positive" role="mark" aria-label="Positive sentiment: excitement" data-sentiment="positive"><span class="sr-only">Positive sentiment: </span><span class="sentiment-icon" aria-hidden="true">+</span><span class="sentiment-text">excitement</span></span> and <span class="sentiment-chip sentiment-negative negative" role="mark" aria-label="Negative sentiment: anxious" data-sentiment="negative"><span class="sr-only">Negative sentiment: </span><span class="sentiment-icon" aria-hidden="true">-</span><span class="sentiment-text">anxious</span></span> after I got elected to join a team for international math competition.
         ```
-    - The backend saves the labeled text in the database.
-    - The frontend retrieves and displays the text using CSS:
-        ```css
-        span.positive {
-            background-color: green;
-            color: white; /* Optional: Change text color for better contrast */
-        }
-        span.negative {
-            background-color: red;
-            color: white; /* Optional: Change text color for better contrast */
-        }
-        ```
+    - The backend saves the accessible, labeled text in the database.
+    - The frontend retrieves and displays the text with WCAG 2.1 AA contrast for both light and dark themes; sentiment chips use borders, dotted underline, and + / - icons for non-color cues.
 
 ### User Experience
 - **Progressive Web App**: Installable with native app-like experience

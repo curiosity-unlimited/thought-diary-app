@@ -32,7 +32,9 @@ class TestAnalyzeSentiment:
         
         analyzed_content, positive_count, negative_count = analyze_sentiment('I felt happy and excited but also nervous.')
         
-        assert analyzed_content == 'I felt <span class="positive">happy</span> and <span class="positive">excited</span> but also <span class="negative">nervous</span>.'
+        assert 'sentiment-positive' in analyzed_content
+        assert 'sentiment-negative' in analyzed_content
+        assert 'aria-label="Positive sentiment: happy"' in analyzed_content
         assert positive_count == 2
         assert negative_count == 1
         
