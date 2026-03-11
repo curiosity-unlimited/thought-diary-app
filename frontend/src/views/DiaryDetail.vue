@@ -351,12 +351,22 @@ onMounted(() => {
   font-weight: 500;
 }
 
+:deep(.positive::before) {
+  content: "+ ";
+  font-weight: 700;
+}
+
 :deep(.negative) {
   background-color: #dc2626; /* Red-600 for better contrast */
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
   font-weight: 500;
+}
+
+:deep(.negative::before) {
+  content: "− ";
+  font-weight: 700;
 }
 
 :global(.dark) :deep(.positive) {

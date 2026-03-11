@@ -12,12 +12,22 @@ span.positive {
   font-weight: 500; /* Medium weight for better readability */
 }
 
+span.positive::before {
+  content: "+ ";
+  font-weight: 700;
+}
+
 span.negative {
   background-color: #dc2626; /* Red-600 for better contrast */
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
   font-weight: 500; /* Medium weight for better readability */
+}
+
+span.negative::before {
+  content: "− ";
+  font-weight: 700;
 }
 
 /* Dark mode sentiment highlighting */

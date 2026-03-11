@@ -186,12 +186,22 @@ const formatDate = (dateString: string): string => {
   font-weight: 500;
 }
 
+:deep(.diary-content .positive::before) {
+  content: "+ ";
+  font-weight: 700;
+}
+
 :deep(.diary-content .negative) {
   background-color: #dc2626; /* Red-600 for better contrast */
   color: white;
   padding: 2px 4px;
   border-radius: 3px;
   font-weight: 500;
+}
+
+:deep(.diary-content .negative::before) {
+  content: "− ";
+  font-weight: 700;
 }
 
 :global(.dark) :deep(.diary-content .positive) {
