@@ -337,9 +337,14 @@ interface Props {
 ```
 
 **Features:**
-- Color-coded gradient backgrounds
-- Large number display
-- Icon with opacity effects
+- Color-coded gradient backgrounds with WCAG 2.1 AA compliant contrast:
+  - Positive: Green-600 to Green-700 gradient (`from-green-600 to-green-700`)
+  - Negative: Red-600 to Red-700 gradient (`from-red-600 to-red-700`)
+  - Neutral: Gray-600 to Gray-700 gradient (`from-gray-600 to-gray-700`)
+- Large number display with `text-base font-semibold` labels (upgraded from `text-sm`)
+- Icon with opacity effects; decorative icons marked `aria-hidden="true"`
+- `role="region"` with descriptive `aria-label` on each stat card
+- `aria-live="polite"` on dynamic count displays for screen reader announcements
 - Hover effects with shadow transitions
 - Responsive layout (2x2 on mobile, 4x1 on desktop)
 
@@ -458,7 +463,13 @@ interface Props {
 
 **Features:**
 - Sentiment highlighting with v-html rendering (analyzed_content from backend)
-- CSS styling for `.positive` (green) and `.negative` (red) spans
+- WCAG 2.1 AA compliant sentiment display with visual indicators and ARIA attributes
+- CSS styling for `.positive` (green) and `.negative` (red) spans with `::before` pseudo-elements
+- Light mode: Green-700 (#059669) positive, Red-600 (#dc2626) negative
+- Dark mode: Green-600 (#10b981) positive, Red-400 (#f87171) negative
+- `role="article"` with `aria-label` on diary content containers
+- `role="region"` with `aria-label` on sentiment summary section
+- `aria-hidden="true"` on decorative icons
 - Absolute date formatting (Month Day, Year at Time)
 - Positive/negative sentiment count display with icons
 - Edit and delete action buttons with icon buttons
@@ -467,12 +478,12 @@ interface Props {
 
 **Sentiment Display:**
 ```html
-<!-- Backend returns analyzed_content: -->
-I felt both <span class="positive">excitement</span> and <span class="negative">anxious</span>
+<!-- Backend returns analyzed_content with ARIA attributes: -->
+I felt both <span class="positive" role="mark" aria-label="positive sentiment: excitement"><span aria-hidden="true">+ </span>excitement</span> and <span class="negative" role="mark" aria-label="negative sentiment: anxious"><span aria-hidden="true">− </span>anxious</span>
 
-<!-- Rendered with CSS: -->
-I felt both [excitement] and [anxious]
-           ↑ green bg   ↑ red bg
+<!-- Rendered with CSS (::before adds symbol visually, aria-hidden span for screen readers): -->
+I felt both [+ excitement] and [− anxious]
+            ↑ green bg       ↑ red bg
 ```
 
 **Visual:**
@@ -480,8 +491,8 @@ I felt both [excitement] and [anxious]
 ┌─────────────────────────────┐
 │ January 15, 2026 at 2:30 PM │ ← Date
 │ ─────────────────────────── │
-│ I felt both [excitement] and│ ← Content with sentiment
-│ [anxious] after the meeting │
+│ I felt both [+ excitement]  │ ← Content with sentiment
+│ and [− anxious] after       │   (visual indicators + color)
 │                             │
 │ 👍 2  👎 1     [✏️] [🗑️]    │ ← Stats & Actions
 └─────────────────────────────┘

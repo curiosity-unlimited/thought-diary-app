@@ -563,10 +563,10 @@ Dark mode is implemented using Tailwind's class-based strategy. The `dark` class
 **Sentiment highlighting in dark mode (scoped styles):**
 ```css
 :global(.dark) :deep(.positive) {
-  background-color: #059669; /* slightly darker green */
+  background-color: #10b981; /* Green-600 lighter for dark mode */
 }
 :global(.dark) :deep(.negative) {
-  background-color: #dc2626; /* slightly darker red */
+  background-color: #f87171; /* Red-400 lighter for dark mode */
 }
 ```
 
@@ -600,19 +600,31 @@ Dark mode is implemented using Tailwind's class-based strategy. The `dark` class
   /* Styles that don't fit Tailwind patterns */
 }
 
-/* Sentiment highlighting (from backend) */
+/* Sentiment highlighting (from backend) — WCAG 2.1 AA compliant */
 :deep(.positive) {
-  background-color: #10b981;
+  background-color: #059669; /* Green-700 for better contrast */
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+:deep(.positive::before) {
+  content: "+ ";
+  font-weight: 700;
 }
 
 :deep(.negative) {
-  background-color: #ef4444;
+  background-color: #dc2626; /* Red-600 for better contrast */
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+:deep(.negative::before) {
+  content: "− ";
+  font-weight: 700;
 }
 </style>
 ```

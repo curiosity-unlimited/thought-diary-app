@@ -303,7 +303,7 @@ Retrieve paginated list of user's diary entries.
     {
       "id": 1,
       "content": "Original diary text...",
-      "analyzed_content": "Text with <span class=\"positive\">positive</span> and <span class=\"negative\">negative</span> sentiment",
+      "analyzed_content": "Text with <span class=\"positive\" role=\"mark\" aria-label=\"positive sentiment: positive\"><span aria-hidden=\"true\">+ </span>positive</span> and <span class=\"negative\" role=\"mark\" aria-label=\"negative sentiment: negative\"><span aria-hidden=\"true\">− </span>negative</span> sentiment",
       "positive_count": 5,
       "negative_count": 2,
       "created_at": "2026-01-14T12:00:00.000Z",
@@ -348,7 +348,7 @@ Create a new thought diary entry with AI sentiment analysis.
 {
   "id": 1,
   "content": "I felt both excitement and anxious after I got elected to join a team for international math competition.",
-  "analyzed_content": "I felt both <span class=\"positive\">excitement</span> and <span class=\"negative\">anxious</span> after I got elected to join a team for international math competition.",
+  "analyzed_content": "I felt both <span class=\"positive\" role=\"mark\" aria-label=\"positive sentiment: excitement\"><span aria-hidden=\"true\">+ </span>excitement</span> and <span class=\"negative\" role=\"mark\" aria-label=\"negative sentiment: anxious\"><span aria-hidden=\"true\">− </span>anxious</span> after I got elected to join a team for international math competition.",
   "positive_count": 1,
   "negative_count": 1,
   "created_at": "2026-01-14T12:00:00.000Z",
@@ -358,8 +358,9 @@ Create a new thought diary entry with AI sentiment analysis.
 
 **AI Processing**:
 - Content is automatically analyzed for sentiment
-- Positive phrases are wrapped in `<span class="positive">...</span>`
-- Negative phrases are wrapped in `<span class="negative">...</span>`
+- Positive phrases are wrapped in `<span class="positive" role="mark" aria-label="positive sentiment: {word}">...</span>`
+- Negative phrases are wrapped in `<span class="negative" role="mark" aria-label="negative sentiment: {word}">...</span>`
+- Each span includes a nested `<span aria-hidden="true">+ </span>` or `<span aria-hidden="true">− </span>` visual indicator
 - Sentiment counts are calculated automatically
 - If AI analysis fails, original content is stored without analysis
 
@@ -385,7 +386,7 @@ Retrieve a specific diary entry.
 {
   "id": 1,
   "content": "Original diary text...",
-  "analyzed_content": "Text with <span class=\"positive\">positive</span> sentiment",
+  "analyzed_content": "Text with <span class=\"positive\" role=\"mark\" aria-label=\"positive sentiment: positive\"><span aria-hidden=\"true\">+ </span>positive</span> sentiment",
   "positive_count": 3,
   "negative_count": 0,
   "created_at": "2026-01-14T12:00:00.000Z",
@@ -424,7 +425,7 @@ Update an existing diary entry and re-analyze sentiment.
 {
   "id": 1,
   "content": "Updated diary content...",
-  "analyzed_content": "Updated diary <span class=\"positive\">content</span>...",
+  "analyzed_content": "Updated diary <span class=\"positive\" role=\"mark\" aria-label=\"positive sentiment: content\"><span aria-hidden=\"true\">+ </span>content</span>...",
   "positive_count": 1,
   "negative_count": 0,
   "created_at": "2026-01-14T12:00:00.000Z",

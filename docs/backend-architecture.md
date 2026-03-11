@@ -424,8 +424,12 @@ def analyze_sentiment(content: str) -> tuple[str, int, int]:
     """
     # Call GitHub Models API
     # Parse response for sentiment markers
+    # Post-process spans to inject ARIA attributes and visual indicators:
+    #   - role="mark" for semantic sentiment meaning
+    #   - aria-label="positive/negative sentiment: {word}" for screen readers
+    #   - aria-hidden="true" span with visual "+ " / "− " prefix symbol
     # Count positive/negative phrases
-    # Return marked-up HTML with counts
+    # Return accessible marked-up HTML with counts
 ```
 
 **Integration**:
@@ -648,7 +652,7 @@ X-RateLimit-Reset: 1704981000
    {
      "id": 1,
      "content": "I felt happy today!",
-     "analyzed_content": "I felt <span class='positive'>happy</span> today!",
+     "analyzed_content": "I felt <span class='positive' role='mark' aria-label='positive sentiment: happy'><span aria-hidden='true'>+ </span>happy</span> today!",
      "positive_count": 1,
      "negative_count": 0,
      "created_at": "2026-01-14T12:00:00Z",
