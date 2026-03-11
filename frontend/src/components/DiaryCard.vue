@@ -57,6 +57,8 @@
     >
       <div
         class="diary-content text-gray-700 dark:text-gray-300 leading-relaxed"
+        role="article"
+        aria-label="Diary entry with sentiment analysis"
         v-html="truncatedContent"
       ></div>
       <button
@@ -69,18 +71,25 @@
     <div
       v-else
       class="diary-content prose prose-sm max-w-none dark:prose-invert text-gray-700 dark:text-gray-300 leading-relaxed mb-4"
+      role="article"
+      aria-label="Diary entry with sentiment analysis"
       v-html="diary.analyzed_content || diary.content"
     ></div>
     <!-- eslint-enable vue/no-v-html -->
 
     <!-- Sentiment Counts -->
-    <div class="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+    <div
+      class="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-700"
+      role="region"
+      aria-label="Sentiment analysis summary"
+    >
       <div class="flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5 text-green-600 dark:text-green-400"
           viewBox="0 0 20 20"
           fill="currentColor"
+          aria-hidden="true"
         >
           <path
             fill-rule="evenodd"
@@ -88,7 +97,10 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span
+          class="text-sm font-medium text-gray-700 dark:text-gray-300"
+          aria-label="`${diary.positive_count} positive sentiments`"
+        >
           {{ diary.positive_count }} positive
         </span>
       </div>
@@ -98,6 +110,7 @@
           class="h-5 w-5 text-red-600 dark:text-red-400"
           viewBox="0 0 20 20"
           fill="currentColor"
+          aria-hidden="true"
         >
           <path
             fill-rule="evenodd"
@@ -105,7 +118,10 @@
             clip-rule="evenodd"
           />
         </svg>
-        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span
+          class="text-sm font-medium text-gray-700 dark:text-gray-300"
+          aria-label="`${diary.negative_count} negative sentiments`"
+        >
           {{ diary.negative_count }} negative
         </span>
       </div>
@@ -163,24 +179,26 @@ const formatDate = (dateString: string): string => {
 
 <style scoped>
 :deep(.diary-content .positive) {
-  background-color: #10b981;
+  background-color: #059669; /* Green-700 for better contrast */
   color: white;
   padding: 2px 4px;
   border-radius: 3px;
+  font-weight: 500;
 }
 
 :deep(.diary-content .negative) {
-  background-color: #ef4444;
+  background-color: #dc2626; /* Red-600 for better contrast */
   color: white;
   padding: 2px 4px;
   border-radius: 3px;
+  font-weight: 500;
 }
 
 :global(.dark) :deep(.diary-content .positive) {
-  background-color: #059669;
+  background-color: #10b981; /* Green-600 lighter for dark mode */
 }
 
 :global(.dark) :deep(.diary-content .negative) {
-  background-color: #dc2626;
+  background-color: #f87171; /* Red-400 lighter for dark mode */
 }
 </style>

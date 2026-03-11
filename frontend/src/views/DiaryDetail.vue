@@ -236,12 +236,18 @@ onMounted(() => {
             <!-- Note: analyzed_content is sanitized by backend AI service -->
             <div
               class="prose max-w-none dark:prose-invert text-gray-900 dark:text-gray-100 leading-relaxed"
+              role="article"
+              aria-label="Diary entry with sentiment analysis"
               v-html="diariesStore.currentDiary.analyzed_content"
             ></div>
           </div>
 
           <!-- Footer with Sentiment Counts -->
-          <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600">
+          <div
+            class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600"
+            role="region"
+            aria-label="Sentiment analysis summary"
+          >
             <div class="flex items-center space-x-6 text-sm">
               <div class="flex items-center">
                 <svg
@@ -250,6 +256,7 @@ onMounted(() => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  aria-hidden="true"
                 >
                   <path
                     stroke-linecap="round"
@@ -258,7 +265,10 @@ onMounted(() => {
                     d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"
                   />
                 </svg>
-                <span class="text-gray-700 dark:text-gray-300">
+                <span
+                  class="text-gray-700 dark:text-gray-300"
+                  aria-label="`${diariesStore.currentDiary.positive_count} positive sentiments`"
+                >
                   <span class="font-medium">{{
                     diariesStore.currentDiary.positive_count
                   }}</span>
@@ -272,6 +282,7 @@ onMounted(() => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  aria-hidden="true"
                 >
                   <path
                     stroke-linecap="round"
@@ -280,7 +291,10 @@ onMounted(() => {
                     d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5"
                   />
                 </svg>
-                <span class="text-gray-700 dark:text-gray-300">
+                <span
+                  class="text-gray-700 dark:text-gray-300"
+                  aria-label="`${diariesStore.currentDiary.negative_count} negative sentiments`"
+                >
                   <span class="font-medium">{{
                     diariesStore.currentDiary.negative_count
                   }}</span>
@@ -330,24 +344,26 @@ onMounted(() => {
 <style scoped>
 /* Sentiment highlighting styles */
 :deep(.positive) {
-  background-color: #10b981;
+  background-color: #059669; /* Green-700 for better contrast */
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
+  font-weight: 500;
 }
 
 :deep(.negative) {
-  background-color: #ef4444;
+  background-color: #dc2626; /* Red-600 for better contrast */
   color: white;
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
+  font-weight: 500;
 }
 
 :global(.dark) :deep(.positive) {
-  background-color: #059669;
+  background-color: #10b981; /* Green-600 lighter for dark mode */
 }
 
 :global(.dark) :deep(.negative) {
-  background-color: #dc2626;
+  background-color: #f87171; /* Red-400 lighter for dark mode */
 }
 </style>

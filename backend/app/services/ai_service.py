@@ -112,10 +112,23 @@ Text to analyze:
         if analyzed_content.endswith("```"):
             analyzed_content = analyzed_content[:-3]
         analyzed_content = analyzed_content.strip()
-        
+
+        # Add accessibility attributes to sentiment spans
+        # Add visual indicators (+ and - symbols) and ARIA labels for screen readers
+        analyzed_content = re.sub(
+            r'<span class="positive">([^<]+)</span>',
+            r'<span class="positive" role="mark" aria-label="positive sentiment: \1"><span aria-hidden="true">+ </span>\1</span>',
+            analyzed_content
+        )
+        analyzed_content = re.sub(
+            r'<span class="negative">([^<]+)</span>',
+            r'<span class="negative" role="mark" aria-label="negative sentiment: \1"><span aria-hidden="true">− </span>\1</span>',
+            analyzed_content
+        )
+
         # Count positive and negative markers
-        positive_count = len(re.findall(r'<span class="positive">', analyzed_content))
-        negative_count = len(re.findall(r'<span class="negative">', analyzed_content))
+        positive_count = len(re.findall(r'<span class="positive"', analyzed_content))
+        negative_count = len(re.findall(r'<span class="negative"', analyzed_content))
         
         current_app.logger.info(
             f"Sentiment analysis completed: {positive_count} positive, {negative_count} negative markers"
