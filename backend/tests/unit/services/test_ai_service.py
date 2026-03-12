@@ -29,13 +29,20 @@ class TestAnalyzeSentiment:
             }]
         }
         mock_post.return_value = mock_response
-        
+
         analyzed_content, positive_count, negative_count = analyze_sentiment('I felt happy and excited but also nervous.')
-        
-        assert analyzed_content == 'I felt <span class="positive">happy</span> and <span class="positive">excited</span> but also <span class="negative">nervous</span>.'
+
+        # Verify the content has accessibility attributes and visual indicators
+        assert '<span class="positive" role="mark"' in analyzed_content
+        assert 'aria-label="positive sentiment: happy"' in analyzed_content
+        assert 'aria-label="positive sentiment: excited"' in analyzed_content
+        assert '<span class="negative" role="mark"' in analyzed_content
+        assert 'aria-label="negative sentiment: nervous"' in analyzed_content
+        assert '<span aria-hidden="true">+ </span>' in analyzed_content
+        assert '<span aria-hidden="true">− </span>' in analyzed_content
         assert positive_count == 2
         assert negative_count == 1
-        
+
         # Verify API was called
         mock_post.assert_called_once()
     

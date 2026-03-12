@@ -59,25 +59,30 @@ A modern, comprehensive full-stack web application with a robust Flask API backe
 
 ### AI-Powered Sentiment Analysis
 - The app leverages [model inference from GitHub Models](https://docs.github.com/en/rest/models/inference?apiVersion=2022-11-28#run-an-inference-request) to analyze thought diaries.
-- Words and phrases are marked for positive/negative thinking and feelings with green/red background colors.
+- Words and phrases are marked for positive/negative thinking and feelings with accessible visual indicators:
+    - **Visual Indicators**: Positive sentiments are marked with a "+" symbol, negative sentiments with a "−" symbol
+    - **Color Coding**: Green backgrounds for positive, red backgrounds for negative (WCAG 2.1 AA compliant contrast ratios)
+    - **Accessibility Features**: ARIA labels and semantic HTML for screen reader compatibility
     - For example, when a user adds or edits a thought diary:
         ```text
         I felt both excitement and anxious after I got elected to join a team for international math competition.
         ```
-    - The backend sends the text to GitHub for model inference and receives HTML-labeled text:
+    - The backend sends the text to GitHub for model inference and adds accessibility attributes:
         ```html
-        I felt both <span class="positive">excitement</span> and <span class="negative">anxious</span> after I got elected to join a team for international math competition.
+        I felt both <span class="positive" role="mark" aria-label="positive sentiment: excitement"><span aria-hidden="true">+ </span>excitement</span> and <span class="negative" role="mark" aria-label="negative sentiment: anxious"><span aria-hidden="true">− </span>anxious</span> after I got elected to join a team for international math competition.
         ```
     - The backend saves the labeled text in the database.
-    - The frontend retrieves and displays the text using CSS:
+    - The frontend retrieves and displays the text using accessible CSS:
         ```css
         span.positive {
-            background-color: green;
-            color: white; /* Optional: Change text color for better contrast */
+            background-color: #059669; /* Green-700 for better contrast */
+            color: white;
+            font-weight: 500;
         }
         span.negative {
-            background-color: red;
-            color: white; /* Optional: Change text color for better contrast */
+            background-color: #dc2626; /* Red-600 for better contrast */
+            color: white;
+            font-weight: 500;
         }
         ```
 

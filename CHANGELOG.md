@@ -5,6 +5,57 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-03-11
+
+### Backend [0.3.0]
+#### Changed
+- Enhanced sentiment analysis to include WCAG 2.1 AA accessibility features (issue #8)
+- Updated `analyze_sentiment()` in `ai_service.py` to add ARIA attributes to sentiment spans
+- Added visual indicators (+ and − symbols) to sentiment spans for non-color-based identification
+- Sentiment spans now include `role="mark"` for semantic meaning
+- Sentiment spans now include `aria-label` with sentiment context (e.g., "positive sentiment: happy")
+- Visual indicators wrapped in `<span aria-hidden="true">` to prevent screen reader duplication
+
+#### Tests
+- Updated unit tests in `test_ai_service.py` to verify new accessibility attributes
+- Added assertions for ARIA labels, role attributes, and visual indicators
+- All tests pass with comprehensive coverage of accessibility enhancements
+
+### Frontend [0.3.0]
+#### Changed
+- Improved color contrast ratios across sentiment display components for WCAG 2.1 AA compliance (issue #8)
+- Updated sentiment span colors in `style.css`:
+  - Light mode: Green-700 (#059669) for positive, Red-600 (#dc2626) for negative
+  - Dark mode: Green-600 (#10b981) for positive, Red-400 (#f87171) for negative
+  - Added `font-weight: 500` for better text readability
+- Updated `DiaryCard.vue` with accessibility improvements:
+  - Added `role="article"` and `aria-label` to diary content containers
+  - Added `role="region"` with `aria-label` to sentiment summary section
+  - Added `aria-hidden="true"` to decorative icons
+  - Updated sentiment span colors to match global styles
+- Updated `DiaryDetail.vue` with accessibility improvements:
+  - Added `role="article"` and `aria-label` to diary content container
+  - Added `role="region"` with `aria-label` to sentiment summary footer
+  - Added `aria-hidden="true"` to decorative icons
+  - Updated sentiment span colors to match global styles
+- Updated `StatsCard.vue` for better contrast and accessibility:
+  - Changed gradient backgrounds to darker shades for improved contrast
+  - Positive entries: Green-600 to Green-700 gradient (from-green-600 to-green-700)
+  - Negative entries: Red-600 to Red-700 gradient (from-red-600 to-red-700)
+  - Neutral entries: Gray-600 to Gray-700 gradient (from-gray-600 to-gray-700)
+  - Increased label font size from text-sm to text-base with font-semibold
+  - Added `role="region"` with descriptive `aria-label` to each stat card
+  - Added `aria-hidden="true"` to decorative icons
+  - Added `aria-live="polite"` to dynamic count displays for screen reader announcements
+
+#### Fixed
+- Sentiment display now meets WCAG 2.1 Level A and AA requirements:
+  - 1.4.1 Use of Color (A): Visual indicators (+ and −) supplement color coding
+  - 1.3.1 Info and Relationships (A): Semantic `role="mark"` conveys sentiment meaning
+  - 4.1.2 Name, Role, Value (A): ARIA labels provide programmatic context
+  - 1.4.3 Contrast (Minimum, AA): All text meets 4.5:1 contrast ratio in both light and dark modes
+  - 1.4.11 Non-text Contrast (AA): Icons marked with `aria-hidden` for proper contrast handling
+
 ## [0.4.0] - 2026-03-02
 
 ### Frontend [0.2.0]
