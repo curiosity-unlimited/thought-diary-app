@@ -1,0 +1,15 @@
+export default {
+  appTitle: '心情日記',
+  newEntry: '新增日記',
+  save: '儲存',
+  cancel: '取消',
+  delete: '刪除',
+  titleLabel: '標題',
+  contentLabel: '內容',
+  titlePlaceholder: '輸入標題…',
+  contentPlaceholder: '在這裡寫下你的想法…',
+  emptyState: '尚無日記。開始寫下你的第一篇日記吧！',
+  confirmDelete: '確定要刪除這篇日記嗎？',
+  language: '語言',
+  entriesCount: (n: number) => `共 ${n} 篇`,
+}

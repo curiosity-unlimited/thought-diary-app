@@ -1,0 +1,15 @@
+export default {
+  appTitle: 'Thought Diary',
+  newEntry: 'New Entry',
+  save: 'Save',
+  cancel: 'Cancel',
+  delete: 'Delete',
+  titleLabel: 'Title',
+  contentLabel: 'Content',
+  titlePlaceholder: 'Enter a title…',
+  contentPlaceholder: 'Write your thoughts here…',
+  emptyState: 'No entries yet. Start writing your first thought!',
+  confirmDelete: 'Are you sure you want to delete this entry?',
+  language: 'Language',
+  entriesCount: (n: number) => (n === 1 ? '1 entry' : `${n} entries`),
+}
