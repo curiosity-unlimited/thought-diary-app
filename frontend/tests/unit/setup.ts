@@ -1,5 +1,8 @@
 import { vi } from 'vitest';
 import { config } from '@vue/test-utils';
+import { createI18n } from 'vue-i18n';
+import en from '@/i18n/locales/en.json';
+import zhTw from '@/i18n/locales/zh-tw.json';
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -51,7 +54,19 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-// Configure Vue Test Utils
+// Create a test i18n instance with English locale
+const testI18n = createI18n({
+  locale: 'en',
+  fallbackLocale: 'en',
+  legacy: false,
+  messages: {
+    en,
+    'zh-tw': zhTw,
+  },
+});
+
+// Configure Vue Test Utils - register i18n globally for all tests
+config.global.plugins = [...(config.global.plugins || []), testI18n];
 config.global.stubs = {
   teleport: true,
 };

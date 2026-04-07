@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useDiariesStore } from '@/stores/diaries';
 import { useToast } from '@/composables/useToast';
 import MainLayout from '@/layouts/MainLayout.vue';
@@ -14,6 +15,7 @@ const route = useRoute();
 const router = useRouter();
 const diariesStore = useDiariesStore();
 const { showError, showSuccess } = useToast();
+const { t } = useI18n();
 
 const isLoading = ref(true);
 const showCreateForm = ref(false);
@@ -28,7 +30,7 @@ const loadDiaries = async (page: number = 1) => {
     await diariesStore.fetchDiaries(page);
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : 'Failed to load diary entries';
+      error instanceof Error ? error.message : t('diary.failedToLoad', 'Failed to load diary entries');
     showError(message);
   } finally {
     isLoading.value = false;
@@ -49,14 +51,14 @@ const handleCreateSubmit = async (content: string) => {
   isSubmitting.value = true;
   try {
     await diariesStore.createDiary(content);
-    showSuccess('Diary entry created successfully');
+    showSuccess(t('success.diaryCreated'));
     showCreateForm.value = false;
     // Reload first page to show new entry
     await loadDiaries(1);
     router.push({ query: {} }); // Clear query params
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : 'Failed to create diary entry';
+      error instanceof Error ? error.message : t('diary.failedToCreate', 'Failed to create diary entry');
     showError(message);
   } finally {
     isSubmitting.value = false;
@@ -86,13 +88,13 @@ const handleEdit = (diaryId: number) => {
 const handleDelete = async (diaryId: number) => {
   try {
     await diariesStore.deleteDiary(diaryId);
-    showSuccess('Diary entry deleted successfully');
+    showSuccess(t('success.diaryDeleted'));
     // Reload current page
     const currentPage = parseInt(route.query.page as string) || 1;
     await loadDiaries(currentPage);
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : 'Failed to delete diary entry';
+      error instanceof Error ? error.message : t('diary.failedToDelete', 'Failed to delete diary entry');
     showError(message);
   }
 };
@@ -128,9 +130,9 @@ onMounted(() => {
       <div class="mb-8">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">My Diaries</h1>
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ $t('diary.myDiaries') }}</h1>
             <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              Manage and review your thought diary entries
+              {{ $t('diary.myDiariesSubtitle') }}
             </p>
           </div>
           <button
@@ -152,7 +154,7 @@ onMounted(() => {
                 d="M12 4v16m8-8H4"
               />
             </svg>
-            Create New Entry
+            {{ $t('diary.createNewEntry') }}
           </button>
         </div>
       </div>
@@ -161,7 +163,7 @@ onMounted(() => {
       <div v-if="showCreateForm" class="mb-8">
         <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
           <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-            Create New Entry
+            {{ $t('diary.createNewEntry') }}
           </h2>
           <DiaryForm
             :is-submitting="isSubmitting"
@@ -175,16 +177,16 @@ onMounted(() => {
       <LoadingSpinner
         v-if="isLoading"
         size="lg"
-        message="Loading diary entries..."
+        :message="$t('loading.loadingDiaryEntries')"
         class="my-12"
       />
 
       <!-- Empty State -->
       <EmptyState
         v-else-if="!diariesStore.entries || diariesStore.entries.length === 0"
-        title="No diary entries found"
-        message="Start your thought diary journey by creating your first entry."
-        action-text="Create Entry"
+        :title="$t('diary.noEntriesFoundTitle')"
+        :message="$t('diary.noEntriesMessage')"
+        :action-text="$t('diary.createEntry')"
         @action="showCreateForm = true"
       />
 

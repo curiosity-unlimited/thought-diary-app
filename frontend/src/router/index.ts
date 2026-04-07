@@ -4,6 +4,7 @@ import {
   type RouteRecordRaw,
 } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+import i18n from '@/i18n';
 
 /**
  * Route definitions with lazy loading
@@ -15,7 +16,7 @@ const routes: RouteRecordRaw[] = [
     name: 'Home',
     component: () => import('@/views/Home.vue'),
     meta: {
-      title: 'Home',
+      titleKey: 'router.home',
       requiresAuth: false,
       guestOnly: false,
     },
@@ -25,7 +26,7 @@ const routes: RouteRecordRaw[] = [
     name: 'Login',
     component: () => import('@/views/Login.vue'),
     meta: {
-      title: 'Login',
+      titleKey: 'router.login',
       requiresAuth: false,
       guestOnly: true,
     },
@@ -35,7 +36,7 @@ const routes: RouteRecordRaw[] = [
     name: 'Register',
     component: () => import('@/views/Register.vue'),
     meta: {
-      title: 'Register',
+      titleKey: 'router.register',
       requiresAuth: false,
       guestOnly: true,
     },
@@ -45,7 +46,7 @@ const routes: RouteRecordRaw[] = [
     name: 'Dashboard',
     component: () => import('@/views/Dashboard.vue'),
     meta: {
-      title: 'Dashboard',
+      titleKey: 'router.dashboard',
       requiresAuth: true,
       guestOnly: false,
     },
@@ -55,7 +56,7 @@ const routes: RouteRecordRaw[] = [
     name: 'Diaries',
     component: () => import('@/views/Diaries.vue'),
     meta: {
-      title: 'My Diaries',
+      titleKey: 'router.diaries',
       requiresAuth: true,
       guestOnly: false,
     },
@@ -65,7 +66,7 @@ const routes: RouteRecordRaw[] = [
     name: 'DiaryDetail',
     component: () => import('@/views/DiaryDetail.vue'),
     meta: {
-      title: 'Diary Entry',
+      titleKey: 'router.diaryEntry',
       requiresAuth: true,
       guestOnly: false,
     },
@@ -75,7 +76,7 @@ const routes: RouteRecordRaw[] = [
     name: 'Profile',
     component: () => import('@/views/Profile.vue'),
     meta: {
-      title: 'Profile',
+      titleKey: 'router.profile',
       requiresAuth: true,
       guestOnly: false,
     },
@@ -85,7 +86,7 @@ const routes: RouteRecordRaw[] = [
     name: 'About',
     component: () => import('@/views/About.vue'),
     meta: {
-      title: 'About',
+      titleKey: 'router.about',
       requiresAuth: false,
       guestOnly: false,
     },
@@ -95,7 +96,7 @@ const routes: RouteRecordRaw[] = [
     name: 'NotFound',
     component: () => import('@/views/NotFound.vue'),
     meta: {
-      title: '404 Not Found',
+      titleKey: 'router.notFound',
       requiresAuth: false,
       guestOnly: false,
     },
@@ -127,9 +128,11 @@ router.beforeEach((to, _from, next) => {
   const authStore = useAuthStore();
   const isAuthenticated = authStore.isAuthenticated;
 
-  // Update page title
+  // Update page title using i18n
   const appName = import.meta.env.VITE_APP_NAME || 'Thought Diary App';
-  document.title = to.meta.title ? `${to.meta.title} - ${appName}` : appName;
+  const titleKey = to.meta.titleKey as string | undefined;
+  const { t } = i18n.global;
+  document.title = titleKey ? `${t(titleKey)} - ${appName}` : appName;
 
   // Check if route requires authentication
   if (to.meta.requiresAuth && !isAuthenticated) {

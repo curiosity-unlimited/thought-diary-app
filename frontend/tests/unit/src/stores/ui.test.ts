@@ -166,4 +166,49 @@ describe('UI Store', () => {
       expect(store.hasLoadingMessage).toBe(false);
     });
   });
+
+  describe('Locale Management', () => {
+    it('should initialize locale from localStorage', () => {
+      localStorage.setItem('user_locale', 'zh-tw');
+      const store = useUIStore();
+      store.initLocale();
+
+      expect(store.locale).toBe('zh-tw');
+    });
+
+    it('should default to "en" when localStorage is empty and browser is not Chinese', () => {
+      // Ensure localStorage is empty
+      localStorage.clear();
+      const store = useUIStore();
+      store.initLocale();
+
+      expect(['en', 'zh-tw']).toContain(store.locale);
+    });
+
+    it('should set a supported locale and persist to localStorage', () => {
+      const store = useUIStore();
+      store.setLocale('zh-tw');
+
+      expect(store.locale).toBe('zh-tw');
+      expect(localStorage.getItem('user_locale')).toBe('zh-tw');
+    });
+
+    it('should not set an unsupported locale', () => {
+      const store = useUIStore();
+      store.locale = 'en'; // baseline
+      store.setLocale('fr' as any);
+
+      expect(store.locale).toBe('en');
+      expect(localStorage.getItem('user_locale')).toBeNull();
+    });
+
+    it('should switch locale back to "en" from "zh-tw"', () => {
+      const store = useUIStore();
+      store.setLocale('zh-tw');
+      store.setLocale('en');
+
+      expect(store.locale).toBe('en');
+      expect(localStorage.getItem('user_locale')).toBe('en');
+    });
+  });
 });

@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-04-07
+
+### Frontend [0.4.0]
+#### Added
+- Mandarin (Traditional Chinese, zh-tw) internationalization support using vue-i18n v9 (issue #15)
+- `frontend/src/i18n/index.ts` – vue-i18n configuration with browser language auto-detection
+- `frontend/src/i18n/locales/en.json` – English translation strings (~150 keys across 14 namespaces)
+- `frontend/src/i18n/locales/zh-tw.json` – Traditional Chinese (繁體中文) translations
+- `frontend/src/utils/dateFormatter.ts` – Locale-aware `formatDateTime()` and `formatDate()` utility functions
+- Language switcher UI in `Navbar.vue` – desktop dropdown and mobile list with globe icon
+- `initLocale()` and `setLocale()` actions in `stores/ui.ts` for localStorage persistence with key `user_locale`
+- `@intlify/unplugin-vue-i18n` Vite plugin for pre-compiled locale resources
+- i18n-aware factory functions `createLoginSchema()` and `createRegisterSchema()` in `utils/validationSchemas.ts`
+- Backend error message translation map in `services/api.ts`
+- Unit tests for locale store actions (`tests/unit/src/stores/ui.test.ts`)
+- Unit tests for date formatter utility (`tests/unit/src/utils/dateFormatter.test.ts`)
+- `docs/frontend-i18n.md` – i18n architecture documentation
+
+#### Changed
+- All 21 Vue components/views updated to use `$t()` for user-facing text
+- `stores/ui.ts` – added `locale` ref, `setLocale()`, `initLocale()` actions
+- `main.ts` – registers vue-i18n plugin and calls `uiStore.initLocale()`
+- `router/index.ts` – route meta uses `titleKey` (i18n key) instead of literal `title` strings; navigation guard translates titles via `i18n.global.t()`
+- `vite.config.ts` – adds `@intlify/unplugin-vue-i18n/vite` plugin
+- `DiaryCard.vue`, `Profile.vue`, `DiaryDetail.vue` – replaced hardcoded `toLocaleString('en-US', ...)` with locale-aware `formatDateTime()` / `formatDate()` utility
+- `tests/unit/setup.ts` – registers test i18n instance globally so all component tests render without warnings
+
 ## [0.5.0] - 2026-03-11
 
 ### Backend [0.3.0]

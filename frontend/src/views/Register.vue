@@ -4,24 +4,27 @@
  * Guest-only registration page with VeeValidate form validation
  */
 
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useForm, useField } from 'vee-validate';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '@/stores/auth';
 import { useToast } from '@/composables/useToast';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { registerSchema } from '@/utils/validationSchemas';
+import { createRegisterSchema } from '@/utils/validationSchemas';
 
 const router = useRouter();
 const authStore = useAuthStore();
 const { showError, showSuccess } = useToast();
+const { t } = useI18n();
 
 // Form state
 const isSubmitting = ref(false);
 
-// Setup VeeValidate form with Yup schema
+// Setup VeeValidate form with i18n-aware Yup schema
+const validationSchema = computed(() => createRegisterSchema(t));
 const { handleSubmit, errors } = useForm({
-  validationSchema: registerSchema,
+  validationSchema,
 });
 
 // Setup form fields with real-time validation
@@ -39,7 +42,7 @@ const onSubmit = handleSubmit(async (values) => {
     // Register user
     await authStore.register(values.email, values.password);
 
-    showSuccess('Registration successful! Please sign in.');
+    showSuccess(t('auth.registrationSuccess'));
 
     // Redirect to login page
     router.push('/login');
@@ -48,7 +51,7 @@ const onSubmit = handleSubmit(async (values) => {
     const errorMessage =
       error instanceof Error
         ? error.message
-        : 'Registration failed. Please try again.';
+        : t('auth.registrationFailed');
     showError(errorMessage);
   } finally {
     isSubmitting.value = false;
@@ -60,7 +63,7 @@ const onSubmit = handleSubmit(async (values) => {
   <AuthLayout>
     <!-- Page Title -->
     <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 text-center mb-6">
-      Create your account
+      {{ $t('auth.registerTitle') }}
     </h2>
 
     <!-- Registration Form -->
@@ -68,7 +71,7 @@ const onSubmit = handleSubmit(async (values) => {
       <!-- Email Field -->
       <div>
         <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Email address
+          {{ $t('auth.emailLabel') }}
         </label>
         <input
           id="email"
@@ -80,7 +83,7 @@ const onSubmit = handleSubmit(async (values) => {
             'border-red-500 focus:ring-red-500 focus:border-red-500':
               errors.email,
           }"
-          placeholder="you@example.com"
+          :placeholder="$t('auth.emailPlaceholder')"
         />
         <!-- Inline Error Message -->
         <p v-if="errors.email" class="mt-1 text-sm text-red-600 dark:text-red-400">
@@ -94,7 +97,7 @@ const onSubmit = handleSubmit(async (values) => {
           for="password"
           class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
         >
-          Password
+          {{ $t('auth.passwordLabel') }}
         </label>
         <input
           id="password"
@@ -106,7 +109,7 @@ const onSubmit = handleSubmit(async (values) => {
             'border-red-500 focus:ring-red-500 focus:border-red-500':
               errors.password,
           }"
-          placeholder="Create a strong password"
+          :placeholder="$t('auth.registerPasswordPlaceholder')"
         />
         <!-- Inline Error Message -->
         <p v-if="errors.password" class="mt-1 text-sm text-red-600 dark:text-red-400">
@@ -114,13 +117,13 @@ const onSubmit = handleSubmit(async (values) => {
         </p>
         <!-- Password Requirements -->
         <div class="mt-2 text-xs text-gray-500 dark:text-gray-400 space-y-1">
-          <p class="font-medium">Password must contain:</p>
+          <p class="font-medium">{{ $t('auth.passwordRequirementsTitle') }}</p>
           <ul class="list-disc list-inside space-y-0.5 ml-2">
-            <li>At least 8 characters</li>
-            <li>One uppercase letter</li>
-            <li>One lowercase letter</li>
-            <li>One number</li>
-            <li>One special character (!@#$%^&*...)</li>
+            <li>{{ $t('auth.passwordReqChars') }}</li>
+            <li>{{ $t('auth.passwordReqUppercase') }}</li>
+            <li>{{ $t('auth.passwordReqLowercase') }}</li>
+            <li>{{ $t('auth.passwordReqNumber') }}</li>
+            <li>{{ $t('auth.passwordReqSpecial') }}</li>
           </ul>
         </div>
       </div>
@@ -155,8 +158,8 @@ const onSubmit = handleSubmit(async (values) => {
               d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
             ></path>
           </svg>
-          <span v-if="isSubmitting">Creating account...</span>
-          <span v-else>Create account</span>
+          <span v-if="isSubmitting">{{ $t('auth.creatingAccount') }}</span>
+          <span v-else>{{ $t('auth.createAccount') }}</span>
         </button>
       </div>
     </form>
@@ -164,12 +167,12 @@ const onSubmit = handleSubmit(async (values) => {
     <!-- Link to Login -->
     <div class="mt-6 text-center">
       <p class="text-sm text-gray-600 dark:text-gray-400">
-        Already have an account?
+        {{ $t('auth.alreadyHaveAccount') }}
         <router-link
           to="/login"
           class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition-colors"
         >
-          Sign in
+          {{ $t('auth.signIn') }}
         </router-link>
       </p>
     </div>

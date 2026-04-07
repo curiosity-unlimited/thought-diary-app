@@ -4,7 +4,7 @@
     <div
       class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
       role="region"
-      aria-label="Total diary entries statistics"
+      :aria-label="$t('stats.totalAriaLabel')"
     >
       <div class="flex items-center justify-between mb-2">
         <svg
@@ -23,14 +23,14 @@
         </svg>
       </div>
       <div class="text-3xl font-bold mb-1" aria-live="polite">{{ total }}</div>
-      <div class="text-base font-semibold">Total Entries</div>
+      <div class="text-base font-semibold">{{ $t('stats.totalEntries') }}</div>
     </div>
 
     <!-- Positive Entries -->
     <div
       class="bg-gradient-to-br from-green-600 to-green-700 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
       role="region"
-      aria-label="Positive diary entries statistics"
+      :aria-label="$t('stats.positiveAriaLabel')"
     >
       <div class="flex items-center justify-between mb-2">
         <svg
@@ -48,14 +48,14 @@
         </svg>
       </div>
       <div class="text-3xl font-bold mb-1" aria-live="polite">{{ positive }}</div>
-      <div class="text-base font-semibold">Positive Entries</div>
+      <div class="text-base font-semibold">{{ $t('stats.positiveEntries') }}</div>
     </div>
 
     <!-- Negative Entries -->
     <div
       class="bg-gradient-to-br from-red-600 to-red-700 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
       role="region"
-      aria-label="Negative diary entries statistics"
+      :aria-label="$t('stats.negativeAriaLabel')"
     >
       <div class="flex items-center justify-between mb-2">
         <svg
@@ -73,14 +73,14 @@
         </svg>
       </div>
       <div class="text-3xl font-bold mb-1" aria-live="polite">{{ negative }}</div>
-      <div class="text-base font-semibold">Negative Entries</div>
+      <div class="text-base font-semibold">{{ $t('stats.negativeEntries') }}</div>
     </div>
 
     <!-- Neutral Entries -->
     <div
       class="bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg p-6 text-white shadow-md hover:shadow-lg transition-shadow"
       role="region"
-      aria-label="Neutral diary entries statistics"
+      :aria-label="$t('stats.neutralAriaLabel')"
     >
       <div class="flex items-center justify-between mb-2">
         <svg
@@ -98,7 +98,7 @@
         </svg>
       </div>
       <div class="text-3xl font-bold mb-1" aria-live="polite">{{ neutral }}</div>
-      <div class="text-base font-semibold">Neutral Entries</div>
+      <div class="text-base font-semibold">{{ $t('stats.neutralEntries') }}</div>
     </div>
   </div>
 </template>

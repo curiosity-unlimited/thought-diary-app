@@ -47,7 +47,7 @@
             to="/about"
             class="font-medium hover:text-gray-100 underline"
           >
-            Learn more about Thought Diary
+            {{ $t('common.learnMore') }}
           </router-link>
         </p>
       </div>

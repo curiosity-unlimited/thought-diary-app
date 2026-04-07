@@ -1,25 +1,28 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUIStore } from '@/stores/ui';
+import type { SupportedLocale } from '@/i18n';
 
 const router = useRouter();
 const route = useRoute();
 const authStore = useAuthStore();
 const uiStore = useUIStore();
+const { t, locale } = useI18n();
 
 // Get user email from auth store
 const userEmail = computed(() => authStore.user?.email || 'User');
 
-// Navigation links
-const navLinks = [
-  { name: 'Dashboard', path: '/dashboard' },
-  { name: 'Diaries', path: '/diaries' },
-  { name: 'Profile', path: '/profile' },
-  { name: 'About', path: '/about' },
-];
+// Navigation links (reactive to locale changes)
+const navLinks = computed(() => [
+  { name: t('nav.dashboard'), path: '/dashboard' },
+  { name: t('nav.diaries'), path: '/diaries' },
+  { name: t('nav.profile'), path: '/profile' },
+  { name: t('nav.about'), path: '/about' },
+]);
 
 // Check if route is active
 const isActiveRoute = (path: string) => {
@@ -43,13 +46,28 @@ const isMobileMenuOpen = ref(false);
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
+
+// Language switcher
+const availableLocales: { code: SupportedLocale; label: string }[] = [
+  { code: 'en', label: 'English' },
+  { code: 'zh-tw', label: '繁體中文' },
+];
+
+const currentLocaleLabel = computed(() => {
+  return availableLocales.find((l) => l.code === locale.value)?.label ?? 'EN';
+});
+
+const switchLocale = (newLocale: SupportedLocale) => {
+  locale.value = newLocale;
+  uiStore.setLocale(newLocale);
+};
 </script>
 
 <template>
   <nav
     class="bg-indigo-600 dark:bg-gray-900 shadow-lg"
     role="navigation"
-    aria-label="Main navigation"
+    :aria-label="$t('nav.mainNavAriaLabel')"
   >
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 justify-between">
@@ -58,7 +76,7 @@ const toggleMobileMenu = () => {
           <router-link
             to="/dashboard"
             class="flex items-center text-white hover:text-indigo-100 dark:hover:text-gray-300 transition-colors"
-            aria-label="Go to dashboard"
+            :aria-label="$t('nav.goDashboardAriaLabel')"
           >
             <svg
               class="h-8 w-8 mr-2"
@@ -95,11 +113,61 @@ const toggleMobileMenu = () => {
             </router-link>
           </div>
 
+          <!-- Language Switcher -->
+          <Menu as="div" class="relative">
+            <MenuButton
+              class="flex items-center gap-1 p-2 rounded-md text-indigo-100 hover:bg-indigo-500 dark:hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-colors text-sm font-medium"
+              :aria-label="$t('nav.languageSwitcher')"
+            >
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
+                />
+              </svg>
+              <span>{{ currentLocaleLabel }}</span>
+            </MenuButton>
+            <transition
+              enter-active-class="transition ease-out duration-100"
+              enter-from-class="transform opacity-0 scale-95"
+              enter-to-class="transform opacity-100 scale-100"
+              leave-active-class="transition ease-in duration-75"
+              leave-from-class="transform opacity-100 scale-100"
+              leave-to-class="transform opacity-0 scale-95"
+            >
+              <MenuItems
+                class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+              >
+                <MenuItem v-for="loc in availableLocales" :key="loc.code" v-slot="{ active }">
+                  <button
+                    :class="[
+                      active ? 'bg-gray-100 dark:bg-gray-700' : '',
+                      locale === loc.code ? 'font-semibold' : '',
+                      'block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200',
+                    ]"
+                    @click="switchLocale(loc.code)"
+                  >
+                    {{ loc.label }}
+                  </button>
+                </MenuItem>
+              </MenuItems>
+            </transition>
+          </Menu>
+
           <!-- Theme Toggle Button -->
           <button
             type="button"
             class="p-2 rounded-md text-indigo-100 hover:bg-indigo-500 dark:hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition-colors"
-            :aria-label="uiStore.isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+            :aria-label="uiStore.isDark ? $t('nav.switchToLight') : $t('nav.switchToDark')"
             @click="uiStore.toggleTheme()"
           >
             <!-- Moon icon (shown in light mode) -->
@@ -142,7 +210,7 @@ const toggleMobileMenu = () => {
           <Menu as="div" class="relative ml-3">
             <MenuButton
               class="flex items-center rounded-full bg-indigo-700 dark:bg-gray-700 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-800 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600 dark:focus:ring-offset-gray-900"
-              aria-label="User menu"
+              :aria-label="$t('nav.userMenuAriaLabel')"
             >
               <svg
                 class="h-5 w-5 mr-2"
@@ -208,7 +276,7 @@ const toggleMobileMenu = () => {
                         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                       />
                     </svg>
-                    Logout
+                    {{ $t('nav.logout') }}
                   </button>
                 </MenuItem>
               </MenuItems>
@@ -222,7 +290,7 @@ const toggleMobileMenu = () => {
           <button
             type="button"
             class="inline-flex items-center justify-center rounded-md p-2 text-indigo-100 hover:bg-indigo-500 dark:hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white mr-1"
-            :aria-label="uiStore.isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+            :aria-label="uiStore.isDark ? $t('nav.switchToLight') : $t('nav.switchToDark')"
             @click="uiStore.toggleTheme()"
           >
             <svg
@@ -265,7 +333,7 @@ const toggleMobileMenu = () => {
             :aria-expanded="isMobileMenuOpen"
             @click="toggleMobileMenu"
           >
-            <span class="sr-only">Open main menu</span>
+            <span class="sr-only">{{ $t('nav.openMainMenuAriaLabel') }}</span>
             <svg
               v-if="!isMobileMenuOpen"
               class="block h-6 w-6"
@@ -343,12 +411,31 @@ const toggleMobileMenu = () => {
             <div class="text-base font-medium text-white">{{ userEmail }}</div>
           </div>
         </div>
+        <!-- Language Switcher (Mobile) -->
+        <div class="mt-3 space-y-1 px-2">
+          <div class="px-3 py-2 text-xs font-medium text-indigo-300 dark:text-gray-400 uppercase tracking-wider">
+            {{ $t('language.switchLanguage') }}
+          </div>
+          <button
+            v-for="loc in availableLocales"
+            :key="loc.code"
+            :class="[
+              'block w-full text-left rounded-md px-3 py-2 text-base font-medium transition-colors',
+              locale === loc.code
+                ? 'bg-indigo-700 dark:bg-gray-700 text-white'
+                : 'text-indigo-100 hover:bg-indigo-500 dark:hover:bg-gray-700 hover:text-white',
+            ]"
+            @click="switchLocale(loc.code); isMobileMenuOpen = false"
+          >
+            {{ loc.label }}
+          </button>
+        </div>
         <div class="mt-3 space-y-1 px-2">
           <button
             class="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-indigo-100 hover:bg-indigo-500 dark:hover:bg-gray-700 hover:text-white"
             @click="handleLogout"
           >
-            Logout
+            {{ $t('nav.logout') }}
           </button>
         </div>
       </div>

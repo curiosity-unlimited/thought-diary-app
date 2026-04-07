@@ -3,7 +3,7 @@
     <!-- Textarea for Content -->
     <div>
       <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-        What's on your mind?
+        {{ $t('diary.contentLabel') }}
       </label>
       <textarea
         id="content"
@@ -15,7 +15,7 @@
             : 'border-gray-300 dark:border-gray-600',
         ]"
         :rows="rows"
-        placeholder="Share your thoughts here..."
+        :placeholder="$t('diary.contentPlaceholder')"
         :disabled="isSubmitting"
         @input="handleInput"
       ></textarea>
@@ -49,7 +49,7 @@
         :disabled="isSubmitting"
         @click="$emit('cancel')"
       >
-        Cancel
+        {{ $t('common.cancel') }}
       </button>
       <button
         type="submit"
@@ -78,7 +78,7 @@
           ></path>
         </svg>
         <span>{{
-          isSubmitting ? 'Saving...' : diary ? 'Update' : 'Create'
+          isSubmitting ? $t('common.saving') : diary ? $t('common.update') : $t('common.create')
         }}</span>
       </button>
     </div>
@@ -87,6 +87,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { DiaryEntry } from '@/types';
 
 interface Props {
@@ -98,6 +99,8 @@ const props = withDefaults(defineProps<Props>(), {
   diary: undefined,
   isSubmitting: false,
 });
+
+const { t } = useI18n();
 
 const emit = defineEmits<{
   submit: [content: string];
@@ -120,10 +123,10 @@ const errorMessage = computed(() => {
     return '';
   }
   if (contentValue.value.length < MIN_LENGTH) {
-    return `Content must be at least ${MIN_LENGTH} characters`;
+    return t('validation.contentMin', { min: MIN_LENGTH });
   }
   if (contentValue.value.length > MAX_LENGTH) {
-    return `Content must not exceed ${MAX_LENGTH} characters`;
+    return t('validation.contentMax', { max: MAX_LENGTH });
   }
   return '';
 });

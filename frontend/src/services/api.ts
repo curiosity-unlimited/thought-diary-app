@@ -25,6 +25,28 @@ import type {
   ApiError,
 } from '@/types';
 import { useToast } from '@/composables/useToast';
+import i18n from '@/i18n';
+
+/**
+ * Map of backend error messages to i18n translation keys.
+ * Used to translate API responses into the user's locale.
+ */
+const errorMessageMap: Record<string, string> = {
+  'Email already registered': 'errors.emailExists',
+  'Token has expired': 'errors.tokenExpired',
+  'Invalid token': 'errors.invalidToken',
+  'Authorization token is missing': 'errors.authMissing',
+};
+
+/**
+ * Translate a backend error message using the i18n map.
+ * Falls back to the original message if no mapping is found.
+ */
+const translateErrorMessage = (message: string): string => {
+  const { t } = i18n.global;
+  const key = errorMessageMap[message];
+  return key ? t(key) : message;
+};
 
 // Token storage keys
 const ACCESS_TOKEN_KEY = 'access_token';
@@ -177,7 +199,7 @@ apiClient.interceptors.response.use(
         clearTokens();
         isRefreshing = false;
         processQueue(new Error('No refresh token available'), null);
-        showError('Your session has expired. Please log in again.');
+        showError(i18n.global.t('errors.sessionExpired'));
         window.location.href = '/login';
         return Promise.reject(error);
       }
@@ -215,7 +237,7 @@ apiClient.interceptors.response.use(
         processQueue(refreshError as Error, null);
         isRefreshing = false;
         clearTokens();
-        showError('Your session has expired. Please log in again.');
+        showError(i18n.global.t('errors.sessionExpired'));
         window.location.href = '/login';
         return Promise.reject(refreshError);
       }
@@ -227,8 +249,8 @@ apiClient.interceptors.response.use(
         error: 'network_error',
         message:
           error.message === 'Network Error'
-            ? 'Unable to connect to server. Please check your internet connection.'
-            : error.message || 'A network error occurred. Please try again.',
+            ? i18n.global.t('errors.networkError')
+            : error.message || i18n.global.t('errors.unknown'),
       };
 
       // Show retry toast for network errors
@@ -245,10 +267,11 @@ apiClient.interceptors.response.use(
     // Transform backend errors to ApiError interface
     const apiError: ApiError = {
       error: error.response.data?.error || 'unknown_error',
-      message:
+      message: translateErrorMessage(
         error.response.data?.message ||
         error.message ||
-        'An unexpected error occurred. Please try again.',
+        i18n.global.t('errors.unknown')
+      ),
     };
 
     return Promise.reject(apiError);
@@ -292,7 +315,7 @@ export const logout = async (): Promise<void> => {
   const { showSuccess } = useToast();
   try {
     await apiClient.post('/auth/logout');
-    showSuccess('Successfully logged out');
+    showSuccess(i18n.global.t('success.loggedOut'));
   } finally {
     // Always clear tokens, even if API call fails
     clearTokens();

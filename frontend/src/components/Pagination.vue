@@ -4,11 +4,10 @@
     role="navigation"
     aria-label="Pagination"
   >
-    <!-- Previous Button -->
     <button
       :disabled="pagination.page === 1"
       class="px-3 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:hover:bg-white dark:disabled:hover:bg-gray-800"
-      aria-label="Previous page"
+      :aria-label="$t('pagination.previousPage')"
       @click="changePage(pagination.page - 1)"
     >
       <svg
@@ -39,7 +38,7 @@
               ? 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
               : 'bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-default',
         ]"
-        :aria-label="typeof page === 'number' ? `Page ${page}` : 'More pages'"
+        :aria-label="typeof page === 'number' ? $t('pagination.previousPage').replace('Previous', 'Page ' + page + ' /') : $t('pagination.morePage')"
         :aria-current="page === pagination.page ? 'page' : undefined"
         @click="typeof page === 'number' ? changePage(page) : null"
       >
@@ -56,7 +55,7 @@
     <button
       :disabled="pagination.page === pagination.pages"
       class="px-3 py-2 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:hover:bg-white dark:disabled:hover:bg-gray-800"
-      aria-label="Next page"
+      :aria-label="$t('pagination.nextPage')"
       @click="changePage(pagination.page + 1)"
     >
       <svg

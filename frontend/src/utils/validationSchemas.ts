@@ -1,9 +1,16 @@
 /**
  * Validation schemas using Yup
- * Reusable validation rules for forms across the application
+ * Reusable validation rules for forms across the application.
+ * Factory functions accept an i18n `t` function so that error messages
+ * are rendered in the currently active locale.
  */
 
 import * as yup from 'yup';
+
+// ─────────────────────────────────────────────────────────────
+// Static schemas (English only – used as a fallback when no i18n
+// context is available, e.g. in unit tests that don't set up i18n).
+// ─────────────────────────────────────────────────────────────
 
 /**
  * Email validation schema
@@ -54,3 +61,54 @@ export const registerSchema = yup.object({
   email: emailSchema,
   password: passwordSchema, // Strict validation for registration
 });
+
+// ─────────────────────────────────────────────────────────────
+// i18n-aware factory functions
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * Create an i18n-aware email schema.
+ * @param t - The vue-i18n translation function
+ */
+export const createEmailSchema = (t: (key: string, values?: Record<string, unknown>) => string) =>
+  yup
+    .string()
+    .required(t('validation.emailRequired'))
+    .email(t('validation.emailInvalid'))
+    .max(120, t('validation.emailMaxLength'))
+    .trim();
+
+/**
+ * Create an i18n-aware password schema (strict – for registration).
+ * @param t - The vue-i18n translation function
+ */
+export const createPasswordSchema = (t: (key: string, values?: Record<string, unknown>) => string) =>
+  yup
+    .string()
+    .required(t('validation.passwordRequired'))
+    .min(8, t('validation.passwordMin'))
+    .matches(/[A-Z]/, t('validation.passwordUppercase'))
+    .matches(/[a-z]/, t('validation.passwordLowercase'))
+    .matches(/[0-9]/, t('validation.passwordDigit'))
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, t('validation.passwordSpecialChar'));
+
+/**
+ * Create an i18n-aware login form validation schema.
+ * @param t - The vue-i18n translation function
+ */
+export const createLoginSchema = (t: (key: string, values?: Record<string, unknown>) => string) =>
+  yup.object({
+    email: createEmailSchema(t),
+    password: yup.string().required(t('validation.loginPasswordRequired')),
+  });
+
+/**
+ * Create an i18n-aware registration form validation schema.
+ * @param t - The vue-i18n translation function
+ */
+export const createRegisterSchema = (t: (key: string, values?: Record<string, unknown>) => string) =>
+  yup.object({
+    email: createEmailSchema(t),
+    password: createPasswordSchema(t),
+  });
+

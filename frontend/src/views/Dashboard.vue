@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useDiariesStore } from '@/stores/diaries';
 import { useToast } from '@/composables/useToast';
 import MainLayout from '@/layouts/MainLayout.vue';
@@ -12,6 +13,7 @@ import EmptyState from '@/components/EmptyState.vue';
 const router = useRouter();
 const diariesStore = useDiariesStore();
 const { showError } = useToast();
+const { t } = useI18n();
 
 const isLoading = ref(true);
 
@@ -32,7 +34,7 @@ const loadDashboardData = async () => {
     ]);
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : 'Failed to load dashboard data';
+      error instanceof Error ? error.message : t('diary.failedToLoadDashboard', 'Failed to load dashboard data');
     showError(message);
   } finally {
     isLoading.value = false;
@@ -63,7 +65,7 @@ const handleDelete = async (diaryId: number) => {
     await loadDashboardData();
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : 'Failed to delete diary entry';
+      error instanceof Error ? error.message : t('diary.failedToDelete', 'Failed to delete diary entry');
     showError(message);
   }
 };
@@ -78,9 +80,9 @@ onMounted(() => {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Page Header -->
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Dashboard</h1>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">{{ $t('diary.dashboard') }}</h1>
         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-          Your thought diary overview and recent entries
+          {{ $t('diary.dashboardSubtitle') }}
         </p>
       </div>
 
@@ -88,7 +90,7 @@ onMounted(() => {
       <LoadingSpinner
         v-if="isLoading"
         size="lg"
-        message="Loading dashboard..."
+        :message="$t('loading.loadingDashboard')"
         class="my-12"
       />
 
@@ -102,7 +104,7 @@ onMounted(() => {
         <!-- Recent Entries Section -->
         <div class="mb-8">
           <div class="flex items-center justify-between mb-4">
-            <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Recent Entries</h2>
+            <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ $t('diary.recentEntries') }}</h2>
             <button
               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
               @click="createEntry"
@@ -121,16 +123,16 @@ onMounted(() => {
                   d="M12 4v16m8-8H4"
                 />
               </svg>
-              Create Entry
+              {{ $t('diary.createEntry') }}
             </button>
           </div>
 
           <!-- Empty State -->
           <EmptyState
             v-if="recentEntries.length === 0"
-            title="No diary entries yet"
-            message="Start your thought diary journey by creating your first entry."
-            action-text="Create Entry"
+            :title="$t('diary.noEntriesTitle')"
+            :message="$t('diary.noEntriesMessage')"
+            :action-text="$t('diary.createEntry')"
             @action="createEntry"
           />
 
@@ -150,7 +152,7 @@ onMounted(() => {
                 to="/diaries"
                 class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium inline-flex items-center"
               >
-                View All Entries
+                {{ $t('diary.viewAllEntries') }}
                 <svg
                   class="ml-1 h-5 w-5"
                   xmlns="http://www.w3.org/2000/svg"

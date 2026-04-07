@@ -1,10 +1,17 @@
 /**
  * UI Store
- * Manages global UI state like loading indicators and theme
+ * Manages global UI state like loading indicators, theme, and locale
  */
 
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import {
+  LOCALE_STORAGE_KEY,
+  SUPPORTED_LOCALES,
+  detectLocale,
+  type SupportedLocale,
+} from '@/i18n';
+import { useI18n } from 'vue-i18n';
 
 const THEME_STORAGE_KEY = 'theme';
 
@@ -13,6 +20,7 @@ export const useUIStore = defineStore('ui', () => {
   const isLoading = ref(false);
   const loadingMessage = ref<string>('');
   const theme = ref<'light' | 'dark'>('light');
+  const locale = ref<SupportedLocale>(detectLocale());
 
   // Computed
   const hasLoadingMessage = computed(() => !!loadingMessage.value);
@@ -67,11 +75,47 @@ export const useUIStore = defineStore('ui', () => {
     }
   };
 
+  /**
+   * Initialize locale from localStorage or browser language detection
+   */
+  const initLocale = (): void => {
+    const detected = detectLocale();
+    locale.value = detected;
+    // Sync with vue-i18n global instance
+    try {
+      const { locale: i18nLocale } = useI18n({ useScope: 'global' });
+      i18nLocale.value = detected;
+    } catch {
+      // useI18n may not be available outside of component context;
+      // the i18n instance was already initialised with detectLocale() in i18n/index.ts
+    }
+  };
+
+  /**
+   * Set the active locale and persist to localStorage
+   * @param newLocale - Locale code to activate
+   */
+  const setLocale = (newLocale: SupportedLocale): void => {
+    if (!SUPPORTED_LOCALES.includes(newLocale)) {
+      return;
+    }
+    locale.value = newLocale;
+    localStorage.setItem(LOCALE_STORAGE_KEY, newLocale);
+    // Sync with vue-i18n global instance
+    try {
+      const { locale: i18nLocale } = useI18n({ useScope: 'global' });
+      i18nLocale.value = newLocale;
+    } catch {
+      // Outside component context – caller must sync manually if needed
+    }
+  };
+
   return {
     // State
     isLoading,
     loadingMessage,
     theme,
+    locale,
 
     // Computed
     hasLoadingMessage,
@@ -82,5 +126,7 @@ export const useUIStore = defineStore('ui', () => {
     clearLoading,
     initTheme,
     toggleTheme,
+    initLocale,
+    setLocale,
   };
 });

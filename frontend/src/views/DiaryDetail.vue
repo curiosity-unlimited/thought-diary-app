@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { useDiariesStore } from '@/stores/diaries';
 import { useToast } from '@/composables/useToast';
 import MainLayout from '@/layouts/MainLayout.vue';
 import DiaryForm from '@/components/DiaryForm.vue';
 import LoadingSpinner from '@/components/LoadingSpinner.vue';
 import DeleteConfirmationModal from '@/components/DeleteConfirmationModal.vue';
+import { formatDateTime } from '@/utils/dateFormatter';
 
 const route = useRoute();
 const router = useRouter();
 const diariesStore = useDiariesStore();
 const { showError, showSuccess } = useToast();
+const { t } = useI18n();
 
 const isLoading = ref(true);
 const isEditing = ref(false);
@@ -21,17 +24,10 @@ const showDeleteModal = ref(false);
 const diaryId = computed(() => parseInt(route.params.id as string));
 
 /**
- * Format date to readable string
+ * Format date to readable string using locale-aware formatter
  */
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  return formatDateTime(dateString);
 };
 
 /**
@@ -43,7 +39,7 @@ const loadDiary = async () => {
     await diariesStore.fetchDiary(diaryId.value);
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : 'Failed to load diary entry';
+      error instanceof Error ? error.message : t('diary.failedToLoad', 'Failed to load diary entry');
     showError(message);
     // Redirect to diaries list if not found
     if (
@@ -71,13 +67,13 @@ const handleEditSubmit = async (content: string) => {
   isSubmitting.value = true;
   try {
     await diariesStore.updateDiary(diaryId.value, content);
-    showSuccess('Diary entry updated successfully');
+    showSuccess(t('success.diaryUpdated'));
     isEditing.value = false;
     // Reload diary to get updated content
     await loadDiary();
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : 'Failed to update diary entry';
+      error instanceof Error ? error.message : t('diary.failedToUpdate', 'Failed to update diary entry');
     showError(message);
   } finally {
     isSubmitting.value = false;
@@ -104,12 +100,12 @@ const openDeleteModal = () => {
 const handleDeleteConfirm = async () => {
   try {
     await diariesStore.deleteDiary(diaryId.value);
-    showSuccess('Diary entry deleted successfully');
+    showSuccess(t('success.diaryDeleted'));
     showDeleteModal.value = false;
     router.push('/diaries');
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : 'Failed to delete diary entry';
+      error instanceof Error ? error.message : t('diary.failedToDelete', 'Failed to delete diary entry');
     showError(message);
   }
 };
@@ -140,7 +136,7 @@ onMounted(() => {
       <LoadingSpinner
         v-if="isLoading"
         size="lg"
-        message="Loading diary entry..."
+        :message="$t('loading.loadingDiaryEntry')"
         class="my-12"
       />
 
@@ -166,7 +162,7 @@ onMounted(() => {
                 d="M10 19l-7-7m0 0l7-7m-7 7h18"
               />
             </svg>
-            Back to Diaries
+            {{ $t('diary.backToDiaries') }}
           </button>
         </div>
 
@@ -180,7 +176,7 @@ onMounted(() => {
             <div class="flex items-start justify-between">
               <div>
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                  Diary Entry
+                  {{ $t('diary.diaryEntry') }}
                 </h1>
                 <p class="text-sm text-gray-500 dark:text-gray-400">
                   {{ formatDate(diariesStore.currentDiary.created_at) }}
@@ -205,7 +201,7 @@ onMounted(() => {
                       d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                     />
                   </svg>
-                  Edit
+                  {{ $t('common.edit') }}
                 </button>
                 <button
                   class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
@@ -225,7 +221,7 @@ onMounted(() => {
                       d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                     />
                   </svg>
-                  Delete
+                  {{ $t('common.delete') }}
                 </button>
               </div>
             </div>
@@ -237,7 +233,7 @@ onMounted(() => {
             <div
               class="prose max-w-none dark:prose-invert text-gray-900 dark:text-gray-100 leading-relaxed"
               role="article"
-              aria-label="Diary entry with sentiment analysis"
+              :aria-label="$t('diary.entryAriaLabel')"
               v-html="diariesStore.currentDiary.analyzed_content"
             ></div>
           </div>
@@ -246,7 +242,7 @@ onMounted(() => {
           <div
             class="px-6 py-4 bg-gray-50 dark:bg-gray-700 border-t border-gray-200 dark:border-gray-600"
             role="region"
-            aria-label="Sentiment analysis summary"
+            :aria-label="$t('diary.sentimentSummaryAriaLabel')"
           >
             <div class="flex items-center space-x-6 text-sm">
               <div class="flex items-center">
@@ -267,12 +263,12 @@ onMounted(() => {
                 </svg>
                 <span
                   class="text-gray-700 dark:text-gray-300"
-                  aria-label="`${diariesStore.currentDiary.positive_count} positive sentiments`"
+                  :aria-label="$t('diary.positiveSentimentsAriaLabel', { count: diariesStore.currentDiary.positive_count })"
                 >
                   <span class="font-medium">{{
                     diariesStore.currentDiary.positive_count
                   }}</span>
-                  positive
+                  {{ $t('diary.positive') }}
                 </span>
               </div>
               <div class="flex items-center">
@@ -293,12 +289,12 @@ onMounted(() => {
                 </svg>
                 <span
                   class="text-gray-700 dark:text-gray-300"
-                  aria-label="`${diariesStore.currentDiary.negative_count} negative sentiments`"
+                  :aria-label="$t('diary.negativeSentimentsAriaLabel', { count: diariesStore.currentDiary.negative_count })"
                 >
                   <span class="font-medium">{{
                     diariesStore.currentDiary.negative_count
                   }}</span>
-                  negative
+                  {{ $t('diary.negative') }}
                 </span>
               </div>
             </div>
@@ -307,7 +303,7 @@ onMounted(() => {
 
         <!-- Edit Mode -->
         <div v-else class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">Edit Entry</h2>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">{{ $t('diary.editEntry') }}</h2>
           <DiaryForm
             :diary="diariesStore.currentDiary"
             :is-submitting="isSubmitting"
@@ -329,12 +325,12 @@ onMounted(() => {
 
       <!-- Not Found State -->
       <div v-else class="text-center py-12">
-        <p class="text-gray-500 dark:text-gray-400 mb-4">Diary entry not found</p>
+        <p class="text-gray-500 dark:text-gray-400 mb-4">{{ $t('diary.entryNotFound') }}</p>
         <button
           class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium"
           @click="goBack"
         >
-          ← Back to Diaries
+          ← {{ $t('diary.backToDiaries') }}
         </button>
       </div>
     </div>

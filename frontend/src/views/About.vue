@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import MainLayout from '@/layouts/MainLayout.vue';
+
+useI18n();
 
 // Get app version from environment
 const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
@@ -11,10 +14,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
       <!-- Page Header -->
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-          About Thought Diary App
+          {{ $t('about.title') }}
         </h1>
         <p class="text-lg text-gray-600 dark:text-gray-400">
-          An AI-powered journal for better mental health
+          {{ $t('about.subtitle') }}
         </p>
       </div>
 
@@ -22,30 +25,26 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
       <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-8 mb-8">
         <div class="prose prose-lg max-w-none dark:prose-invert">
           <p class="text-gray-700 dark:text-gray-300 mb-4">
-            Thought Diary App is an AI-powered tool designed to help you track
-            and analyze your thoughts and emotions. Based on the principles of
+            {{ $t('about.description1').split($t('about.thoughtDiariesLink'))[0] }}
             <a
               href="https://positivepsychology.com/thought-diary/"
               target="_blank"
               rel="noopener noreferrer"
               class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
             >
-              Thought Diaries
+              {{ $t('about.thoughtDiariesLink') }}
             </a>
-            , our application helps you identify and challenge negative thinking
-            patterns, promoting healthier mental habits.
+            {{ $t('about.description1').split($t('about.thoughtDiariesLink'))[1] }}
           </p>
           <p class="text-gray-700 dark:text-gray-300 mb-4">
-            By analyzing your diary entries with advanced sentiment analysis,
-            you can gain insights into your emotional patterns and work towards
-            improved well-being.
+            {{ $t('about.description2') }}
           </p>
         </div>
       </div>
 
       <!-- Features -->
       <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-8 mb-8">
-        <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">Key Features</h2>
+        <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-6">{{ $t('about.keyFeatures') }}</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Feature 1 -->
           <div class="flex items-start">
@@ -69,10 +68,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
             </div>
             <div class="ml-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                Diary Management
+                {{ $t('about.feature1Title') }}
               </h3>
               <p class="mt-1 text-gray-600 dark:text-gray-400">
-                Create, edit, and organize your thought diary entries with ease.
+                {{ $t('about.feature1Desc') }}
               </p>
             </div>
           </div>
@@ -99,11 +98,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
             </div>
             <div class="ml-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                AI Sentiment Analysis
+                {{ $t('about.feature2Title') }}
               </h3>
               <p class="mt-1 text-gray-600 dark:text-gray-400">
-                Automatic analysis identifies positive and negative thinking
-                patterns.
+                {{ $t('about.feature2Desc') }}
               </p>
             </div>
           </div>
@@ -130,11 +128,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
             </div>
             <div class="ml-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                Statistics Dashboard
+                {{ $t('about.feature3Title') }}
               </h3>
               <p class="mt-1 text-gray-600 dark:text-gray-400">
-                View insights and trends about your emotional patterns over
-                time.
+                {{ $t('about.feature3Desc') }}
               </p>
             </div>
           </div>
@@ -161,11 +158,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
             </div>
             <div class="ml-4">
               <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                Secure & Private
+                {{ $t('about.feature4Title') }}
               </h3>
               <p class="mt-1 text-gray-600 dark:text-gray-400">
-                Your data is encrypted and protected with industry-standard
-                security.
+                {{ $t('about.feature4Desc') }}
               </p>
             </div>
           </div>
@@ -175,11 +171,10 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
       <!-- Credits & Version -->
       <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-8">
         <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-          Credits & Acknowledgments
+          {{ $t('about.creditsTitle') }}
         </h2>
         <p class="text-gray-700 dark:text-gray-300 mb-4">
-          Built with Vue 3, TypeScript, and Flask. Sentiment analysis powered by
-          GitHub Models API.
+          {{ $t('about.creditsText') }}
         </p>
         <div class="flex items-center text-sm text-gray-600 dark:text-gray-400">
           <svg
@@ -196,7 +191,7 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          Version {{ appVersion }}
+          {{ $t('about.version', { version: appVersion }) }}
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@
       <div class="flex gap-2">
         <button
           class="p-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-md transition-colors"
-          aria-label="Edit diary entry"
+          :aria-label="$t('diary.editAriaLabel')"
           @click="$emit('edit', diary.id)"
         >
           <svg
@@ -29,7 +29,7 @@
         </button>
         <button
           class="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-gray-700 rounded-md transition-colors"
-          aria-label="Delete diary entry"
+          :aria-label="$t('diary.deleteAriaLabel')"
           @click="$emit('delete', diary.id)"
         >
           <svg
@@ -65,7 +65,7 @@
         class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium text-sm mt-2"
         @click="isExpanded = true"
       >
-        Read more
+        {{ $t('diary.readMore') }}
       </button>
     </div>
     <div
@@ -81,7 +81,7 @@
     <div
       class="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-700"
       role="region"
-      aria-label="Sentiment analysis summary"
+      :aria-label="$t('diary.sentimentSummaryAriaLabel')"
     >
       <div class="flex items-center gap-2">
         <svg
@@ -99,9 +99,9 @@
         </svg>
         <span
           class="text-sm font-medium text-gray-700 dark:text-gray-300"
-          aria-label="`${diary.positive_count} positive sentiments`"
+          :aria-label="$t('diary.positiveSentimentsAriaLabel', { count: diary.positive_count })"
         >
-          {{ diary.positive_count }} positive
+          {{ diary.positive_count }} {{ $t('diary.positive') }}
         </span>
       </div>
       <div class="flex items-center gap-2">
@@ -120,9 +120,9 @@
         </svg>
         <span
           class="text-sm font-medium text-gray-700 dark:text-gray-300"
-          aria-label="`${diary.negative_count} negative sentiments`"
+          :aria-label="$t('diary.negativeSentimentsAriaLabel', { count: diary.negative_count })"
         >
-          {{ diary.negative_count }} negative
+          {{ diary.negative_count }} {{ $t('diary.negative') }}
         </span>
       </div>
     </div>
@@ -131,7 +131,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { DiaryEntry } from '@/types';
+import { formatDateTime } from '@/utils/dateFormatter';
 
 interface Props {
   diary: DiaryEntry;
@@ -143,6 +145,8 @@ defineEmits<{
   edit: [id: number];
   delete: [id: number];
 }>();
+
+useI18n(); // register for template $t() access
 
 const isExpanded = ref(false);
 const MAX_LENGTH = 300;
@@ -161,19 +165,12 @@ const truncatedContent = computed(() => {
 });
 
 /**
- * Format date to readable format
+ * Format date using locale-aware formatter
  * @param dateString - ISO date string
  * @returns Formatted date string
  */
 const formatDate = (dateString: string): string => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  return formatDateTime(dateString);
 };
 </script>
 

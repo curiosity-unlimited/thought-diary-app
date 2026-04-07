@@ -56,13 +56,12 @@
                 as="h3"
                 class="text-lg font-semibold leading-6 text-gray-900 dark:text-gray-100 text-center mb-2"
               >
-                Delete Diary Entry?
+                {{ $t('deleteModal.title') }}
               </DialogTitle>
 
               <!-- Description -->
               <DialogDescription class="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">
-                This action cannot be undone. This will permanently delete your
-                diary entry.
+                {{ $t('deleteModal.description') }}
               </DialogDescription>
 
               <!-- Diary Preview -->
@@ -82,14 +81,14 @@
                   class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600"
                   @click="$emit('cancel')"
                 >
-                  Cancel
+                  {{ $t('deleteModal.cancel') }}
                 </button>
                 <button
                   type="button"
                   class="px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                   @click="$emit('confirm', diaryId)"
                 >
-                  Delete
+                  {{ $t('deleteModal.confirm') }}
                 </button>
               </div>
             </DialogPanel>
