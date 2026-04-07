@@ -38,7 +38,7 @@
               ? 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
               : 'bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500 cursor-default',
         ]"
-        :aria-label="typeof page === 'number' ? $t('pagination.previousPage').replace('Previous', 'Page ' + page + ' /') : $t('pagination.morePage')"
+        :aria-label="typeof page === 'number' ? $t('pagination.pageLabel', { page }) : $t('pagination.morePage')"
         :aria-current="page === pagination.page ? 'page' : undefined"
         @click="typeof page === 'number' ? changePage(page) : null"
       >

@@ -25,16 +25,12 @@ const appVersion = import.meta.env.VITE_APP_VERSION || '0.1.0';
       <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-8 mb-8">
         <div class="prose prose-lg max-w-none dark:prose-invert">
           <p class="text-gray-700 dark:text-gray-300 mb-4">
-            {{ $t('about.description1').split($t('about.thoughtDiariesLink'))[0] }}
-            <a
+            {{ $t('about.description1Before') }}<a
               href="https://positivepsychology.com/thought-diary/"
               target="_blank"
               rel="noopener noreferrer"
               class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300"
-            >
-              {{ $t('about.thoughtDiariesLink') }}
-            </a>
-            {{ $t('about.description1').split($t('about.thoughtDiariesLink'))[1] }}
+            >{{ $t('about.thoughtDiariesLink') }}</a>{{ $t('about.description1After') }}
           </p>
           <p class="text-gray-700 dark:text-gray-300 mb-4">
             {{ $t('about.description2') }}

@@ -131,7 +131,6 @@
   "about": {
     "title": "關於思緒日記應用程式",
     "subtitle": "以 AI 驅動的心理健康日記",
-    "description1": "思緒日記應用程式是一款以 AI 驅動的工具，旨在幫助您追蹤並分析您的想法與情緒。基於思緒日記的原則，我們的應用程式幫助您識別並挑戰負面思考模式，促進更健康的心理習慣。",
     "description2": "透過先進的情緒分析功能分析您的日記記錄，您可以深入了解自己的情緒模式，並努力改善心理健康。",
     "thoughtDiariesLink": "思緒日記",
     "keyFeatures": "主要功能",
@@ -145,7 +144,9 @@
     "feature4Desc": "您的資料經過加密，並受到業界標準安全措施的保護。",
     "creditsTitle": "致謝",
     "creditsText": "使用 Vue 3、TypeScript 和 Flask 開發。情緒分析由 GitHub Models API 提供支援。",
-    "version": "版本 {version}"
+    "version": "版本 {version}",
+    "description1Before": "思緒日記應用程式是一款以 AI 驅動的工具，旨在幫助您追蹤並分析您的想法與情緒。基於",
+    "description1After": "的原則，我們的應用程式幫助您識別並挑戰負面思考模式，促進更健康的心理習慣。"
   },
   "home": {
     "title": "歡迎使用思緒日記應用程式",
@@ -182,7 +183,8 @@
   "pagination": {
     "previousPage": "上一頁",
     "nextPage": "下一頁",
-    "morePage": "更多頁面"
+    "morePage": "更多頁面",
+    "pageLabel": "第 {page} 頁"
   },
   "router": {
     "home": "首頁",

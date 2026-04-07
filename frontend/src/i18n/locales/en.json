@@ -131,7 +131,6 @@
   "about": {
     "title": "About Thought Diary App",
     "subtitle": "An AI-powered journal for better mental health",
-    "description1": "Thought Diary App is an AI-powered tool designed to help you track and analyze your thoughts and emotions. Based on the principles of Thought Diaries, our application helps you identify and challenge negative thinking patterns, promoting healthier mental habits.",
     "description2": "By analyzing your diary entries with advanced sentiment analysis, you can gain insights into your emotional patterns and work towards improved well-being.",
     "thoughtDiariesLink": "Thought Diaries",
     "keyFeatures": "Key Features",
@@ -145,7 +144,9 @@
     "feature4Desc": "Your data is encrypted and protected with industry-standard security.",
     "creditsTitle": "Credits & Acknowledgments",
     "creditsText": "Built with Vue 3, TypeScript, and Flask. Sentiment analysis powered by GitHub Models API.",
-    "version": "Version {version}"
+    "version": "Version {version}",
+    "description1Before": "Thought Diary App is an AI-powered tool designed to help you track and analyze your thoughts and emotions. Based on the principles of ",
+    "description1After": ", our application helps you identify and challenge negative thinking patterns, promoting healthier mental habits."
   },
   "home": {
     "title": "Welcome to Thought Diary App",
@@ -182,7 +183,8 @@
   "pagination": {
     "previousPage": "Previous page",
     "nextPage": "Next page",
-    "morePage": "More pages"
+    "morePage": "More pages",
+    "pageLabel": "Page {page}"
   },
   "router": {
     "home": "Home",
